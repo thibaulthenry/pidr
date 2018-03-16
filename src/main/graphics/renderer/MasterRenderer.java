@@ -24,7 +24,7 @@ public class MasterRenderer {
 	public static final float NEAR_PLANE = 0.1f;
 	public static final float FAR_PLANE = 8000;
 	
-	public static final float FOG_DENSITY = 0.0005f;
+	public static final float FOG_DENSITY = 0.0003f;
 	public static final float FOG_GRADIENT = 1.5f;
 	
 	public static final Vector3f SKY_COLOR = new Vector3f(0.5f,0.5f,0.5f);

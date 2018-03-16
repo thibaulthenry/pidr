@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import javax.imageio.ImageIO;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -21,7 +22,10 @@ public class DisplayManager {
 	private static final int WINDOW_HEIGHT = 720;
 	private final static int FPS_CAP = 120;
 	
-	static DisplayMode mode = new DisplayMode(WINDOW_WIDTH, WINDOW_HEIGHT);
+	private static long lastFrameTime;
+	private static float delta;
+	
+	private static DisplayMode mode = new DisplayMode(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	public static void createDisplay() {
 		
@@ -52,22 +56,29 @@ public class DisplayManager {
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
-		
 		GL11.glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+		lastFrameTime = getCurrentTime();
 	}
 	
 	public static void updateDisplay() {
 		Display.sync(FPS_CAP);
 		//GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
 		Display.update();
-		
+		long currentFrameTime = getCurrentTime();
+		delta = (currentFrameTime - lastFrameTime)/1000f;
+		lastFrameTime = currentFrameTime;
 	}
 
+	public static float getFrameTimeSeconds() {
+		return delta;
+	}
 	
 	public static void closeDisplay() {
-		
 		Display.destroy();
-		
+	}
+	
+	private static long getCurrentTime() {
+		return Sys.getTime()*1000/Sys.getTimerResolution();
 	}
 
 }

@@ -4,6 +4,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
 import main.graphics.entities.Camera;
+import main.graphics.entities.Drone;
 import main.graphics.entities.Entity;
 import main.graphics.entities.Light;
 import main.graphics.models.RawModel;
@@ -36,8 +37,17 @@ public class Main {
 					new ModelTexture(loader.loadTexture("white")));
 
 		  Entity entity = new Entity(cameraPointerTexModel, new Vector3f(400,1,400),0,0,0,1);
-		  Light light = new Light(new Vector3f(0,2000,0), new Vector3f(1,1,1));
-		  Camera camera = new Camera(new Vector3f(400,10,400));
+		  Light light = new Light(new Vector3f(4000,10000,4000), new Vector3f(1,1,1));
+		  
+			ModelData Model = OBJFileLoader.loadOBJ("bunny");
+			RawModel RawModel = loader.loadToVAO(Model.getVertices(),
+					Model.getTextureCoords(),Model.getNormals(),  Model.getIndices());
+			TexturedModel TexModel = new TexturedModel(RawModel,
+						new ModelTexture(loader.loadTexture("white")));
+		  
+		  Drone drone = new Drone(TexModel, new Vector3f(4000,0,4000),0,0,0,1);
+		  Camera camera = new Camera(drone);
+		  
 		  
 		  //terrain
 		  TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("1"));
@@ -54,6 +64,8 @@ public class Main {
 		  
 		while(!Display.isCloseRequested()) {
 			camera.move();
+			drone.move();
+			renderer.processEntity(drone);
 			
 			renderer.processTerrain(terrain);
 			renderer.processEntity(entity);

@@ -9,66 +9,39 @@ public class Camera {
 	private static final float CAMERA_SPEED = 400;
 	private static final float CAMERA_TURN_SPEED = 200;
 	private static final float CAMERA_UP_SPEED = 50;
+	private static final float CAMERA_ZOOM_SENSITIVITY = 0.2f;
+	private static final float CAMERA_TURN_SENSITIVITY = 0.5f;
+	private static final float CAMERA_SLIDE_SENSITIVITY = 0.5f;
+	private static final float CAMERA_PITCH_SENSITIVITY = 0.5f;
+	
+	private float distanceFromDrone = 50;
+	private float angleAroundDrone = 0;
+	private float horizontalDistance;
+	private float verticalDistance;
 
 	private float currentCameraSpeed = 0;
 	private float currentCameraTurnSpeed = 0;
 	private float currentUpwardSpeed = 0;
-	private float distanceFromCameraPointer = 50;
-	private float angleAroundCameraPointer = 0;
-	private float horizontalDistance;
-	private float verticalDistance;
-	private float camZoomSensitivity = 0.2f;
-	private float camTurnSensitivity = 0.5f;
-	private float camSlideSensitivity = 0.5f;
-	private float camPitchSensitivity = 0.5f;
 	
-	private Vector3f position;
-	private float pitch;
-	private float yaw = 180;
+	private Vector3f position = new Vector3f(0,0,0);
+	private float pitch = 20;
+	private float yaw = 0;
 	private float roll;
 	
-	private Entity cameraPointer;
+	private Drone drone;
 
-	public Camera(Vector3f position) {
-		this.position = position;
-		//this.cameraPointer = cameraPointer;
+	public Camera(Drone drone) {
+		this.drone = drone;
 	}
-
+	
 	public void move() {
-		//calculateZoom();
-		if (Keyboard.isKeyDown(Keyboard.KEY_Z)) {
-			position.z+=5f;
-		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			position.z-=5f;
-		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
-			position.x+=5f;
-		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			position.x-=5f;
-		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			position.y+=5f;
-		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			position.y-=5f;
-		}
-		
-		if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
-			pitch-=2f;
-		}
-		
-		if (Keyboard.isKeyDown(Keyboard.KEY_Y)) {
-			yaw-=2f;
-		}
-		/*calculatePitch();
-		calculateAngleAroundCameraPointer();
-		//calculateCameraSlide();
-		horizontalDistance = calculateHorizontalDistance();
-		verticalDistance = calculateVerticalDistance();
+		calculateZoom();
+		calculatePitch();
+		calculateAngleAroundDrone();
+		float horizontalDistance = calculateHorizontalDistance();
+		float verticalDistance = calculateVerticalDistance();
 		calculateCameraPosition(horizontalDistance, verticalDistance);
-		this.yaw = 180 - (cameraPointer.getRotY() + angleAroundCameraPointer);*/
+		this.yaw = 180 - (drone.getRotY() + angleAroundDrone);
 	}
 
 	/*public void movePointer(Terrain terrain) {
@@ -89,7 +62,7 @@ public class Camera {
 		}
 	}*/
 
-	private void calculateCameraPosition(float horizDistance, float verticDistance) {
+	/*private void calculateCameraPosition(float horizDistance, float verticDistance) {
 		float theta = cameraPointer.getRotY() + angleAroundCameraPointer;
 		float offsetX = (float) (horizDistance * Math.sin(Math.toRadians(theta)));
 		float offsetZ = (float) (horizDistance * Math.cos(Math.toRadians(theta)));
@@ -104,39 +77,14 @@ public class Camera {
 
 	private float calculateVerticalDistance() {
 		return (float) (distanceFromCameraPointer * Math.sin(Math.toRadians(pitch)));
-	}
-
-	/*private void calculateZoom() {
-		if (!MousePicker.isGrabbingEntity()) {
-			float zoomLevel = Mouse.getDWheel() * camZoomSensitivity;
-			distanceFromCameraPointer -= zoomLevel;
-			if (distanceFromCameraPointer < 5) {
-				distanceFromCameraPointer = 5;
-			}
-			if (distanceFromCameraPointer > 600) {
-				distanceFromCameraPointer = 600;
-			}
-		}
 	}*/
 
-	private void calculatePitch() {
-		if (Mouse.isButtonDown(1)) {
-			float pitchChange = Mouse.getDY() * camPitchSensitivity;
-			pitch -= pitchChange;
-		}
-		if (pitch > 90) {
-			pitch = 90;
-		}
-		if (pitch < 5) {
-			pitch = 5;
-		}
-	}
-	
-	public void invertPitch() {
-		pitch = -pitch;
-	}
+	/*
+	}*/
 
-	private void calculateAngleAroundCameraPointer() {
+
+
+	/*private void calculateAngleAroundCameraPointer() {
 		if (Mouse.isButtonDown(0)) {
 			float angleChange = Mouse.getDX() * camTurnSensitivity;
 			angleAroundCameraPointer -= angleChange;
@@ -151,7 +99,7 @@ public class Camera {
 			}
 		}
 
-	}
+	}*/
 
 	/*private void calculateCameraSlide() {
 		if (Mouse.isButtonDown(2)) {
@@ -165,7 +113,7 @@ public class Camera {
 		}
 	}*/
 
-	private void checkInputs() {/*
+	/*private void checkInputs() {
 		if (Keyboard.isKeyDown(Keyboard.KEY_Z)) {
 			currentCameraSpeed = CAMERA_SPEED;
 		} else if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
@@ -207,6 +155,62 @@ public class Camera {
 			}
 		}
 */
+	
+	
+	private void calculateZoom() {
+		float zoomLevel = Mouse.getDWheel() * CAMERA_ZOOM_SENSITIVITY;
+		distanceFromDrone -= zoomLevel;
+		if (distanceFromDrone < 50) {
+			distanceFromDrone = 50;
+		}
+		if (distanceFromDrone > 600) {
+			distanceFromDrone = 600;
+		}
+	}
+	
+	private void calculatePitch() {
+		if (Mouse.isButtonDown(1)) {
+			float pitchChange = Mouse.getDY() * CAMERA_PITCH_SENSITIVITY;
+			pitch -= pitchChange;
+		}
+		if (pitch > 90) {
+			pitch = 90;
+		}
+		if (pitch < 5) {
+			pitch = 5;
+		}
+	}
+	
+	private void calculateAngleAroundDrone() {
+		if (Mouse.isButtonDown(0)) {
+			float angleChange = Mouse.getDX() * CAMERA_TURN_SENSITIVITY;
+			angleAroundDrone -= angleChange;
+		}
+		
+		if (angleAroundDrone > 5) {
+			angleAroundDrone = 5;
+		}
+		if (angleAroundDrone < -5) {
+			angleAroundDrone = -5;
+		}
+
+	}
+	
+	private void calculateCameraPosition(float horizDistance, float verticDistance) {
+		float theta = drone.getRotY() + angleAroundDrone;
+		float offsetX = (float) (horizDistance * Math.sin(Math.toRadians(theta)));
+		float offsetZ = (float) (horizDistance * Math.cos(Math.toRadians(theta)));
+		position.x = drone.getPosition().x - offsetX;
+		position.y = drone.getPosition().y + verticDistance;
+		position.z = drone.getPosition().z - offsetZ;
+	}
+	
+	private float calculateHorizontalDistance() {
+		return (float) (distanceFromDrone * Math.cos(Math.toRadians(pitch)));
+	}
+
+	private float calculateVerticalDistance() {
+		return (float) (distanceFromDrone * Math.sin(Math.toRadians(pitch)));
 	}
 
 	public Vector3f getPosition() {

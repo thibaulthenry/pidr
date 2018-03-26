@@ -36,16 +36,16 @@ public class Main {
 		TexturedModel cameraPointerTexModel = new TexturedModel(cameraPointerRawModel,
 					new ModelTexture(loader.loadTexture("white")));
 
-		  Entity entity = new Entity(cameraPointerTexModel, new Vector3f(400,1,400),0,0,0,1);
+		  Entity entity = new Entity(cameraPointerTexModel, new Vector3f(400,1,400),0,0,0,1f);
 		  Light light = new Light(new Vector3f(4000,10000,4000), new Vector3f(1,1,1));
 		  
-			ModelData Model = OBJFileLoader.loadOBJ("bunny");
+			ModelData Model = OBJFileLoader.loadOBJ("testobj");
 			RawModel RawModel = loader.loadToVAO(Model.getVertices(),
 					Model.getTextureCoords(),Model.getNormals(),  Model.getIndices());
 			TexturedModel TexModel = new TexturedModel(RawModel,
 						new ModelTexture(loader.loadTexture("white")));
 		  
-		  Drone drone = new Drone(TexModel, new Vector3f(4000,0,4000),0,0,0,1);
+		  Drone drone = new Drone(TexModel, new Vector3f(4000,0,4000),0,0,0,10f);
 		  Camera camera = new Camera(drone);
 		  
 		  
@@ -64,7 +64,12 @@ public class Main {
 		  
 		while(!Display.isCloseRequested()) {
 			camera.move();
-			drone.move();
+			//drone.move();
+			//drone.rotate(0, 10f, 0);
+			
+			
+			//drone.square();
+			
 			renderer.processEntity(drone);
 			
 			renderer.processTerrain(terrain);

@@ -17,9 +17,54 @@ public class Drone extends Entity {
 	private float currentSpeed = 0;
 	private float currentTurnSpeed = 0;
 	private float upwardsSpeed = 0;
+	
+	private int square=0;
+	private int seg = 0;
 
 	public Drone(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
 		super(model, position, rotX, rotY, rotZ, scale);
+	}
+	
+	public void square() {
+		switch (square) {
+		case 0:
+			if (seg < 100) {
+				seg+=1;
+				this.getPosition().x -= 10f;
+			} else {
+				square = 1;
+				seg = 0;
+			}
+			break;
+		case 1:
+			if (seg < 100) {
+				seg+=1;
+				this.getPosition().z -= 10f;
+			} else {
+				square = 2;
+				seg = 0;
+			}
+			break;
+		case 2:
+			if (seg < 100) {
+				seg+=1;
+				this.getPosition().x += 10f;
+			} else {
+				square = 3;
+				seg = 0;
+			}
+			break;
+		case 3:
+			if (seg < 100) {
+				seg+=1;
+				this.getPosition().z += 10f;
+			} else {
+				square = 0;
+				seg = 0;
+			}
+			break;
+		}
+			
 	}
 	
 	public void move() {

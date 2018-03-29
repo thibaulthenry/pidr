@@ -5,6 +5,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import main.graphics.models.TexturedModel;
 import main.graphics.renderer.DisplayManager;
+import main.graphics.terrains.Terrain;
 
 public class Drone extends Entity {
 	
@@ -67,7 +68,7 @@ public class Drone extends Entity {
 			
 	}
 	
-	public void move() {
+	public void inputs(Terrain terrain) {
 		checkInputs();
 		super.rotate(0, currentTurnSpeed * DisplayManager.getFrameTimeSeconds(), 0);
 		float distance = currentSpeed * DisplayManager.getFrameTimeSeconds();
@@ -76,8 +77,10 @@ public class Drone extends Entity {
 		super.move(dx, 0, dz);
 		upwardsSpeed -= GRAVITY * DisplayManager.getFrameTimeSeconds();
 		super.move(0, upwardsSpeed * DisplayManager.getFrameTimeSeconds(), 0);
-		if (super.getPosition().y < 0) {
-			super.getPosition().y = 0;
+		float terrainHeight = terrain.getTerrainHeight(super.getPosition().x, super.getPosition().z);
+		if (super.getPosition().y < terrainHeight + 2 * super.getScale()) {
+			upwardsSpeed = 0;
+			super.getPosition().y = terrainHeight + 2 * super.getScale();
 		}
 	}
 	

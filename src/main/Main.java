@@ -1,5 +1,8 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -14,8 +17,6 @@ import main.graphics.objConverter.OBJFileLoader;
 import main.graphics.renderer.DisplayManager;
 import main.graphics.renderer.Loader;
 import main.graphics.renderer.MasterRenderer;
-import main.graphics.renderer.EntityRenderer;
-import main.graphics.shaders.StaticShader;
 import main.graphics.terrains.Terrain;
 import main.graphics.textures.ModelTexture;
 import main.graphics.textures.TerrainTexture;
@@ -37,7 +38,18 @@ public class Main {
 					new ModelTexture(loader.loadTexture("white")));
 
 		  Entity entity = new Entity(cameraPointerTexModel, new Vector3f(400,1,400),0,0,0,1f);
-		  Light light = new Light(new Vector3f(4000,10000,4000), new Vector3f(1,1,1));
+		  Light light0 = new Light(new Vector3f(4000,1500,4000), new Vector3f(1,1,1));
+		  Light light1 = new Light(new Vector3f(0,1500,0), new Vector3f(1,1,1));
+		  Light light2 = new Light(new Vector3f(0,1500,4000), new Vector3f(1,1,1));
+		  Light light3 = new Light(new Vector3f(4000,1500,0), new Vector3f(1,1,1));
+		  Light light4 = new Light(new Vector3f(4000,1500,4000), new Vector3f(1,1,1));
+		  List<Light> lights = new ArrayList<Light>();
+		  lights.add(light0);
+		  lights.add(light1);
+		  lights.add(light2);
+		  lights.add(light3);
+		  lights.add(light4);
+		  
 		  
 			ModelData Model = OBJFileLoader.loadOBJ("testobj");
 			RawModel RawModel = loader.loadToVAO(Model.getVertices(),
@@ -45,12 +57,12 @@ public class Main {
 			TexturedModel TexModel = new TexturedModel(RawModel,
 						new ModelTexture(loader.loadTexture("white")));
 		  
-		  Drone drone = new Drone(TexModel, new Vector3f(4000,0,4000),0,0,0,10f);
+		  Drone drone = new Drone(TexModel, new Vector3f(4000,0,4000),0,0,0,1f);
 		  Camera camera = new Camera(drone);
 		  
 		  
 		  //terrain
-		  TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("1"));
+		  TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("3"));
 		  TerrainTexture r = new TerrainTexture(loader.loadTexture("2"));
 		  TerrainTexture g = new TerrainTexture(loader.loadTexture("3"));
 		  TerrainTexture b = new TerrainTexture(loader.loadTexture("4"));
@@ -59,13 +71,15 @@ public class Main {
 		  //
 		  
 		  
-		  Terrain terrain = new Terrain(0,0,loader, tP, blend);
-		  
+		  Terrain terrain = new Terrain(0,0,loader, tP, blend, "heightmap");
+		  int i = 0;
 		  
 		while(!Display.isCloseRequested()) {
+			
 			camera.move();
-			//drone.move();
-			//drone.rotate(0, 10f, 0);
+			drone.inputs(terrain);
+			drone.move(0f,0f,0);
+			//drone.rotate(0, 0.1f, 0);
 			
 			
 			//drone.square();
@@ -75,7 +89,8 @@ public class Main {
 			renderer.processTerrain(terrain);
 			renderer.processEntity(entity);
 			
-			renderer.render(light, camera);
+			renderer.render(light0, camera);
+			
 			DisplayManager.updateDisplay();
 		}
 		

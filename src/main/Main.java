@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.lwjgl.opengl.Display;
@@ -21,12 +22,14 @@ import main.graphics.terrains.Terrain;
 import main.graphics.textures.ModelTexture;
 import main.graphics.textures.TerrainTexture;
 import main.graphics.textures.TerrainTexturePack;
+import main.csvConv;
 
 public class Main {
 
 	public static void main(String[] args) {
 
-
+		String[][] A= csvConv.csvConverter("/Users/matta/Documents/MATLAB/PIDRstat.csv",3);
+		
 		DisplayManager.createDisplay();
 		MasterRenderer renderer = new MasterRenderer();
 		Loader loader = new Loader();
@@ -82,7 +85,7 @@ public class Main {
 			//drone.rotate(0, 0.1f, 0);
 			
 			
-			//drone.square();
+			drone.square();
 			
 			renderer.processEntity(drone);
 			

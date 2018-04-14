@@ -173,12 +173,12 @@ public class Camera {
 			float pitchChange = Mouse.getDY() * CAMERA_PITCH_SENSITIVITY;
 			pitch -= pitchChange;
 		}
-		if (pitch > 90) {
+		/*if (pitch > 90) {
 			pitch = 90;
 		}
 		if (pitch < 5) {
 			pitch = 5;
-		}
+		}*/
 	}
 	
 	private void calculateAngleAroundDrone() {
@@ -187,12 +187,12 @@ public class Camera {
 			angleAroundDrone -= angleChange;
 		}
 		
-		if (angleAroundDrone > 5) {
+		/*if (angleAroundDrone > 5) {
 			angleAroundDrone = 5;
 		}
 		if (angleAroundDrone < -5) {
 			angleAroundDrone = -5;
-		}
+		}*/
 
 	}
 	

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -28,7 +29,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		String[][] A= csvConv.csvConverter("/Users/matta/Documents/MATLAB/PIDRstat.csv",10000);
+		String[][] A= csvConv.csvConverter("C:\\Users\\thiba\\Documents\\Programmation\\Eclipse\\3DroneSimulator\\resources\\simul\\PIDRstatrot.csv",10000);
 		
 		DisplayManager.createDisplay();
 		MasterRenderer renderer = new MasterRenderer();
@@ -73,28 +74,42 @@ public class Main {
 		  TerrainTexture blend = new TerrainTexture(loader.loadTexture("blendmap"));
 		  //
 		  
-		  
+		  boolean bool = true;
+		  int plus = 1; 
 		  Terrain terrain = new Terrain(0,0,loader, tP, blend, "heightmap");
 		  int i = 0;
-		  
+		  int ok = 0;
 		while(!Display.isCloseRequested()) {
+			if (bool) {
+				double disp = DisplayManager.getFrameTimeSeconds();
+				if (disp > 0.015 && disp < 0.025) {
+					//System.out.println(DisplayManager.getFrameTimeSeconds());
+					plus = (int) (1000 / (1/ DisplayManager.getFrameTimeSeconds()));
+					
+					bool = false;
+				}
+			}
+			//System.out.println(plus);
 			
-			camera.move();
 			drone.inputs(terrain);
-			drone.move(0f,0f,0);
 			//drone.rotate(0, 0.1f, 0);
-			
-			
-			drone.sim(A);
-			
+			drone.sim(A, i);
+			camera.move();
+			//System.out.println(drone.getPosition());
 			renderer.processEntity(drone);
 			
 			renderer.processTerrain(terrain);
 			renderer.processEntity(entity);
 			
 			renderer.render(light0, camera);
-			
+			//System.out.println(plus);
 			DisplayManager.updateDisplay();
+			if (i>=80000-plus-1) {
+				i = 0;
+				ok =0;
+			}
+			
+			i+=plus;
 		}
 		
 		renderer.cleanUp();

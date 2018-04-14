@@ -20,7 +20,7 @@ public class DisplayManager {
 	private final static String WINDOW_TITLE = "3Drone Simulator";
 	private static final int WINDOW_WIDTH = 1280;
 	private static final int WINDOW_HEIGHT = 720;
-	private final static int FPS_CAP = 1;
+	private final static int FPS_CAP = 1000;
 	
 	private static long lastFrameTime;
 	private static float delta;

@@ -13,7 +13,7 @@ public class Drone extends Entity {
 	private static final float ROTATE_SPEED = 160;
 	private static final float FLY_SPEED = 30;
 	
-	private static final float GRAVITY = 50;
+	private static final float GRAVITY = 0;
 	
 	private float currentSpeed = 0;
 	private float currentTurnSpeed = 0;
@@ -68,16 +68,11 @@ public class Drone extends Entity {
 			
 	}
 	
-	public void sim(String[][] A) {
-
-		for(int a=3;a<10000;a++) {
-			
-			System.out.println(A[1][a]);
-		this.getPosition().x = Float.parseFloat(A[1][a])*100f+4000f;
-		this.getPosition().y = Float.parseFloat(A[2][a])*100f;
-		this.getPosition().z = Float.parseFloat(A[3][a])*100f+4000f;
-		}
-			
+	public void sim(String[][] A, int i) {
+		this.setPosition(new Vector3f(Float.parseFloat(A[1][i])*1000+4000, Float.parseFloat(A[3][i])*1000, Float.parseFloat(A[2][i])*1000+4000));
+		this.setRotX(Float.parseFloat(A[4][i])*90);
+		//this.setRotY(Float.parseFloat(A[6][i])*90);
+		this.setRotZ(Float.parseFloat(A[5][i])*90);	
 	}
 	
 	

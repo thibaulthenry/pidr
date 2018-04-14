@@ -7,9 +7,7 @@ import java.io.IOException;
 
 public class csvConv {
 	
-	public csvConv() {
-		
-	}
+	public csvConv() {}
 
     public static String[][] csvConverter (String chemin,int tabsize){
         String tab[][] = new String[6][tabsize];

@@ -68,6 +68,20 @@ public class Drone extends Entity {
 			
 	}
 	
+	public void sim(String[][] A) {
+
+		for(int a=3;a<10000;a++) {
+			
+			System.out.println(A[1][a]);
+		this.getPosition().x = Float.parseFloat(A[1][a])*100f+4000f;
+		this.getPosition().y = Float.parseFloat(A[2][a])*100f;
+		this.getPosition().z = Float.parseFloat(A[3][a])*100f+4000f;
+		}
+			
+	}
+	
+	
+	
 	public void inputs(Terrain terrain) {
 		checkInputs();
 		super.rotate(0, currentTurnSpeed * DisplayManager.getFrameTimeSeconds(), 0);

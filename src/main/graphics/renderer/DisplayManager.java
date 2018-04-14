@@ -20,7 +20,7 @@ public class DisplayManager {
 	private final static String WINDOW_TITLE = "3Drone Simulator";
 	private static final int WINDOW_WIDTH = 1280;
 	private static final int WINDOW_HEIGHT = 720;
-	private final static int FPS_CAP = 120;
+	private final static int FPS_CAP = 1;
 	
 	private static long lastFrameTime;
 	private static float delta;
@@ -34,7 +34,7 @@ public class DisplayManager {
 		.withProfileCore(true);
 		
 		
-		//Pour modifier l'icône
+		//Pour modifier l'icï¿½ne
 		/*ByteBuffer[] buffer = null;
 		try {
 			buffer = new ByteBuffer[] {

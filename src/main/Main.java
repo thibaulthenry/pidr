@@ -28,7 +28,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		String[][] A= csvConv.csvConverter("/Users/matta/Documents/MATLAB/PIDRstat.csv",3);
+		String[][] A= csvConv.csvConverter("/Users/matta/Documents/MATLAB/PIDRstat.csv",10000);
 		
 		DisplayManager.createDisplay();
 		MasterRenderer renderer = new MasterRenderer();
@@ -85,7 +85,7 @@ public class Main {
 			//drone.rotate(0, 0.1f, 0);
 			
 			
-			drone.square();
+			drone.sim(A);
 			
 			renderer.processEntity(drone);
 			

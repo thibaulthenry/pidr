@@ -26,56 +26,12 @@ public class Drone extends Entity {
 		super(model, position, rotX, rotY, rotZ, scale);
 	}
 	
-	public void square() {
-		switch (square) {
-		case 0:
-			if (seg < 100) {
-				seg+=1;
-				this.getPosition().x -= 10f;
-			} else {
-				square = 1;
-				seg = 0;
-			}
-			break;
-		case 1:
-			if (seg < 100) {
-				seg+=1;
-				this.getPosition().z -= 10f;
-			} else {
-				square = 2;
-				seg = 0;
-			}
-			break;
-		case 2:
-			if (seg < 100) {
-				seg+=1;
-				this.getPosition().x += 10f;
-			} else {
-				square = 3;
-				seg = 0;
-			}
-			break;
-		case 3:
-			if (seg < 100) {
-				seg+=1;
-				this.getPosition().z += 10f;
-			} else {
-				square = 0;
-				seg = 0;
-			}
-			break;
-		}
-			
-	}
-	
 	public void sim(String[][] A, int i) {
 		this.setPosition(new Vector3f(Float.parseFloat(A[1][i])*1000+4000, Float.parseFloat(A[3][i])*1000, Float.parseFloat(A[2][i])*1000+4000));
 		this.setRotX(Float.parseFloat(A[4][i])*90);
-		//this.setRotY(Float.parseFloat(A[6][i])*90);
+		this.setRotY(Float.parseFloat(A[6][i])*90);
 		this.setRotZ(Float.parseFloat(A[5][i])*90);	
 	}
-	
-	
 	
 	public void inputs(Terrain terrain) {
 		checkInputs();

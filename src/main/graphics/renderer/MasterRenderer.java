@@ -13,7 +13,9 @@ import org.lwjgl.util.vector.Vector3f;
 import main.graphics.entities.Camera;
 import main.graphics.entities.Entity;
 import main.graphics.entities.Light;
+import main.graphics.guis.GuiTexture;
 import main.graphics.models.TexturedModel;
+import main.graphics.shaders.GuiShader;
 import main.graphics.shaders.StaticShader;
 import main.graphics.shaders.TerrainShader;
 import main.graphics.terrains.Terrain;
@@ -33,18 +35,22 @@ public class MasterRenderer {
 	
 	private StaticShader shader = new StaticShader();
 	private TerrainShader terrainShader = new TerrainShader();
+	private GuiShader guiShader = new GuiShader();
 	
 	private EntityRenderer entityRenderer;
 	private TerrainRenderer terrainRenderer;
+	private GuiRenderer guiRenderer;
 	
 	private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
 	private List<Terrain> terrains = new ArrayList<Terrain>();
+	private List<GuiTexture> guis = new ArrayList<GuiTexture>();
 	
 	public MasterRenderer() {
 		enableCulling();
 		createProjectionMatrix();
 		entityRenderer = new EntityRenderer(shader, projectionMatrix);
 		terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
+		guiRenderer = new GuiRenderer(guiShader);
 	}
 
 	public void render(Light sun, Camera camera) {
@@ -68,6 +74,9 @@ public class MasterRenderer {
 		terrainRenderer.render(terrains);
 		terrainShader.stop();
 		
+		guiRenderer.render(guis);
+		
+		guis.clear();
 		terrains.clear();
 		entities.clear();
 	}
@@ -97,9 +106,14 @@ public class MasterRenderer {
 		terrains.add(terrain);
 	}
 	
+	public void processGui(GuiTexture gui) {
+		guis.add(gui);
+	}
+	
 	public void cleanUp() {
 		shader.cleanUp();
 		terrainShader.cleanUp();
+		guiShader.cleanUp();
 	}
 	
 	public void prepare() {

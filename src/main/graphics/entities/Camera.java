@@ -44,24 +44,6 @@ public class Camera {
 		this.yaw = 180 - (drone.getRotY() + angleAroundDrone);
 	}
 
-	/*public void movePointer(Terrain terrain) {
-		checkInputs();
-		float distance = currentCameraSpeed * DisplayManager.getFrameTimeSeconds();
-		float dx = (float) (distance * Math.sin(Math.toRadians(angleAroundCameraPointer)));
-		float dz = (float) (distance * Math.cos(Math.toRadians(angleAroundCameraPointer)));
-		if (cameraPointer.getPosition().y > 300) {
-			cameraPointer.increasePosition(dx, 0, dz);
-		} else {
-			cameraPointer.increasePosition(dx, currentUpwardSpeed * DisplayManager.getFrameTimeSeconds(), dz);
-		}
-
-		float terrainHeight = terrain.getHeightOfTerrain(cameraPointer.getPosition().x, cameraPointer.getPosition().z);
-		if (cameraPointer.getPosition().y < terrainHeight) {
-			currentUpwardSpeed = 0;
-			cameraPointer.getPosition().y = terrainHeight;
-		}
-	}*/
-
 	/*private void calculateCameraPosition(float horizDistance, float verticDistance) {
 		float theta = cameraPointer.getRotY() + angleAroundCameraPointer;
 		float offsetX = (float) (horizDistance * Math.sin(Math.toRadians(theta)));
@@ -160,8 +142,8 @@ public class Camera {
 	private void calculateZoom() {
 		float zoomLevel = Mouse.getDWheel() * CAMERA_ZOOM_SENSITIVITY;
 		distanceFromDrone -= zoomLevel;
-		if (distanceFromDrone < 50) {
-			distanceFromDrone = 50;
+		if (distanceFromDrone < 0.2f) {
+			distanceFromDrone = 0.2f;
 		}
 		if (distanceFromDrone > 600) {
 			distanceFromDrone = 600;
@@ -173,27 +155,13 @@ public class Camera {
 			float pitchChange = Mouse.getDY() * CAMERA_PITCH_SENSITIVITY;
 			pitch -= pitchChange;
 		}
-		/*if (pitch > 90) {
-			pitch = 90;
-		}
-		if (pitch < 5) {
-			pitch = 5;
-		}*/
 	}
 	
 	private void calculateAngleAroundDrone() {
 		if (Mouse.isButtonDown(0)) {
 			float angleChange = Mouse.getDX() * CAMERA_TURN_SENSITIVITY;
 			angleAroundDrone -= angleChange;
-		}
-		
-		/*if (angleAroundDrone > 5) {
-			angleAroundDrone = 5;
-		}
-		if (angleAroundDrone < -5) {
-			angleAroundDrone = -5;
-		}*/
-
+		}	
 	}
 	
 	private void calculateCameraPosition(float horizDistance, float verticDistance) {

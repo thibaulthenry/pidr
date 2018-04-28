@@ -11,7 +11,6 @@ import org.lwjgl.util.vector.Vector3f;
 
 import main.graphics.models.RawModel;
 import main.graphics.renderer.Loader;
-import main.graphics.textures.ModelTexture;
 import main.graphics.textures.TerrainTexture;
 import main.graphics.textures.TerrainTexturePack;
 import main.graphics.toolbox.Maths;
@@ -19,7 +18,7 @@ import main.graphics.toolbox.Maths;
 public class Terrain {
 	
 	private static final float SIZE = 8000;
-	private static final float MAX_HEIGHT = 400;
+	private static final float MAX_HEIGHT = 50;
 	private static final float MAX_PIXEL_COLOUR = 256 * 256 * 256;
 	
 	private float x;

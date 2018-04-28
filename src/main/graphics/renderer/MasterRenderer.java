@@ -16,6 +16,7 @@ import main.graphics.entities.Light;
 import main.graphics.guis.GuiTexture;
 import main.graphics.models.TexturedModel;
 import main.graphics.shaders.GuiShader;
+import main.graphics.shaders.SkyShader;
 import main.graphics.shaders.StaticShader;
 import main.graphics.shaders.TerrainShader;
 import main.graphics.terrains.Terrain;
@@ -24,22 +25,25 @@ public class MasterRenderer {
 	
 	private static final float FOV = 70;
 	public static final float NEAR_PLANE = 0.1f;
-	public static final float FAR_PLANE = 8000;
+	public static final float FAR_PLANE = 8000f;
 	
 	public static final float FOG_DENSITY = 0.0003f;
 	public static final float FOG_GRADIENT = 1.5f;
 	
-	public static final Vector3f SKY_COLOR = new Vector3f(0.5f,0.5f,0.5f);
+	public static final Vector3f SKY_COLOR = new Vector3f(0.29f,0.65f,0.9f);
 	
 	private Matrix4f projectionMatrix;
+	private Loader loader;
 	
-	private StaticShader shader = new StaticShader();
-	private TerrainShader terrainShader = new TerrainShader();
-	private GuiShader guiShader = new GuiShader();
+	private StaticShader shader;
+	private TerrainShader terrainShader;
+	private GuiShader guiShader;
+	private SkyShader skyShader;
 	
 	private EntityRenderer entityRenderer;
 	private TerrainRenderer terrainRenderer;
 	private GuiRenderer guiRenderer;
+	private SkyRenderer skyRenderer;
 	
 	private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
 	private List<Terrain> terrains = new ArrayList<Terrain>();
@@ -48,9 +52,17 @@ public class MasterRenderer {
 	public MasterRenderer() {
 		enableCulling();
 		createProjectionMatrix();
-		entityRenderer = new EntityRenderer(shader, projectionMatrix);
-		terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
-		guiRenderer = new GuiRenderer(guiShader);
+		this.loader = new Loader();
+		
+		this.shader = new StaticShader();
+		this.terrainShader = new TerrainShader();
+		this.guiShader = new GuiShader();
+		this.skyShader = new SkyShader();
+		
+		this.entityRenderer = new EntityRenderer(shader, projectionMatrix);
+		this.terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
+		this.guiRenderer = new GuiRenderer(guiShader, loader);
+		this.skyRenderer = new SkyRenderer(skyShader, projectionMatrix, loader);
 	}
 
 	public void render(Light sun, Camera camera) {
@@ -73,6 +85,8 @@ public class MasterRenderer {
 		terrainShader.loadViewMatrix(camera);
 		terrainRenderer.render(terrains);
 		terrainShader.stop();
+		
+		skyRenderer.render(camera, SKY_COLOR.x, SKY_COLOR.y, SKY_COLOR.z);
 		
 		guiRenderer.render(guis);
 		
@@ -113,6 +127,7 @@ public class MasterRenderer {
 	public void cleanUp() {
 		shader.cleanUp();
 		terrainShader.cleanUp();
+		skyShader.cleanUp();
 		guiShader.cleanUp();
 	}
 	

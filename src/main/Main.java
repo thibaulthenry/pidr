@@ -1,5 +1,6 @@
 package main;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -16,6 +17,8 @@ import main.graphics.models.RawModel;
 import main.graphics.models.TexturedModel;
 import main.graphics.objConverter.ModelData;
 import main.graphics.objConverter.OBJFileLoader;
+import main.graphics.recorder.FrameBuffers;
+import main.graphics.recorder.SequenceEncoder;
 import main.graphics.renderer.DisplayManager;
 import main.graphics.renderer.Loader;
 import main.graphics.renderer.MasterRenderer;
@@ -57,41 +60,56 @@ public class Main {
 		TerrainTexture b = new TerrainTexture(loader.loadTexture("1"));
 		TerrainTexturePack tP= new TerrainTexturePack(backgroundTexture, r, g, b);
 		TerrainTexture blend = new TerrainTexture(loader.loadTexture("blendmap"));
-
+		
+		FrameBuffers fbo = new FrameBuffers();
+		
+		
 		boolean bool = true;
-		int plus = 1; 
+		int plus = 50; 
 		Terrain terrain = new Terrain(0,0,loader, tP, blend, "heightmap");
 		int i = 0;
+		int k = 0;
 		while(!Display.isCloseRequested()) {
-			if (bool) {
+			/*if (bool) {
 				double disp = DisplayManager.getFrameTimeSeconds();
-				if (disp > 0.015 && disp < 0.025) {
+				if (disp < 0.025) {
+					
 					plus = (int) (1000 / (1/ DisplayManager.getFrameTimeSeconds()));
-
 					bool = false;
 				}
-			}
+			}*/
+
 			drone.sim(A, i);
+			
 			camera.move();
+			
+			fbo.screenShot(k);
+			
 			renderer.processEntity(drone);
 			renderer.processTerrain(terrain);
-
-			Button.update();
 			renderer.render(light0, camera);
+			
+			Button.update();
+			
 			//System.out.println(plus);
 			DisplayManager.updateDisplay();
 			if (i>=80000-plus-1) {
 				i = 0;
 			}
 			i+=plus;
-			//System.out.println(Mouse.getX() + ":" +  Mouse.getY());
+			k++;
+
 		}
-		
-		
-		
+
 		renderer.cleanUp();
 		loader.cleanUp();
 		DisplayManager.closeDisplay();
+		
+		try {
+			SequenceEncoder.makeVideo();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 

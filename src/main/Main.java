@@ -60,53 +60,52 @@ public class Main {
 		TerrainTexture b = new TerrainTexture(loader.loadTexture("1"));
 		TerrainTexturePack tP= new TerrainTexturePack(backgroundTexture, r, g, b);
 		TerrainTexture blend = new TerrainTexture(loader.loadTexture("blendmap"));
-		
+
 		FrameBuffers fbo = new FrameBuffers();
-		
-		
+
+
 		boolean bool = true;
-		int plus = 50; 
+		int plus = 0; 
 		Terrain terrain = new Terrain(0,0,loader, tP, blend, "heightmap");
 		int i = 0;
 		int k = 0;
-		while(!Display.isCloseRequested()) {
-			/*if (bool) {
-				double disp = DisplayManager.getFrameTimeSeconds();
-				if (disp < 0.025) {
-					
+		boolean stop = true;
+		while(!Display.isCloseRequested() && stop) {
+			if (bool) {
+				if (k > 20) {
+
 					plus = (int) (1000 / (1/ DisplayManager.getFrameTimeSeconds()));
 					bool = false;
 				}
-			}*/
-
+				k++;
+			}
 			drone.sim(A, i);
-			
+
 			camera.move();
-			
-			fbo.screenShot(k);
-			
+
+			fbo.screenShot();
+
 			renderer.processEntity(drone);
 			renderer.processTerrain(terrain);
 			renderer.render(light0, camera);
-			
+
 			Button.update();
-			
+
 			//System.out.println(plus);
 			DisplayManager.updateDisplay();
 			if (i>=80000-plus-1) {
+				stop=false;
 				i = 0;
 			}
 			i+=plus;
-			k++;
-
 		}
 
 		renderer.cleanUp();
 		loader.cleanUp();
 		DisplayManager.closeDisplay();
-		
+
 		try {
-			SequenceEncoder.makeVideo();
+			SequenceEncoder.makeVideo((int) ((80000/plus)/80));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

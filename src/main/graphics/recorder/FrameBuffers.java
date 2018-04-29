@@ -17,10 +17,21 @@ public class FrameBuffers {
 	protected static final int WINDOW_WIDTH = 1280;
 	private static final int WINDOW_HEIGHT = 720;
 	
-	protected static final int RESOLUTION_WIDTH = 512;
-	private static final int RESOLUTION_HEIGHT = 288;
+	protected static final double RESOLUTION_SCALE = 0.5;
 
 	public static List<BufferedImage> record = new ArrayList<BufferedImage>();
+	
+	 public static BufferedImage scale(BufferedImage bi, double scaleValue) {
+	        AffineTransform tx = new AffineTransform();
+	        tx.scale(scaleValue, scaleValue);
+	        AffineTransformOp op = new AffineTransformOp(tx,
+	                AffineTransformOp.TYPE_BILINEAR);
+	        BufferedImage biNew = new BufferedImage( (int) (bi.getWidth() * scaleValue),
+	                (int) (bi.getHeight() * scaleValue),
+	                bi.getType());
+	        return op.filter(bi, biNew);
+	 
+	    }
 	
 	public static BufferedImage resize(BufferedImage img, int newW, int newH) { 
 	    Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
@@ -33,7 +44,7 @@ public class FrameBuffers {
 	    return dimg;
 	}  
 
-	public void screenShot(int k){
+	public void screenShot(){
 		//Creating an rbg array of total pixels
 		int[] pixels = new int[WINDOW_WIDTH * WINDOW_HEIGHT];
 		int bindex;
@@ -62,8 +73,8 @@ public class FrameBuffers {
 		//Applying transformation
 		AffineTransformOp opRotated = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
 		BufferedImage imageOut = opRotated.filter(imageIn, null);
-
-		record.add(resize(imageOut, RESOLUTION_WIDTH, RESOLUTION_HEIGHT));
+		
+		record.add(scale(imageOut, RESOLUTION_SCALE));
 	}
 
 

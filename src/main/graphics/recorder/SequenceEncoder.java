@@ -8,9 +8,10 @@ import org.jcodec.api.awt.AWTSequenceEncoder;
 
 public class SequenceEncoder {
 	
-   public static void makeVideo() throws IOException {
+   public static void makeVideo(int fps) throws IOException {
+	   System.out.println(fps);
 
-       AWTSequenceEncoder enc = AWTSequenceEncoder.createSequenceEncoder(new File("resources/recording/record.mp4"), 25);
+       AWTSequenceEncoder enc = AWTSequenceEncoder.createSequenceEncoder(new File("resources/recording/record.mp4"), fps);
 
        for(int i=0;i< FrameBuffers.record.size();++i)
        {

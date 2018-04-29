@@ -10,5 +10,7 @@
 	<classpathentry kind="lib" path="lib/jar/lwjgl.jar"/>
 	<classpathentry kind="lib" path="lib/jar/slick-util.jar"/>
 	<classpathentry kind="lib" path="lib/jar/PNGDecoder.jar"/>
+	<classpathentry kind="lib" path="lib/jar/jcodec-0.2.3.jar"/>
+	<classpathentry kind="lib" path="lib/jar/jcodec-javase-0.2.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

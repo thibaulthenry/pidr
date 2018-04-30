@@ -8,6 +8,7 @@ import java.util.List;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
+import main.graphics.entities.Boule;
 import main.graphics.entities.Camera;
 import main.graphics.entities.Drone;
 import main.graphics.entities.Light;
@@ -32,7 +33,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		String[][] A= csvConv.csvConverter("C:\\Users\\thiba\\Documents\\Programmation\\Eclipse\\3DroneSimulator\\resources\\simul\\PIDRstatrot.csv",10000);
+		String[][] A= csvConv.csvConverter("/Users/matta/Downloads/PIDRstat.csv",10000);
 
 		DisplayManager.createDisplay();
 		MasterRenderer renderer = new MasterRenderer();
@@ -43,13 +44,21 @@ public class Main {
 		lights.add(light0);
 
 
-		ModelData Model = OBJFileLoader.loadOBJ("droneModel");
-		RawModel RawModel = loader.loadToVAO(Model.getVertices(),
-				Model.getTextureCoords(),Model.getNormals(),  Model.getIndices());
-		TexturedModel TexModel = new TexturedModel(RawModel,
+		ModelData Modeldrone = OBJFileLoader.loadOBJ("droneModel");
+		RawModel RawModeldrone = loader.loadToVAO(Modeldrone.getVertices(),
+				Modeldrone.getTextureCoords(),Modeldrone.getNormals(),  Modeldrone.getIndices());
+		TexturedModel TexModeldrone = new TexturedModel(RawModeldrone,
 				new ModelTexture(loader.loadTexture("white")));
 
-		Drone drone = new Drone(TexModel, new Vector3f(4000,0,4000),0,0,0,0.5f);
+		ModelData Modelboule = OBJFileLoader.loadOBJ("petiteboule");
+		RawModel RawModelboule = loader.loadToVAO(Modelboule.getVertices(),
+				Modelboule.getTextureCoords(),Modelboule.getNormals(),  Modelboule.getIndices());
+		TexturedModel TexModelboule = new TexturedModel(RawModelboule,
+				new ModelTexture(loader.loadTexture("white")));
+		
+		Boule boule= new Boule(TexModelboule, new Vector3f(4000,0,4000),0,0,0,10f);
+		
+		Drone drone = new Drone(TexModeldrone, new Vector3f(4000,0,4000),0,0,0,40f);
 		Camera camera = new Camera(drone);
 		ButtonManager ib = new ButtonManager();
 
@@ -83,9 +92,13 @@ public class Main {
 
 			camera.move();
 
-			fbo.screenShot();
 
+			
 			renderer.processEntity(drone);
+			for(int j=0;j<i;j=j + plus) {
+				renderer.processEntity(new Boule(TexModelboule, new Vector3f(Float.parseFloat(A[1][j])*1000+4000, Float.parseFloat(A[3][j])*1000, Float.parseFloat(A[2][j])*1000+4000),0,0,0,100f));
+			}
+			
 			renderer.processTerrain(terrain);
 			renderer.render(light0, camera);
 
@@ -104,11 +117,6 @@ public class Main {
 		loader.cleanUp();
 		DisplayManager.closeDisplay();
 
-		try {
-			SequenceEncoder.makeVideo((int) ((80000/plus)/80));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
 	}
 

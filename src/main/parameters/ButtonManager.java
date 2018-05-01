@@ -1,7 +1,8 @@
-package main.graphics.guis;
+package main.parameters;
 
 import org.lwjgl.util.vector.Vector2f;
 
+import main.graphics.guis.GuiTexture;
 import main.graphics.guis.buttons.ClickButton;
 
 public class ButtonManager {

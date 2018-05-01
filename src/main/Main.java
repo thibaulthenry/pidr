@@ -12,12 +12,12 @@ import main.graphics.entities.Boule;
 import main.graphics.entities.Camera;
 import main.graphics.entities.Drone;
 import main.graphics.entities.Light;
-import main.graphics.guis.ButtonManager;
 import main.graphics.guis.buttons.Button;
 import main.graphics.models.RawModel;
 import main.graphics.models.TexturedModel;
 import main.graphics.objConverter.ModelData;
 import main.graphics.objConverter.OBJFileLoader;
+import main.graphics.path.csvConverter;
 import main.graphics.recorder.FrameBuffers;
 import main.graphics.recorder.SequenceEncoder;
 import main.graphics.renderer.DisplayManager;
@@ -27,13 +27,11 @@ import main.graphics.terrains.Terrain;
 import main.graphics.textures.ModelTexture;
 import main.graphics.textures.TerrainTexture;
 import main.graphics.textures.TerrainTexturePack;
-import main.csvConv;
+import main.parameters.ButtonManager;
 
 public class Main {
 
 	public static void main(String[] args) {
-
-		String[][] A= csvConv.csvConverter("/Users/matta/Downloads/PIDRstat.csv",10000);
 
 		DisplayManager.createDisplay();
 		MasterRenderer renderer = new MasterRenderer();
@@ -56,11 +54,8 @@ public class Main {
 		TexturedModel TexModelboule = new TexturedModel(RawModelboule,
 				new ModelTexture(loader.loadTexture("white")));
 		
-		Boule boule= new Boule(TexModelboule, new Vector3f(4000,0,4000),0,0,0,10f);
-		
-		Drone drone = new Drone(TexModeldrone, new Vector3f(4000,0,4000),0,0,0,40f);
+		Drone drone = new Drone(TexModeldrone, new Vector3f(4000,0,4000),0,0,0,4);
 		Camera camera = new Camera(drone);
-		ButtonManager ib = new ButtonManager();
 
 		//terrain
 		TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("2"));
@@ -88,15 +83,15 @@ public class Main {
 				}
 				k++;
 			}
-			drone.sim(A, i);
+			drone.sim(csvConverter.A, i);
 
 			camera.move();
 
 
 			
 			renderer.processEntity(drone);
-			for(int j=0;j<i;j=j + plus) {
-				renderer.processEntity(new Boule(TexModelboule, new Vector3f(Float.parseFloat(A[1][j])*1000+4000, Float.parseFloat(A[3][j])*1000, Float.parseFloat(A[2][j])*1000+4000),0,0,0,100f));
+			for(int j=0;j<i;j=j + 10*plus) {
+				renderer.processEntity(new Boule(TexModelboule, new Vector3f(Float.parseFloat(csvConverter.A[1][j])*1000+4000, Float.parseFloat(csvConverter.A[3][j])*1000, Float.parseFloat(csvConverter.A[2][j])*1000+4000),0,0,0,50));
 			}
 			
 			renderer.processTerrain(terrain);

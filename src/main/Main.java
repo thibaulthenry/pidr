@@ -33,7 +33,8 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		String[][] A= csvConv.csvConverter("/Users/matta/Downloads/PIDRstat.csv",10000);
+		String[][] A= csvConv.csvConverter("/Users/v_2016/Downloads/PIDRstat.csv");
+
 
 		DisplayManager.createDisplay();
 		MasterRenderer renderer = new MasterRenderer();
@@ -95,7 +96,7 @@ public class Main {
 
 			
 			renderer.processEntity(drone);
-			for(int j=0;j<i;j=j + plus) {
+			for(int j=0;j<i;j=j + 10*plus) {
 				renderer.processEntity(new Boule(TexModelboule, new Vector3f(Float.parseFloat(A[1][j])*1000+4000, Float.parseFloat(A[3][j])*1000, Float.parseFloat(A[2][j])*1000+4000),0,0,0,100f));
 			}
 			

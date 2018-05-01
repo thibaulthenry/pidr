@@ -9,8 +9,8 @@ public class csvConv {
 	
 	public csvConv() {}
 
-    public static String[][] csvConverter (String chemin,int tabsize){
-        String tab[][] = new String[7][tabsize];
+    public static String[][] csvConverter (String chemin){
+        String tab[][] = new String[7][80000];
         try{
             BufferedReader fichier_source = null;
             fichier_source = new BufferedReader(new FileReader(chemin));

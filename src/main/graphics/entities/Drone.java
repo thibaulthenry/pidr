@@ -15,6 +15,6 @@ public class Drone extends Entity {
 		this.setRotX(Float.parseFloat(A[4][i])*90);
 		this.setRotY(Float.parseFloat(A[6][i])*90);
 		this.setRotZ(Float.parseFloat(A[5][i])*90);	
-	}
+	} 
 
 }

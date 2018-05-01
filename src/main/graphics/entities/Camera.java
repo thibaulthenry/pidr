@@ -1,14 +1,11 @@
 package main.graphics.entities;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
-public class Camera {
+import main.parameters.CameraManager;
 
-	private static final float CAMERA_ZOOM_SENSITIVITY = 0.2f;
-	private static final float CAMERA_HORIZONTAL_SENSITIVITY = 0.2f;
-	private static final float CAMERA_VERTICAL_SENSITIVITY = 0.2f;
+public class Camera {
 	
 	private float distanceFromDrone = 50;
 	private float angleAroundDrone = 0;
@@ -34,7 +31,7 @@ public class Camera {
 	}	
 	
 	private void calculateZoom() {
-		float zoomLevel = Mouse.getDWheel() * CAMERA_ZOOM_SENSITIVITY;
+		float zoomLevel = Mouse.getDWheel() * CameraManager.CAMERA_ZOOM_SENSITIVITY;
 		distanceFromDrone -= zoomLevel;
 		if (distanceFromDrone < 1) {
 			distanceFromDrone = 1;
@@ -47,10 +44,10 @@ public class Camera {
 	
 	private void calculateAngleAroundDrone() {
 		if (Mouse.isButtonDown(0)) {
-			float angleChange = Mouse.getDX() * CAMERA_HORIZONTAL_SENSITIVITY;
+			float angleChange = Mouse.getDX() * CameraManager.CAMERA_HORIZONTAL_SENSITIVITY;
 			angleAroundDrone -= angleChange;
 			
-			float slideYChange = Mouse.getDY() * CAMERA_VERTICAL_SENSITIVITY;
+			float slideYChange = Mouse.getDY() * CameraManager.CAMERA_VERTICAL_SENSITIVITY;
 			pitch -= slideYChange;
 			
 			if (pitch > 90) {

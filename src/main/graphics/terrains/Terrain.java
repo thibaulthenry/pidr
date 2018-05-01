@@ -14,13 +14,12 @@ import main.graphics.renderer.Loader;
 import main.graphics.textures.TerrainTexture;
 import main.graphics.textures.TerrainTexturePack;
 import main.graphics.toolbox.Maths;
+import main.parameters.TerrainManager;
 
 public class Terrain {
 	
-	private static final float SIZE = 8000;
-	private static final float MAX_HEIGHT = 50;
 	private static final float MAX_PIXEL_COLOUR = 256 * 256 * 256;
-	
+
 	private float x;
 	private float z;
 	private RawModel model;
@@ -29,8 +28,8 @@ public class Terrain {
 	private float[][] heights;
 	
 	public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, TerrainTexture blendMap, String heightMap) {
-		this.x = gridX * SIZE;
-		this.z = gridZ * SIZE;
+		this.x = gridX * TerrainManager.TERRAIN_SIZE;
+		this.z = gridZ * TerrainManager.TERRAIN_SIZE;
 		this.texturePack = texturePack;
 		this.blendMap = blendMap;
 		this.model = generateTerrain(loader, heightMap);
@@ -55,11 +54,11 @@ public class Terrain {
 		int vertexPointer = 0;
 		for(int i=0;i<VERTEX_COUNT;i++){
 			for(int j=0;j<VERTEX_COUNT;j++){
-				vertices[vertexPointer*3] = (float)j/((float)VERTEX_COUNT - 1) * SIZE;
+				vertices[vertexPointer*3] = (float)j/((float)VERTEX_COUNT - 1) * TerrainManager.TERRAIN_SIZE;
 				float height = getHeight(j, i, image);
 				vertices[vertexPointer*3+1] = height;
 				heights[j][i] = height;
-				vertices[vertexPointer*3+2] = (float)i/((float)VERTEX_COUNT - 1) * SIZE;
+				vertices[vertexPointer*3+2] = (float)i/((float)VERTEX_COUNT - 1) * TerrainManager.TERRAIN_SIZE;
 				Vector3f normal = calculateNormal(j, i, image);
 				normals[vertexPointer*3] = normal.x;
 				normals[vertexPointer*3+1] = 1;
@@ -94,7 +93,7 @@ public class Terrain {
 		float height = image.getRGB(x, y);
 		height += MAX_PIXEL_COLOUR/2f;
 		height /= MAX_PIXEL_COLOUR/2f;
-		height *= MAX_HEIGHT;
+		height *= TerrainManager.TERRAIN_MAX_HEIGHT;
 		return height;
 	}
 	
@@ -108,8 +107,6 @@ public class Terrain {
 		return normal;
 	}
 	
-	
-
 	public float getX() {
 		return x;
 	}
@@ -133,7 +130,7 @@ public class Terrain {
 	public float getTerrainHeight(float x, float z) {
 		float terrainX = x - this.x;
 		float terrainZ = z - this.z;
-		float gridSquareSize = SIZE / ((float) heights.length -1);
+		float gridSquareSize = TerrainManager.TERRAIN_SIZE / ((float) heights.length -1);
 		int gridX = (int) Math.floor(terrainX / gridSquareSize);
 		int gridZ = (int) Math.floor(terrainZ / gridSquareSize);
 		if (gridX >= heights.length -1 || gridZ >= heights.length - 1 || gridX < 0 || gridZ < 0) {

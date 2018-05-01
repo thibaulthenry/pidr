@@ -5,11 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import main.parameters.ParameterManager;
+import main.parameters.TrajectoryManager;
 
 public class csvConverter {
 
-	public static String[][] A = csvConverter.convert("resources\\simul\\" + ParameterManager.CSVFileName);
+	public static String[][] A = csvConverter.convert("resources\\simul\\" + TrajectoryManager.CSV_FILENAME);
 
 	private static String[][] convert(String path){
 		String tab[][] = new String[7][];

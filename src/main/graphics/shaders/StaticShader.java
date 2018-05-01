@@ -1,11 +1,7 @@
 package main.graphics.shaders;
 
-import java.util.List;
-
 import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import org.lwjgl.util.vector.Vector4f;
 
 import main.graphics.entities.Camera;
 import main.graphics.entities.Light;
@@ -27,14 +23,6 @@ public class StaticShader extends ShaderProgram {
 	private int location_fogDensity;
 	private int location_fogGradient;
 	private int location_skyColour;
-
-	
-	private int location_attenuation[];
-	private int location_hasEntityColour;
-	private int location_entityColour;
-	private int location_numberOfRows;
-	private int location_offset;
-	private int location_plane;
 
 	public StaticShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE);
@@ -60,18 +48,6 @@ public class StaticShader extends ShaderProgram {
 		location_fogDensity = super.getUniformLocation("fogDensity");
 		location_fogGradient = super.getUniformLocation("fogGradient");
 		location_skyColour = super.getUniformLocation("skyColour");
-		/*location_hasEntityColour = super.getUniformLocation("hasEntityColour");
-		location_entityColour = super.getUniformLocation("entityColour");
-		
-		location_numberOfRows = super.getUniformLocation("numberOfRows");
-		location_offset = super.getUniformLocation("offset");
-		location_plane = super.getUniformLocation("plane");
-		
-		location_lightPosition = new int[MAX_LIGHTS];
-		location_lightColour = new int[MAX_LIGHTS];
-		location_attenuation = new int[MAX_LIGHTS];
-		location_lightPosition = super.getUniformLocation("lightPosition[" + i + "]");
-		location_lightColour = super.getUniformLocation("lightColour[" + i + "]");*/
 	}
 	
 	public void loadTransformationMatrix(Matrix4f matrix) {
@@ -112,58 +88,5 @@ public class StaticShader extends ShaderProgram {
 	public void loadSkyColour(Vector3f rgb) {
 		super.loadVector(location_skyColour, rgb);
 	}
-	
-	/*
-	public void loadClipPlane(Vector4f plane) {
-		super.loadVector(location_plane, plane);
-	}
-
-
-
-
-
-
-
-	public void loadLights(List<Light> lights) {
-		for (int i=0;i<MAX_LIGHTS;i++) {
-			if(i<lights.size()) {
-				super.loadVector(location_lightPosition[i], lights.get(i).getPosition());
-				super.loadVector(location_lightColour[i], lights.get(i).getColour());
-				super.loadVector(location_attenuation[i], lights.get(i).getAttenuation());
-			} else {
-				super.loadVector(location_lightPosition[i], new Vector3f(0, 0, 0));
-				super.loadVector(location_lightColour[i], new Vector3f(0, 0, 0));
-				super.loadVector(location_attenuation[i], new Vector3f(1, 0, 0));
-			}
-		}
-	}
-
-
-
-
-
-
-	
-	public void loadHasEntityColour(boolean useEntityColour) {
-		super.loadBoolean(location_hasEntityColour, useEntityColour);
-	}
-
-	public void loadEntityColour(float r, float g, float b, float a) {
-		super.loadVector(location_entityColour, new Vector4f(r,g,b,a));
-	}
-	
-	public void loadSkyColour(float r, float g, float b) {
-		super.loadVector(location_skyColour, new Vector3f(r,g,b));
-	}
-	
-	public void loadNumberOfRows(int numberOfRows) {
-		super.loadFloat(location_numberOfRows, numberOfRows);
-	}
-	
-	public void loadOffset(float x, float y) {
-		super.loadVector(location_offset, new Vector2f(x, y));
-	}
-	
-	*/
 	
 }

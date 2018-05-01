@@ -1,6 +1,5 @@
 package main;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -18,7 +17,6 @@ import main.graphics.models.TexturedModel;
 import main.graphics.objConverter.ModelData;
 import main.graphics.objConverter.OBJFileLoader;
 import main.graphics.path.csvConverter;
-import main.graphics.recorder.FrameBuffers;
 import main.graphics.recorder.SequenceEncoder;
 import main.graphics.renderer.DisplayManager;
 import main.graphics.renderer.Loader;
@@ -28,6 +26,7 @@ import main.graphics.textures.ModelTexture;
 import main.graphics.textures.TerrainTexture;
 import main.graphics.textures.TerrainTexturePack;
 import main.parameters.ButtonManager;
+import main.parameters.TrajectoryManager;
 
 public class Main {
 
@@ -48,7 +47,7 @@ public class Main {
 		TexturedModel TexModeldrone = new TexturedModel(RawModeldrone,
 				new ModelTexture(loader.loadTexture("white")));
 
-		ModelData Modelboule = OBJFileLoader.loadOBJ("petiteboule");
+		ModelData Modelboule = OBJFileLoader.loadOBJ("sphereModel");
 		RawModel RawModelboule = loader.loadToVAO(Modelboule.getVertices(),
 				Modelboule.getTextureCoords(),Modelboule.getNormals(),  Modelboule.getIndices());
 		TexturedModel TexModelboule = new TexturedModel(RawModelboule,
@@ -64,9 +63,6 @@ public class Main {
 		TerrainTexture b = new TerrainTexture(loader.loadTexture("1"));
 		TerrainTexturePack tP= new TerrainTexturePack(backgroundTexture, r, g, b);
 		TerrainTexture blend = new TerrainTexture(loader.loadTexture("blendmap"));
-
-		FrameBuffers fbo = new FrameBuffers();
-
 
 		boolean bool = true;
 		int plus = 0; 
@@ -101,11 +97,11 @@ public class Main {
 
 			//System.out.println(plus);
 			DisplayManager.updateDisplay();
-			if (i>=80000-plus-1) {
+			if (i>=80000-plus*TrajectoryManager.SIMULATION_SPEEDFACTOR-1) {
 				stop=false;
 				i = 0;
 			}
-			i+=plus;
+			i+=plus*TrajectoryManager.SIMULATION_SPEEDFACTOR;
 		}
 
 		renderer.cleanUp();

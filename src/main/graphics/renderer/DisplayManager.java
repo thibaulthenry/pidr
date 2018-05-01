@@ -1,5 +1,11 @@
 package main.graphics.renderer;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+
+import javax.imageio.ImageIO;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.ContextAttribs;
@@ -7,18 +13,18 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
+import org.newdawn.slick.opengl.ImageIOImageData;
+
+import main.parameters.DisplayParameters;
 
 public class DisplayManager {
 	
-	private final static String WINDOW_TITLE = "3Drone Simulator";
-	private static final int WINDOW_WIDTH = 1280;
-	private static final int WINDOW_HEIGHT = 720;
-	private final static int FPS_CAP = 1000;
+	private final static int FPS_CAP = 1000; 
 	
 	private static long lastFrameTime;
 	private static float delta;
 	
-	private static DisplayMode mode = new DisplayMode(WINDOW_WIDTH, WINDOW_HEIGHT);
+	private static DisplayMode mode = new DisplayMode(DisplayParameters.WINDOW_WIDTH, DisplayParameters.WINDOW_HEIGHT);
 
 	public static void createDisplay() {
 		
@@ -26,30 +32,28 @@ public class DisplayManager {
 		.withForwardCompatible(true)
 		.withProfileCore(true);
 		
-		
-		//Pour modifier l'ic�ne
-		/*ByteBuffer[] buffer = null;
+		ByteBuffer[] buffer = null;
 		try {
 			buffer = new ByteBuffer[] {
-			        new ImageIOImageData().imageToByteBuffer(ImageIO.read(new File("resources/textures/sim16.png")), false, true, null),
-			        new ImageIOImageData().imageToByteBuffer(ImageIO.read(new File("resources/textures/sim32.png")), false, true, null)
+			        new ImageIOImageData().imageToByteBuffer(ImageIO.read(new File("resources/textures/icon/" + DisplayParameters.WINDOW_ICON16_FILENAME)), false, true, null),
+			        new ImageIOImageData().imageToByteBuffer(ImageIO.read(new File("resources/textures/icon/" + DisplayParameters.WINDOW_ICON16_FILENAME)), false, true, null)
 			        };
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/
+		}
 		
 		try {
 			Display.setDisplayMode(mode);
 			Display.setResizable(false);
 			Display.setFullscreen(false);
 			Display.setVSyncEnabled(true);
-			Display.setTitle(WINDOW_TITLE);
-			//Display.setIcon(buffer);
+			Display.setTitle(DisplayParameters.WINDOW_TITLE);
+			Display.setIcon(buffer);
 			Display.create(new PixelFormat(), attribs);
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
-		GL11.glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+		GL11.glViewport(0, 0, DisplayParameters.WINDOW_WIDTH, DisplayParameters.WINDOW_HEIGHT);
 		lastFrameTime = getCurrentTime();
 	}
 	

@@ -1,5 +1,8 @@
 package main.graphics.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.util.vector.Vector3f;
 
 import main.graphics.models.TexturedModel;
@@ -19,6 +22,11 @@ public class Entity {
 		this.rotY = rotY;
 		this.rotZ = rotZ;
 		this.scale = scale;
+	}
+	
+	public void clearAllWithoutDrone(List<Entity> entities) {
+		List<Entity> copy = new ArrayList<Entity>(entities);
+		for (Entity entity : copy) if (!(entity instanceof Drone)) entities.remove(entity);
 	}
 	
 	public void move(float dx, float dy, float dz) {
@@ -43,6 +51,12 @@ public class Entity {
 	
 	public Vector3f getPosition() {
 		return position;
+	}
+	
+	public void setRotation(Vector3f rotation) {
+		this.rotX = rotation.x;
+		this.rotY = rotation.y;
+		this.rotZ = rotation.z;
 	}
 	
 	public void setPosition(Vector3f position) {

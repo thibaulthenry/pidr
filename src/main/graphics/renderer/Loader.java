@@ -74,6 +74,7 @@ public class Loader {
 			e.printStackTrace();
 		}
 		int textureID = texture.getTextureID();
+		textures.add(textureID);
 		return textureID;
 	}
 	
@@ -168,9 +169,9 @@ public class Loader {
 	public List<Integer> getVbos() {
 		return vbos;
 	}
-
-	/*public static List<Integer> getTextures() {
+	
+	public List<Integer> getTextures() {
 		return textures;
-	}*/
+	}
 
 }

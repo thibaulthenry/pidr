@@ -13,7 +13,7 @@ import org.jcodec.api.awt.AWTSequenceEncoder;
 import org.lwjgl.opengl.GL11;
 
 import main.parameters.DisplayParameters;
-import main.parameters.RecordParameters;
+import main.parameters.RecordManager;
 
 public class SequenceEncoder {
 
@@ -56,7 +56,7 @@ public class SequenceEncoder {
 		AffineTransformOp opRotated = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
 		BufferedImage imageOut = opRotated.filter(imageIn, null);
 
-		record.add(scale(imageOut, RecordParameters.RESOLUTION_SCALE));
+		record.add(scale(imageOut, RecordManager.RESOLUTION_SCALE));
 	}
 
 

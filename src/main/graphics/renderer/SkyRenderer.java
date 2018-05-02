@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 import main.graphics.entities.Camera;
 import main.graphics.models.RawModel;
@@ -29,10 +30,10 @@ public class SkyRenderer {
 		shader.stop();
 	}
 	
-	public void render(Camera camera, float r, float g, float b) {
+	public void render(Camera camera, Vector3f skyColor) {
 		shader.start();
 		shader.loadViewMatrix(camera);
-		shader.loadFogColour(r, g, b);
+		shader.loadFogColour(skyColor.x, skyColor.y, skyColor.z);
 		GL30.glBindVertexArray(cube.getVaoID());
 		GL20.glEnableVertexAttribArray(0);
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);

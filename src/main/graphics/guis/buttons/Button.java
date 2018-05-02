@@ -36,8 +36,6 @@ abstract public class Button implements IButton {
 		this.guiTexture = new GuiTexture(resetTexID, position, scale);
 		this.xCenter = guiTexture.getPosition().x;
 		this.yCenter = guiTexture.getPosition().y;
-		
-		buttons.add(this);
 	}
 
 	public boolean isOn() {

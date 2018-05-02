@@ -17,14 +17,17 @@ import org.newdawn.slick.opengl.ImageIOImageData;
 
 import main.parameters.DisplayParameters;
 
-public class DisplayManager {
+public class DisplayRenderer {
 	
 	private final static int FPS_CAP = 1000; 
 	
+	public static long startTime = getCurrentTime();
 	private static long lastFrameTime;
 	private static float delta;
 	
+	
 	private static DisplayMode mode = new DisplayMode(DisplayParameters.WINDOW_WIDTH, DisplayParameters.WINDOW_HEIGHT);
+	public static State state = State.MENU;
 
 	public static void createDisplay() {
 		
@@ -59,7 +62,6 @@ public class DisplayManager {
 	
 	public static void updateDisplay() {
 		Display.sync(FPS_CAP);
-		//GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
 		Display.update();
 		long currentFrameTime = getCurrentTime();
 		delta = (currentFrameTime - lastFrameTime)/1000f;
@@ -77,5 +79,11 @@ public class DisplayManager {
 	private static long getCurrentTime() {
 		return Sys.getTime()*1000/Sys.getTimerResolution();
 	}
+	
+	public static float getTimeSinceStart() {
+		return (getCurrentTime() - startTime)/1000f;
+	}
+	
+	 
 
 }

@@ -19,6 +19,7 @@ import main.parameters.TerrainManager;
 public class Terrain {
 	
 	private static final float MAX_PIXEL_COLOUR = 256 * 256 * 256;
+	public static final float TERRAIN_CENTER = TerrainManager.TERRAIN_SIZE / 2;
 
 	private float x;
 	private float z;

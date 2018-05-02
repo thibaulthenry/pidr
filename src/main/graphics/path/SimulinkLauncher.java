@@ -1,4 +1,4 @@
-package main;
+package main.graphics.path;
 
 import java.util.concurrent.Future;
 

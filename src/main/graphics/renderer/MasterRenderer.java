@@ -14,23 +14,22 @@ import main.graphics.entities.Camera;
 import main.graphics.entities.Entity;
 import main.graphics.entities.Light;
 import main.graphics.guis.GuiTexture;
+import main.graphics.guis.buttons.Button;
 import main.graphics.models.TexturedModel;
+import main.graphics.path.CSVConverter;
 import main.graphics.shaders.GuiShader;
 import main.graphics.shaders.SkyShader;
 import main.graphics.shaders.StaticShader;
 import main.graphics.shaders.TerrainShader;
 import main.graphics.terrains.Terrain;
+import main.parameters.TerrainManager;
 
 public class MasterRenderer {
 	
 	private static final float FOV = 70;
-	public static final float NEAR_PLANE = 0.1f;
-	public static final float FAR_PLANE = 8000f;
-	
+
 	public static final float FOG_DENSITY = 0.0003f;
 	public static final float FOG_GRADIENT = 1.5f;
-	
-	public static final Vector3f SKY_COLOR = new Vector3f(0.29f,0.65f,0.9f);
 	
 	private Matrix4f projectionMatrix;
 	private Loader loader;
@@ -48,7 +47,8 @@ public class MasterRenderer {
 	private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
 	private List<Terrain> terrains = new ArrayList<Terrain>();
 	private List<GuiTexture> guis = new ArrayList<GuiTexture>();
-	private Light sun = new Light(new Vector3f(4000,2000,4000), new Vector3f(1,1,1));
+	private Light sun = new Light(new Vector3f(4000, 2000, 4000), TerrainManager.SUN_COLOR);
+	private Vector3f menuResetColor = new Vector3f(0, 0, 0);
 	
 	public MasterRenderer() {
 		enableCulling();
@@ -65,12 +65,30 @@ public class MasterRenderer {
 		this.guiRenderer = new GuiRenderer(guiShader, loader);
 		this.skyRenderer = new SkyRenderer(skyShader, projectionMatrix, loader);
 	}
+	
+	public void renderMenu() {
+		prepare(menuResetColor);
+		
+		guiRenderer.render(guis);
+		Button.update();
+		
+		guis.clear();
+	}
+	
+	public void renderScene(Camera camera, List<Entity> entities) {
+		processTerrain(TerrainManager.terrain);
+		for (Entity entity : entities) processEntity(entity);
+		camera.move();
+		Button.update();
+		render(camera);
+	}
 
 	public void render(Camera camera) {
-		prepare();
+		if (DisplayRenderer.getTimeSinceStart() > 2 && CSVConverter.trajectoryStep == 0) CSVConverter.calculateStep();
+		prepare(TerrainManager.SKY_COLOR);
 		
 		shader.start();
-		shader.loadSkyColour(SKY_COLOR);
+		shader.loadSkyColour(TerrainManager.SKY_COLOR);
 		shader.loadFogDensity(FOG_DENSITY);
 		shader.loadFogGradient(FOG_GRADIENT);
 		shader.loadLights(sun);
@@ -79,7 +97,7 @@ public class MasterRenderer {
 		shader.stop();
 		
 		terrainShader.start();
-		terrainShader.loadSkyColour(SKY_COLOR);
+		terrainShader.loadSkyColour(TerrainManager.SKY_COLOR);
 		terrainShader.loadFogDensity(FOG_DENSITY);
 		terrainShader.loadFogGradient(FOG_GRADIENT);
 		terrainShader.loadLights(sun);
@@ -87,9 +105,10 @@ public class MasterRenderer {
 		terrainRenderer.render(terrains);
 		terrainShader.stop();
 		
-		skyRenderer.render(camera, SKY_COLOR.x, SKY_COLOR.y, SKY_COLOR.z);
+		skyRenderer.render(camera, TerrainManager.SKY_COLOR);
 		
 		guiRenderer.render(guis);
+		Button.update();
 		
 		guis.clear();
 		terrains.clear();
@@ -133,24 +152,25 @@ public class MasterRenderer {
 		loader.cleanUp();
 	}
 	
-	public void prepare() {
+	public void prepare(Vector3f resetColor) {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-		GL11.glClearColor(SKY_COLOR.x, SKY_COLOR.y, SKY_COLOR.z, 1);
+		GL11.glClearColor(resetColor.x, resetColor.y, resetColor.z, 1);
 	}
 	
 	private void createProjectionMatrix() {
 		float aspectRatio = (float) Display.getWidth() / (float) Display.getHeight();
 		float y_scale = (float) ((1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio);
 		float x_scale = y_scale / aspectRatio;
-		float frustum_length = FAR_PLANE - NEAR_PLANE;
+		float frustum_length = TerrainManager.FAR_PLANE - TerrainManager.NEAR_PLANE;
 
 		projectionMatrix = new Matrix4f();
 		projectionMatrix.m00 = x_scale;
 		projectionMatrix.m11 = y_scale;
-		projectionMatrix.m22 = -((FAR_PLANE + NEAR_PLANE) / frustum_length);
+		projectionMatrix.m22 = -((TerrainManager.FAR_PLANE + TerrainManager.NEAR_PLANE) / frustum_length);
 		projectionMatrix.m23 = -1;
-		projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustum_length);
+		projectionMatrix.m32 = -((2 * TerrainManager.NEAR_PLANE * TerrainManager.FAR_PLANE) / frustum_length);
 		projectionMatrix.m33 = 0;
 	}
+
 }

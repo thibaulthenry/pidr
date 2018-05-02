@@ -9,7 +9,7 @@ import main.parameters.TrajectoryManager;
 
 public class csvConverter {
 
-	public static String[][] A = csvConverter.convert("resources\\simul\\" + TrajectoryManager.CSV_FILENAME);
+	public static String[][] A = csvConverter.convert("resources\\simul\\" + TrajectoryManager.CSV_FILENAME + ".csv");
 
 	private static String[][] convert(String path){
 		String tab[][] = new String[7][];

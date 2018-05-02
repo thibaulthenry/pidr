@@ -1,31 +1,17 @@
 package main;
 
-import java.util.ArrayList;
-
-import java.util.List;
-
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
 import main.graphics.entities.Boule;
 import main.graphics.entities.Camera;
 import main.graphics.entities.Drone;
-import main.graphics.entities.Light;
 import main.graphics.guis.buttons.Button;
-import main.graphics.models.RawModel;
-import main.graphics.models.TexturedModel;
-import main.graphics.objConverter.ModelData;
-import main.graphics.objConverter.OBJFileLoader;
 import main.graphics.path.csvConverter;
-import main.graphics.recorder.SequenceEncoder;
 import main.graphics.renderer.DisplayManager;
-import main.graphics.renderer.Loader;
 import main.graphics.renderer.MasterRenderer;
-import main.graphics.terrains.Terrain;
-import main.graphics.textures.ModelTexture;
-import main.graphics.textures.TerrainTexture;
-import main.graphics.textures.TerrainTexturePack;
-import main.parameters.ButtonManager;
+import main.parameters.EntityManager;
+import main.parameters.TerrainManager;
 import main.parameters.TrajectoryManager;
 
 public class Main {
@@ -34,39 +20,15 @@ public class Main {
 
 		DisplayManager.createDisplay();
 		MasterRenderer renderer = new MasterRenderer();
-		Loader loader = new Loader();
 
-		Light light0 = new Light(new Vector3f(4000,2000,4000), new Vector3f(1,1,1));
-		List<Light> lights = new ArrayList<Light>();
-		lights.add(light0);
-
-
-		ModelData Modeldrone = OBJFileLoader.loadOBJ("droneModel");
-		RawModel RawModeldrone = loader.loadToVAO(Modeldrone.getVertices(),
-				Modeldrone.getTextureCoords(),Modeldrone.getNormals(),  Modeldrone.getIndices());
-		TexturedModel TexModeldrone = new TexturedModel(RawModeldrone,
-				new ModelTexture(loader.loadTexture("white")));
-
-		ModelData Modelboule = OBJFileLoader.loadOBJ("sphereModel");
-		RawModel RawModelboule = loader.loadToVAO(Modelboule.getVertices(),
-				Modelboule.getTextureCoords(),Modelboule.getNormals(),  Modelboule.getIndices());
-		TexturedModel TexModelboule = new TexturedModel(RawModelboule,
-				new ModelTexture(loader.loadTexture("white")));
-		
-		Drone drone = new Drone(TexModeldrone, new Vector3f(4000,0,4000),0,0,0,4);
+		Drone drone = new Drone(EntityManager.droneTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
 		Camera camera = new Camera(drone);
 
 		//terrain
-		TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("2"));
-		TerrainTexture r = new TerrainTexture(loader.loadTexture("3"));
-		TerrainTexture g = new TerrainTexture(loader.loadTexture("4"));
-		TerrainTexture b = new TerrainTexture(loader.loadTexture("1"));
-		TerrainTexturePack tP= new TerrainTexturePack(backgroundTexture, r, g, b);
-		TerrainTexture blend = new TerrainTexture(loader.loadTexture("blendmap"));
 
 		boolean bool = true;
 		int plus = 0; 
-		Terrain terrain = new Terrain(0,0,loader, tP, blend, "heightmap");
+		
 		int i = 0;
 		int k = 0;
 		boolean stop = true;
@@ -83,15 +45,13 @@ public class Main {
 
 			camera.move();
 
-
-			
 			renderer.processEntity(drone);
 			for(int j=0;j<i;j=j + 10*plus) {
-				renderer.processEntity(new Boule(TexModelboule, new Vector3f(Float.parseFloat(csvConverter.A[1][j])*1000+4000, Float.parseFloat(csvConverter.A[3][j])*1000, Float.parseFloat(csvConverter.A[2][j])*1000+4000),0,0,0,50));
+				renderer.processEntity(new Boule(EntityManager.sphereTexturedModel, new Vector3f(Float.parseFloat(csvConverter.A[1][j])*1000+4000, Float.parseFloat(csvConverter.A[3][j])*1000, Float.parseFloat(csvConverter.A[2][j])*1000+4000),0,0,0,50));
 			}
 			
-			renderer.processTerrain(terrain);
-			renderer.render(light0, camera);
+			renderer.processTerrain(TerrainManager.terrain);
+			renderer.render(camera);
 
 			Button.update();
 
@@ -105,10 +65,7 @@ public class Main {
 		}
 
 		renderer.cleanUp();
-		loader.cleanUp();
 		DisplayManager.closeDisplay();
-
-
 	}
 
 }

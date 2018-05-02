@@ -7,25 +7,18 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 
-import main.graphics.entities.Entity;
 import main.graphics.guis.GuiTexture;
-import main.graphics.renderer.Loader;
 
 abstract public class Button implements IButton {
 
-	protected static List<Button> activeButtons = new ArrayList<Button>();
 	protected static List<Button> buttons = new ArrayList<Button>();
-	protected static List<Button> addedButtons = new ArrayList<Button>();
-	protected static List<Button> removedButtons = new ArrayList<Button>();
 
-	protected static final Loader loader = new Loader();
 	protected int resetTexID;
 	protected Vector2f position;
 	protected float xCenter;
 	protected float yCenter;
 	protected Vector2f scale;
 	protected GuiTexture guiTexture;
-	protected Entity entityOnClick;
 	protected String onHoveringTexture;
 	protected String onClickingTexture;
 	protected float onHoveringAddScale;
@@ -34,26 +27,25 @@ abstract public class Button implements IButton {
 	protected boolean isClicked = false;
 	protected boolean isHovered = false;
 	protected boolean isPressed = false;
-	protected boolean isPanelLinked = false;
 	protected boolean isHidden = false;
 
-	private float w;
-	private float h;
-	private float x;
-	private float y;
-
-	public Button(String textureStr, Vector2f position, Vector2f scale) {
+	public Button(Integer texture, Vector2f position, Vector2f scale) {
 		this.position = position;
 		this.scale = scale;
-		this.resetTexID = loader.loadTexture(textureStr);
+		this.resetTexID = texture;
 		this.guiTexture = new GuiTexture(resetTexID, position, scale);
 		this.xCenter = guiTexture.getPosition().x;
 		this.yCenter = guiTexture.getPosition().y;
-
+		
 		buttons.add(this);
 	}
 
 	public boolean isOn() {
+		float w;
+		float h;
+		float x;
+		float y;
+		
 		boolean isOn = false;
 		w = ((float) (scale.x) * Display.getWidth()) / 2;
 		h = ((float) (scale.y) * Display.getHeight()) / 2;
@@ -93,13 +85,9 @@ abstract public class Button implements IButton {
 	}
 
 	public static void update() {
-		buttons.addAll(Button.getAddedButtons());
-		addedButtons.clear();
 		for (Button b : buttons) {
 			b.updateState();
 		}
-		buttons.removeAll(Button.getRemovedButtons());
-		removedButtons.clear();
 	}
 
 	public void reset() {
@@ -111,25 +99,19 @@ abstract public class Button implements IButton {
 	}
 	
 	public void reset(List<Button> buttons) {
-		for (Button b : buttons) {
-			b.reset();
-		}
+		for (Button b : buttons) b.reset();
 	}
 	
 	public void hide() {
-		removedButtons.add(this);
 		isHidden = true;
 		guiTexture.setDisplayed(false);
 	}
 
 	public void hide(List<Button> buttons) {
-		for (Button b : buttons) {
-			b.hide();
-		}
+		for (Button b : buttons) b.hide();
 	}
 
 	public void show() {
-		addedButtons.add(this);
 		isHidden = false;
 		guiTexture.setDisplayed(true);
 	}
@@ -140,38 +122,12 @@ abstract public class Button implements IButton {
 		}
 	}
 	
-	public void setActive(boolean bool) {
-		if (bool) {
-			reset(activeButtons);
-			activeButtons.clear();
-			activeButtons.add(this);
-		} else {
-			reset(activeButtons);
-			activeButtons.clear();
-		}
+	public void onStartHover() {
+		playOnStartHoverAnimation();
 	}
 
-	public void setActive(boolean bool, boolean severalButtons) {
-		if (bool) {
-			reset(activeButtons);
-			activeButtons.clear();
-			if (!severalButtons) {
-				activeButtons.add(this);
-			}
-		} else {
-			reset(activeButtons);
-			activeButtons.clear();
-		}
-	}
-
-	public void setActive(boolean bool, List<Button> buttons) {
-		for (Button b : buttons) {
-			if (bool) {
-				b.setActive(true, true);
-			} else {
-				b.setActive(false, true);
-			}
-		}
+	public void onStopHover() {
+		playOnStopHoverAnimation();
 	}
 
 	public boolean isClicked() {
@@ -237,15 +193,6 @@ abstract public class Button implements IButton {
 	public void setGuiTexture(GuiTexture guiTexture) {
 		this.guiTexture = guiTexture;
 	}
-	
-
-	public Entity getEntityOnClick() {
-		return entityOnClick;
-	}
-
-	public void setEntityOnClick(Entity entityOnClick) {
-		this.entityOnClick = entityOnClick;
-	}
 
 	public boolean isHidden() {
 		return isHidden;
@@ -254,15 +201,7 @@ abstract public class Button implements IButton {
 	public void setHidden(boolean isHidden) {
 		this.isHidden = isHidden;
 	}
-
-	public boolean isPanelLinked() {
-		return isPanelLinked;
-	}
-
-	public void setPanelLinked(boolean isPanelLinked) {
-		this.isPanelLinked = isPanelLinked;
-	}
-
+	
 	public float getOnHoveringAddScale() {
 		return onHoveringAddScale;
 	}
@@ -281,14 +220,6 @@ abstract public class Button implements IButton {
 
 	public static List<Button> getButtons() {
 		return buttons;
-	}
-
-	public static List<Button> getAddedButtons() {
-		return addedButtons;
-	}
-
-	public static List<Button> getRemovedButtons() {
-		return removedButtons;
 	}
 
 }

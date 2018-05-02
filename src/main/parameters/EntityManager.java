@@ -9,16 +9,18 @@ import main.graphics.textures.ModelTexture;
 
 public class EntityManager {
 	
-	private static Loader loader = new Loader();
+	private final static Loader loader = new Loader();
+	
+	/* Drone */
 
-	ModelData Modeldrone = OBJFileLoader.loadOBJ("droneModel");
-	RawModel RawModeldrone = loader.loadToVAO(Modeldrone.getVertices(), Modeldrone.getTextureCoords(),Modeldrone.getNormals(),  Modeldrone.getIndices());
-	TexturedModel TexModeldrone = new TexturedModel(RawModeldrone, new ModelTexture(loader.loadTexture("white")));
+	private final static ModelData droneModelData = OBJFileLoader.loadOBJ("droneModel");
+	private final static RawModel droneRawModel = loader.loadToVAO(droneModelData.getVertices(), droneModelData.getTextureCoords(),droneModelData.getNormals(),  droneModelData.getIndices());
+	public final static TexturedModel droneTexturedModel = new TexturedModel(droneRawModel, new ModelTexture(GuiManager.droneTexture));
 
-	ModelData Modelboule = OBJFileLoader.loadOBJ("petiteboule");
-	RawModel RawModelboule = loader.loadToVAO(Modelboule.getVertices(),
-			Modelboule.getTextureCoords(),Modelboule.getNormals(),  Modelboule.getIndices());
-	TexturedModel TexModelboule = new TexturedModel(RawModelboule,
-			new ModelTexture(loader.loadTexture("white")));
+	/* Trajectory Sphere */
+	
+	private final static ModelData sphereModelData = OBJFileLoader.loadOBJ("sphereModel");
+	private final static RawModel sphereRawModel = loader.loadToVAO(sphereModelData.getVertices(),sphereModelData.getTextureCoords(),sphereModelData.getNormals(),  sphereModelData.getIndices());
+	public final static TexturedModel sphereTexturedModel = new TexturedModel(sphereRawModel, new ModelTexture(GuiManager.sphereTexture));
 
 }

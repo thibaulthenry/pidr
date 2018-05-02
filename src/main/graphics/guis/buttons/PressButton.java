@@ -5,8 +5,8 @@ import org.lwjgl.util.vector.Vector2f;
 
 abstract public class PressButton extends Button {
 	
-	public PressButton(String textureStr, Vector2f position, Vector2f scale) {
-		super(textureStr, position, scale);
+	public PressButton(Integer texture, Vector2f position, Vector2f scale) {
+		super(texture, position, scale);
 	}
 
 	public abstract void whilePressed();

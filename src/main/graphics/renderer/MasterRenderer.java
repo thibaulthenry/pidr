@@ -48,6 +48,7 @@ public class MasterRenderer {
 	private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
 	private List<Terrain> terrains = new ArrayList<Terrain>();
 	private List<GuiTexture> guis = new ArrayList<GuiTexture>();
+	private Light sun = new Light(new Vector3f(4000,2000,4000), new Vector3f(1,1,1));
 	
 	public MasterRenderer() {
 		enableCulling();
@@ -65,7 +66,7 @@ public class MasterRenderer {
 		this.skyRenderer = new SkyRenderer(skyShader, projectionMatrix, loader);
 	}
 
-	public void render(Light sun, Camera camera) {
+	public void render(Camera camera) {
 		prepare();
 		
 		shader.start();
@@ -129,6 +130,7 @@ public class MasterRenderer {
 		terrainShader.cleanUp();
 		skyShader.cleanUp();
 		guiShader.cleanUp();
+		loader.cleanUp();
 	}
 	
 	public void prepare() {

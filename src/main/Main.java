@@ -3,6 +3,7 @@ package main;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -11,12 +12,15 @@ import main.graphics.entities.Drone;
 import main.graphics.entities.Entity;
 import main.graphics.entities.Rotor;
 import main.graphics.path.CSVConverter;
+import main.graphics.recorder.SequenceEncoder;
 import main.graphics.renderer.DisplayRenderer;
+import main.graphics.renderer.Loader;
 import main.graphics.renderer.MasterRenderer;
 import main.graphics.renderer.State;
 import main.parameters.ButtonManager;
 import main.parameters.DisplayParameters;
 import main.parameters.EntityManager;
+import main.parameters.RecordManager;
 
 public class Main {
 
@@ -50,11 +54,21 @@ public class Main {
 			case SIMULATION:
 				renderer.renderScene(camera, entities);
 				CSVConverter.update(drone, entities, rotor);
+
+				
+				if (RecordManager.ACTIVATE_RECORD) SequenceEncoder.screenShot();
+				
+				if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+					Loader.test();
+				}
+
 				DisplayRenderer.updateDisplay();
+				System.out.println(CSVConverter.trajectoryStep + "->" + (int) (1000 / (1/ DisplayRenderer.getFrameTimeSeconds())));
 				break;
 			}
 		}
-
+		
+		if (RecordManager.ACTIVATE_RECORD) SequenceEncoder.makeVideo();
 		renderer.cleanUp();
 		DisplayRenderer.closeDisplay();
 	}

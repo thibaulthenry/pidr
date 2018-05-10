@@ -84,7 +84,9 @@ public class MasterRenderer {
 	}
 
 	public void render(Camera camera) {
-		if (DisplayRenderer.getTimeSinceStart() > 2 && CSVConverter.trajectoryStep == 0) CSVConverter.calculateStep();
+		if (DisplayRenderer.getTimeSinceStart() > 3 && CSVConverter.trajectoryStep == 0) {
+			CSVConverter.calculateStep();
+		}
 		prepare(TerrainManager.SKY_COLOR);
 		
 		shader.start();

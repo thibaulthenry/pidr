@@ -12,6 +12,7 @@ import java.util.List;
 import org.jcodec.api.awt.AWTSequenceEncoder;
 import org.lwjgl.opengl.GL11;
 
+import main.graphics.path.CSVConverter;
 import main.parameters.DisplayParameters;
 import main.parameters.RecordManager;
 
@@ -31,12 +32,16 @@ public class SequenceEncoder {
 
 	}
 
-	public void screenShot(){
+	public static void screenShot(){
+		
 		int[] pixels = new int[DisplayParameters.WINDOW_WIDTH * DisplayParameters.WINDOW_HEIGHT];
 		int bindex;
 		
 		ByteBuffer fb = ByteBuffer.allocateDirect(DisplayParameters.WINDOW_WIDTH * DisplayParameters.WINDOW_HEIGHT * 3);
-		BufferedImage imageIn = new BufferedImage(DisplayParameters.WINDOW_WIDTH, DisplayParameters.WINDOW_HEIGHT,BufferedImage.TYPE_INT_RGB);
+		
+		//stocker les byts et pas les images
+		
+		/*BufferedImage imageIn = new BufferedImage(DisplayParameters.WINDOW_WIDTH, DisplayParameters.WINDOW_HEIGHT,BufferedImage.TYPE_INT_RGB);
 		
 		GL11.glReadPixels(0, 0, DisplayParameters.WINDOW_WIDTH, DisplayParameters.WINDOW_HEIGHT, GL11.GL_RGB, GL11.GL_UNSIGNED_BYTE, fb);
 
@@ -54,22 +59,31 @@ public class SequenceEncoder {
 		at.translate(0, -imageIn.getHeight(null));
 
 		AffineTransformOp opRotated = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-		BufferedImage imageOut = opRotated.filter(imageIn, null);
+		BufferedImage imageOut = opRotated.filter(imageIn, null);*/
 
-		record.add(scale(imageOut, RecordManager.RESOLUTION_SCALE));
+		//record.add(scale(imageOut, RecordManager.RESOLUTION_SCALE));
 	}
 
 
-	public static void makeVideo(int fps) throws IOException {
+	public static void makeVideo() {
+		
+		int fps = CSVConverter.trajectorySize / CSVConverter.trajectoryStep / (CSVConverter.trajectorySize / 1000);
 
-		AWTSequenceEncoder enc = AWTSequenceEncoder.createSequenceEncoder(new File("resources/recording/record.mp4"), fps);
-
-		for(int i=0;i< record.size();++i)
-		{
-			BufferedImage image = record.get(i);
-			enc.encodeImage(image);
+		AWTSequenceEncoder enc;
+		try {
+			enc = AWTSequenceEncoder.createSequenceEncoder(new File("resources/recording/record.mp4"), fps);
+			for(int i=0;i< record.size();++i)
+			{
+				BufferedImage image = record.get(i);
+				enc.encodeImage(image);
+			}
+			
+			enc.finish();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-		enc.finish();
+		
 	}
+	
 }

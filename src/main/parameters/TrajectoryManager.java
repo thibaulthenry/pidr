@@ -9,6 +9,6 @@ public class TrajectoryManager {
 	
 	public final static boolean ACTIVATE_SPHERE = true;
 	public static float SPHERE_SCALE = 50f;
-	public static double SPHERE_SPAWN_FREQ = 0.01;
+	public static double SPHERE_SPAWN_FREQ = 0.2;
 
 }

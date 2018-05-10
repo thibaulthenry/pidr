@@ -19,6 +19,6 @@ public class TerrainManager {
 	public static final Vector3f SKY_COLOR = new Vector3f(0.29f,0.65f,0.9f);
 	public static final Vector3f SUN_COLOR = new Vector3f(1, 1, 1);
 	
-	public static Terrain terrain = new Terrain(0,0, GuiManager.terrainTexturePack, GuiManager.blendmap, "terrain\\" + HEIGHTMAP_FILENAME);
+	public static Terrain terrain = new Terrain(0,0, GuiManager.terrainTexturePack, GuiManager.blendmap, "terrain/" + HEIGHTMAP_FILENAME);
 
 }

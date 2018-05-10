@@ -26,7 +26,7 @@ public class Entity {
 	
 	public void clearAllWithoutDrone(List<Entity> entities) {
 		List<Entity> copy = new ArrayList<Entity>(entities);
-		for (Entity entity : copy) if (!(entity instanceof Drone)) entities.remove(entity);
+		for (Entity entity : copy) if (!(entity instanceof Drone) && !( entity instanceof Rotor)) entities.remove(entity);
 	}
 	
 	public void move(float dx, float dy, float dz) {

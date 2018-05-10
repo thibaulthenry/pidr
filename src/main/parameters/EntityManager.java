@@ -13,9 +13,15 @@ public class EntityManager {
 	
 	/* Drone */
 
-	private final static ModelData droneModelData = OBJFileLoader.loadOBJ("droneModel");
+	private final static ModelData droneModelData = OBJFileLoader.loadOBJ("baseDroneModel");
 	private final static RawModel droneRawModel = loader.loadToVAO(droneModelData.getVertices(), droneModelData.getTextureCoords(),droneModelData.getNormals(),  droneModelData.getIndices());
 	public final static TexturedModel droneTexturedModel = new TexturedModel(droneRawModel, new ModelTexture(GuiManager.droneTexture));
+	
+	/* Rotor1 */
+	
+	private final static ModelData rotorModelData = OBJFileLoader.loadOBJ("rotorsModel");
+	private final static RawModel rotorRawModel = loader.loadToVAO(rotorModelData.getVertices(), rotorModelData.getTextureCoords(),rotorModelData.getNormals(),  rotorModelData.getIndices());
+	public final static TexturedModel rotorTexturedModel = new TexturedModel(rotorRawModel, new ModelTexture(GuiManager.rotorTexture));
 
 	/* Trajectory Sphere */
 	

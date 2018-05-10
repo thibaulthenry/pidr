@@ -10,6 +10,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import main.graphics.entities.Drone;
 import main.graphics.entities.Entity;
+import main.graphics.entities.Rotor;
 import main.graphics.entities.TrajectorySphere;
 import main.graphics.renderer.DisplayRenderer;
 import main.graphics.terrains.Terrain;
@@ -17,7 +18,7 @@ import main.parameters.TrajectoryManager;
 
 public class CSVConverter {
 
-	private static String[][] trajectory = CSVConverter.convert("resources\\simul\\" + TrajectoryManager.CSV_FILENAME + ".csv");
+	private static String[][] trajectory = CSVConverter.convert("resources/simul/" + TrajectoryManager.CSV_FILENAME + ".csv");
 	public static int trajectorySize;
 	public static int trajectoryStep = 0;
 	
@@ -64,6 +65,31 @@ public class CSVConverter {
 				Float.parseFloat(trajectory[2][index]) * TrajectoryManager.SIMULATION_SIZE_RATIO + Terrain.TERRAIN_CENTER);
 	}
 	
+	public static Vector3f getPositionRotor(int index,int numrotor) {
+		double psi=-Float.parseFloat(trajectory[4][index])*Math.PI/2;
+		double phi=-Float.parseFloat(trajectory[5][index])*Math.PI/2;
+		double theta=Float.parseFloat(trajectory[6][index])*Math.PI/2+0.52;
+		double dist= Math.sqrt(315*315+163*163)*0.1;
+		
+		double a1=dist*(Math.cos(psi)*Math.cos(theta));
+		float b1= (float) a1;
+		
+		double a2=dist*( Math.cos(psi)*Math.sin(theta));
+		float b2= (float) a2;
+		
+		double a3=dist*((Math.sin(psi)+Math.sin(phi)))*0.7;
+		float b3= (float) a3;
+
+		
+		return new Vector3f(
+				(Float.parseFloat(trajectory[1][index])) * TrajectoryManager.SIMULATION_SIZE_RATIO -b1+ Terrain.TERRAIN_CENTER,
+				(Float.parseFloat(trajectory[3][index])) * TrajectoryManager.SIMULATION_SIZE_RATIO +b3 +7 ,
+				(Float.parseFloat(trajectory[2][index])) * TrajectoryManager.SIMULATION_SIZE_RATIO +b2 + Terrain.TERRAIN_CENTER);
+		
+		
+		
+	}
+	
 	public static Vector3f getRotation(int index) {
 		return new Vector3f(
 				Float.parseFloat(trajectory[4][index]) * 90,
@@ -71,12 +97,22 @@ public class CSVConverter {
 				Float.parseFloat(trajectory[5][index]) * 90);
 	}
 	
+	public static Vector3f getRotationRotor(int index) {
+		return new Vector3f(
+				Float.parseFloat(trajectory[4][index]) * 90,
+				Float.parseFloat(trajectory[6][index]) * 90*1000,
+				Float.parseFloat(trajectory[5][index]) * 90);
+	}
+	
+	
+	
 	public static void calculateStep() {
 		trajectoryStep = (int) (1000 / (1/ DisplayRenderer.getFrameTimeSeconds()));
 	}
 	
-	public static void update(Drone drone, List<Entity> entities) {
+	public static void update(Drone drone, List<Entity> entities,Rotor rotor) {
 		drone.followSimulation(currentIndex);
+		rotor.followSimulation(currentIndex);
 
 		if (sphereIndex == 0 || ((currentIndex - sphereIndex) == ((1 / TrajectoryManager.SPHERE_SPAWN_FREQ) * trajectoryStep))) {
 			entities.add(new TrajectorySphere(currentIndex));

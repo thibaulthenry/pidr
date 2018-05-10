@@ -9,6 +9,7 @@ import org.lwjgl.util.vector.Vector3f;
 import main.graphics.entities.Camera;
 import main.graphics.entities.Drone;
 import main.graphics.entities.Entity;
+import main.graphics.entities.Rotor;
 import main.graphics.path.CSVConverter;
 import main.graphics.renderer.DisplayRenderer;
 import main.graphics.renderer.MasterRenderer;
@@ -27,7 +28,9 @@ public class Main {
 		List<Entity> entities = new ArrayList<Entity>();
 		
 		Drone drone = new Drone(EntityManager.droneTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
+		Rotor rotor = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
 		entities.add(drone);
+		entities.add(rotor);
 		Camera camera = new Camera(drone);
 		
 		while(!Display.isCloseRequested()) {
@@ -46,8 +49,7 @@ public class Main {
 				break;
 			case SIMULATION:
 				renderer.renderScene(camera, entities);
-				CSVConverter.update(drone, entities);
-
+				CSVConverter.update(drone, entities, rotor);
 				DisplayRenderer.updateDisplay();
 				break;
 			}

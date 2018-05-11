@@ -32,9 +32,15 @@ public class Main {
 		List<Entity> entities = new ArrayList<Entity>();
 		
 		Drone drone = new Drone(EntityManager.droneTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
-		Rotor rotor = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
+		Rotor rotor1 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
+		Rotor rotor2 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
+		Rotor rotor3 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
+		Rotor rotor4 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
 		entities.add(drone);
-		entities.add(rotor);
+		entities.add(rotor1);
+		entities.add(rotor2);
+		entities.add(rotor3);
+		entities.add(rotor4);
 		Camera camera = new Camera(drone);
 		
 		while(!Display.isCloseRequested()) {
@@ -53,7 +59,7 @@ public class Main {
 				break;
 			case SIMULATION:
 				renderer.renderScene(camera, entities);
-				CSVConverter.update(drone, entities, rotor);
+				CSVConverter.update(drone, entities, rotor1,rotor2,rotor3,rotor4);
 
 				
 				if (RecordManager.ACTIVATE_RECORD) SequenceEncoder.screenShot();

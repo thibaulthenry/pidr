@@ -11,8 +11,8 @@ public class Rotor extends Entity {
 		super(model, position, rotX, rotY, rotZ, scale);
 	}
 	
-	public void followSimulation(int index) {
-		this.setPosition(CSVConverter.getPositionRotor(index,1));
+	public void followSimulation(int index,int numrotor) {
+		this.setPosition(CSVConverter.getPositionRotor(index,numrotor));
 		this.setRotation(CSVConverter.getRotationRotor(index));
 	} 
 

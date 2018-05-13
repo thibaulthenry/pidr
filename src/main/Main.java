@@ -31,10 +31,16 @@ public class Main {
 		MasterRenderer renderer = new MasterRenderer();
 		List<Entity> entities = new ArrayList<Entity>();
 		
-		Drone drone = new Drone(EntityManager.droneTexturedModel, TerrainManager.terrainCenter, 0, 0, 0, 4);
-		Rotor rotor = new Rotor(EntityManager.rotorTexturedModel, TerrainManager.terrainCenter, 0, 0, 0, 4);
+		Drone drone = new Drone(EntityManager.droneTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
+		Rotor rotor1 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
+		Rotor rotor2 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
+		Rotor rotor3 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
+		Rotor rotor4 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
 		entities.add(drone);
-		entities.add(rotor);
+		entities.add(rotor1);
+		entities.add(rotor2);
+		entities.add(rotor3);
+		entities.add(rotor4);
 		Camera camera = new Camera(drone);
 		
 		while(!Display.isCloseRequested()) {
@@ -60,7 +66,8 @@ public class Main {
 				}
 				
 				renderer.renderScene(camera, entities);
-				CSVConverter.update(drone, entities, rotor);
+				CSVConverter.update(drone, entities, rotor1,rotor2,rotor3,rotor4);
+
 				
 				//FPS//System.out.println(CSVConverter.trajectoryStep + "->" + (int) (1000 / (1/ DisplayRenderer.getFrameTimeSeconds())));
 				DisplayRenderer.updateDisplay();

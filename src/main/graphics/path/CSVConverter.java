@@ -71,8 +71,29 @@ public class CSVConverter {
 	public static Vector3f getPositionRotor(int index,int numrotor) {
 		double psi=-Float.parseFloat(trajectory[4][index])*Math.PI/2;
 		double phi=-Float.parseFloat(trajectory[5][index])*Math.PI/2;
-		double theta=Float.parseFloat(trajectory[6][index])*Math.PI/2+0.52;
+		double theta;
+		double a3;
 		double dist= Math.sqrt(315*315+163*163)*0.1;
+		switch(numrotor) {
+		case 1:
+			theta=Float.parseFloat(trajectory[6][index])*Math.PI/2+0.52;
+			a3=dist*((Math.sin(psi)));
+			break;
+		case 2:
+			theta=Float.parseFloat(trajectory[6][index])*Math.PI/2+2.65;
+			a3=dist*((Math.sin(psi)));
+			break;
+		case 3:
+			theta=Float.parseFloat(trajectory[6][index])*Math.PI/2+3.78;
+			a3=dist*(-(Math.sin(psi)));
+			break;
+		default:
+			theta=Float.parseFloat(trajectory[6][index])*Math.PI/2+5.53;
+			a3=dist*((Math.sin(psi)));
+			break;
+		}
+		
+		
 		
 		double a1=dist*(Math.cos(psi)*Math.cos(theta));
 		float b1= (float) a1;
@@ -80,7 +101,7 @@ public class CSVConverter {
 		double a2=dist*( Math.cos(psi)*Math.sin(theta));
 		float b2= (float) a2;
 		
-		double a3=dist*((Math.sin(psi)+Math.sin(phi)))*0.7;
+		
 		float b3= (float) a3;
 
 		
@@ -103,7 +124,7 @@ public class CSVConverter {
 	public static Vector3f getRotationRotor(int index) {
 		return new Vector3f(
 				Float.parseFloat(trajectory[4][index]) * 90,
-				Float.parseFloat(trajectory[6][index]) * 90*1000,
+				Float.parseFloat(trajectory[6][index]) * 90*100,
 				Float.parseFloat(trajectory[5][index]) * 90);
 	}
 	
@@ -113,9 +134,12 @@ public class CSVConverter {
 		trajectoryStep = (int) (1000 / (1/ DisplayRenderer.getFrameTimeSeconds()));
 	}
 	
-	public static void update(Drone drone, List<Entity> entities,Rotor rotor) {
+	public static void update(Drone drone, List<Entity> entities,Rotor rotor1,Rotor rotor2,Rotor rotor3,Rotor rotor4) {
 		drone.followSimulation(currentIndex);
-		rotor.followSimulation(currentIndex);
+		rotor1.followSimulation(currentIndex,1);
+		rotor2.followSimulation(currentIndex,2);
+		rotor3.followSimulation(currentIndex,3);
+		rotor4.followSimulation(currentIndex,4);
 
 		if (sphereIndex == 0 || ((currentIndex - sphereIndex) == ((1 / TrajectoryManager.SPHERE_SPAWN_FREQ) * trajectoryStep))) {
 			entities.add(new TrajectorySphere(currentIndex));

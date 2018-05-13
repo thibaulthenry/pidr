@@ -1,17 +1,20 @@
 package main.graphics.path;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
+import org.jcodec.api.awt.AWTSequenceEncoder;
 import org.lwjgl.util.vector.Vector3f;
 
 import main.graphics.entities.Drone;
 import main.graphics.entities.Entity;
 import main.graphics.entities.Rotor;
 import main.graphics.entities.TrajectorySphere;
+import main.graphics.recorder.SequenceEncoder;
 import main.graphics.renderer.DisplayRenderer;
 import main.graphics.terrains.Terrain;
 import main.parameters.TrajectoryManager;

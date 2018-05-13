@@ -1,24 +1,14 @@
 package main.graphics.renderer;
 
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
@@ -29,8 +19,6 @@ import de.matthiasmann.twl.utils.PNGDecoder;
 import de.matthiasmann.twl.utils.PNGDecoder.Format;
 import main.graphics.models.RawModel;
 import main.graphics.textures.TextureData;
-import main.parameters.DisplayParameters;
-
 
 public class Loader {
 	
@@ -83,59 +71,6 @@ public class Loader {
 		textures.add(textureID);
 		return textureID;
 	}
-	
-	 private static byte[] getByteArrayFromByteBuffer(ByteBuffer byteBuffer) {
-		    byte[] bytesArray = new byte[byteBuffer.remaining()];
-		    byteBuffer.get(bytesArray, 0, bytesArray.length);
-		    return bytesArray;
-		}
-	
-	public static int test() {
-		Texture texture = null;
-		try {
-			texture = TextureLoader.getTexture("PNG", new FileInputStream("resources/textures/test.png"));
-			GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
-			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_NEAREST);
-			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.4f);
-			
-			ByteBuffer fb = ByteBuffer.allocateDirect(DisplayParameters.WINDOW_WIDTH * DisplayParameters.WINDOW_HEIGHT * 3);
-			GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGB,
-					GL11.GL_UNSIGNED_BYTE, fb);	
-			
-			int[] pixels = new int[texture.getImageWidth() * texture.getImageHeight()];
-			BufferedImage imageIn = new BufferedImage(texture.getImageWidth(), texture.getImageHeight(),BufferedImage.TYPE_INT_RGB);
-			int bindex;
-			
-			for (int i=0; i < pixels.length; i++) {
-				bindex = i * 3;
-				pixels[i] =
-						((fb.get(bindex) << 16))  +
-						((fb.get(bindex+1) << 8))  +
-						((fb.get(bindex+2) << 0));
-			}
-
-			imageIn.setRGB(0, 0, texture.getImageWidth(), texture.getImageHeight(), pixels, 0 , texture.getImageWidth());
-			
-			/*byte[] array = getByteArrayFromByteBuffer(fb);
-
-			InputStream bis = new ByteArrayInputStream(array);
-
-		      BufferedImage bImage2 = ImageIO.read(bis);
-		      */
-		     // ImageIO.write(imageIn, "PNG", new File("output.png") );
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		int textureID = texture.getTextureID();
-		textures.add(textureID);
-		return textureID;
-	}
-	
-	
-	
 	
 	public int loadCubeMap(String[] textureFiles) {
 		int texID = GL11.glGenTextures();

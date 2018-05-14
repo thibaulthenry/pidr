@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import main.graphics.entities.Camera;
@@ -17,10 +18,13 @@ import main.graphics.renderer.DisplayRenderer;
 import main.graphics.renderer.Loader;
 import main.graphics.renderer.MasterRenderer;
 import main.graphics.renderer.State;
+import main.graphics.terrains.Terrain;
+import main.graphics.toolbox.Maths;
 import main.parameters.ButtonManager;
 import main.parameters.DisplayParameters;
 import main.parameters.EntityManager;
 import main.parameters.RecordManager;
+import main.parameters.TrajectoryManager;
 
 public class Main {
 
@@ -33,9 +37,13 @@ public class Main {
 		
 		Drone drone = new Drone(EntityManager.droneTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
 		Rotor rotor1 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
+		rotor1.setid(1);
 		Rotor rotor2 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
+		rotor2.setid(2);
 		Rotor rotor3 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
+		rotor3.setid(3);
 		Rotor rotor4 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
+		rotor4.setid(4);
 		entities.add(drone);
 		entities.add(rotor1);
 		entities.add(rotor2);
@@ -58,9 +66,10 @@ public class Main {
 				}
 				break;
 			case SIMULATION:
-				renderer.renderScene(camera, entities);
-				CSVConverter.update(drone, entities, rotor1,rotor2,rotor3,rotor4);
+				
 
+				CSVConverter.update(drone, entities, rotor1,rotor2,rotor3,rotor4);
+				renderer.renderScene(camera, entities);
 				
 				if (RecordManager.ACTIVATE_RECORD) SequenceEncoder.screenShot();
 				
@@ -71,6 +80,8 @@ public class Main {
 				DisplayRenderer.updateDisplay();
 				System.out.println(CSVConverter.trajectoryStep + "->" + (int) (1000 / (1/ DisplayRenderer.getFrameTimeSeconds())));
 				break;
+				
+			
 			}
 		}
 		

@@ -13,6 +13,7 @@ public class Entity {
 	private Vector3f position;
 	private float rotX, rotY, rotZ;
 	private float scale;
+	private int id;
 	
 	public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
 		super();
@@ -93,6 +94,12 @@ public class Entity {
 	
 	public void setScale(float scale) {
 		this.scale = scale;
+	}
+	public void setid(int id) {
+		this.id=id;
+	}
+	public int getid() {
+		return this.id;
 	}
 
 }

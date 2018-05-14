@@ -8,8 +8,10 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 import main.graphics.entities.Entity;
+import main.graphics.entities.Rotor;
 import main.graphics.models.RawModel;
 import main.graphics.models.TexturedModel;
 import main.graphics.shaders.StaticShader;
@@ -20,6 +22,7 @@ import main.graphics.toolbox.Maths;
 public class EntityRenderer {
 	
 	private StaticShader shader;
+	private int angle=0;
 
 	public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix) {
 		this.shader = shader;
@@ -67,6 +70,47 @@ public class EntityRenderer {
 	
 	private void prepareInstance(Entity entity) {
 		Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
+		if( entity instanceof Rotor) {
+			double x;
+			double y;
+			double z;
+			switch(entity.getid()){
+			case 1:
+				x=7.76;
+				y=-5.2;
+				z=0.4;
+				break;
+			case 2:
+				x=-7.45;
+				y=-6.1;
+				z=0.4;
+				break;
+			case 3:
+				x=7.76;
+				y=4.60;
+				z=0.4;
+				break;
+			default:
+				x=-7.76;
+				y=4.85;
+				z=0.4;
+				break;
+			}
+			
+			float X=(float) x;
+			float Y=(float) y;
+			float Z=(float) z;
+			
+			transformationMatrix.translate(new Vector3f(
+					X,
+					Z,
+					Y));
+			transformationMatrix.rotate(angle, new Vector3f(
+					0,
+					1,
+					0));
+			this.angle++;
+		}
 		shader.loadTransformationMatrix(transformationMatrix);
 	}
 

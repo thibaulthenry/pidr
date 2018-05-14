@@ -10,7 +10,8 @@ public class GuiManager {
 	
 	/* Record */ 
 	
-	public final static int loadingTexture = loader.loadTexture("record/loading");
+	public final static int encodingTexture = loader.loadTexture("record/encoding");
+	public final static int analysingTexture = loader.loadTexture("record/analysing");
 	
 	/* Buttons */
 	

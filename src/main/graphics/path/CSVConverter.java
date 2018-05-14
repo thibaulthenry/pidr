@@ -1,22 +1,25 @@
 package main.graphics.path;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.jcodec.api.awt.AWTSequenceEncoder;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import main.graphics.entities.Drone;
 import main.graphics.entities.Entity;
 import main.graphics.entities.Rotor;
 import main.graphics.entities.TrajectorySphere;
+import main.graphics.guis.GuiTexture;
 import main.graphics.recorder.SequenceEncoder;
 import main.graphics.renderer.DisplayRenderer;
 import main.graphics.terrains.Terrain;
+import main.parameters.DisplayParameters;
+import main.parameters.GuiManager;
 import main.parameters.TrajectoryManager;
 
 public class CSVConverter {
@@ -27,6 +30,9 @@ public class CSVConverter {
 	
 	private static int currentIndex = 0;
 	private static int sphereIndex = 0;
+	
+	private static List<Integer> fpsRange = new ArrayList<Integer>();
+	private static float startAnalyseTime = 0;
 
 	private static String[][] convert(String path){
 		String tab[][] = new String[7][];
@@ -128,12 +134,6 @@ public class CSVConverter {
 				Float.parseFloat(trajectory[5][index]) * 90);
 	}
 	
-	
-	
-	public static void calculateStep() {
-		trajectoryStep = (int) (1000 / (1/ DisplayRenderer.getFrameTimeSeconds()));
-	}
-	
 	public static void update(Drone drone, List<Entity> entities,Rotor rotor1,Rotor rotor2,Rotor rotor3,Rotor rotor4) {
 		drone.followSimulation(currentIndex);
 		rotor1.followSimulation(currentIndex,1);
@@ -153,6 +153,36 @@ public class CSVConverter {
 		} else {
 			currentIndex += trajectoryStep * TrajectoryManager.SIMULATION_SPEEDFACTOR;
 		}
+	}
+	
+	public static int analysePerformance(Boolean affectTrajectoryStep) {
+		float sum = 0;
+		for (Integer fps : fpsRange) {
+			if (fps < DisplayRenderer.FPS_CAP) sum += fps;
+		}
+
+		int averageFPS = (int) (sum / fpsRange.size());
+		if (affectTrajectoryStep) trajectoryStep = (int) (TrajectoryManager.dataEntryPerSimulationSecond / averageFPS);
+		SequenceEncoder.averageFPS = averageFPS;
+		fpsRange.clear();
+		return trajectoryStep;
+	}
+	
+	public static boolean mustCalculateCurrentFPS() {
+		return trajectoryStep == 0;
+	}
+	
+	public static boolean canAnalysePerformance() {
+		return (DisplayRenderer.getTimeSinceStart() - startAnalyseTime) > DisplayParameters.PERF_ANALYSE_DURATION;  
+	}
+	
+	public static void calculateCurrentFPS() {
+		if (startAnalyseTime == 0) startAnalyseTime = DisplayRenderer.getTimeSinceStart();
+		fpsRange.add(DisplayRenderer.getCurrentFPS());
+	}
+	
+	public static GuiTexture analysingGui() {
+		return new GuiTexture(GuiManager.analysingTexture, new Vector2f(0f,0f), new Vector2f(1f,1f));
 	}
 
 }

@@ -14,11 +14,15 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 
 import main.graphics.guis.GuiTexture;
+import main.graphics.path.CSVConverter;
 import main.parameters.DisplayParameters;
 import main.parameters.GuiManager;
 import main.parameters.RecordManager;
 
 public class SequenceEncoder {
+	
+	public static int averageFPS;
+	private static int screenshotIndex;
 	
 	private static AWTSequenceEncoder encoder = null;
 
@@ -37,16 +41,32 @@ public class SequenceEncoder {
 
 	}
 	
-	public static void screen() {
+	public static boolean canScreenshot() {
+		Boolean canScreenshot = false;
+		if ((screenshotIndex % RecordManager.SCREEENSHOT_MODULO) == 0) {
+			screenshotIndex = 1;
+			canScreenshot = true;
+		}
+		screenshotIndex++;
+		return canScreenshot;
+	}
+	
+	public static void screenshot() {
 		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(DisplayParameters.WINDOW_WIDTH * DisplayParameters.WINDOW_HEIGHT * 3);
 		GL11.glReadPixels(0, 0, DisplayParameters.WINDOW_WIDTH, DisplayParameters.WINDOW_HEIGHT, GL11.GL_RGB, GL11.GL_UNSIGNED_BYTE, byteBuffer);
-		byteBuffers.add(byteBuffer);
+		if (!CSVConverter.mustCalculateCurrentFPS()) byteBuffers.add(byteBuffer);
 	}
 	
 	public static void partitionEncoding() {
+		int index = 1;
 		if (encoder == null) {
+			File file = new File("resources/recording/record.mp4");
+			while (file.exists() && !file.isDirectory()) {
+				file = new File("resources/recording/record" + index + ".mp4");
+				index++;
+			}
 			try {
-				encoder = AWTSequenceEncoder.createSequenceEncoder(new File("resources/recording/record.mp4"), 24);
+				encoder = AWTSequenceEncoder.createSequenceEncoder(file, averageFPS / RecordManager.SCREEENSHOT_MODULO);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -93,11 +113,13 @@ public class SequenceEncoder {
 		}
 	}
 	
-	public static GuiTexture loadingGui() {
-		return new GuiTexture(GuiManager.loadingTexture, new Vector2f(0,0), new Vector2f(1,1));
+	public static GuiTexture encodingGui() {
+		return new GuiTexture(GuiManager.encodingTexture, new Vector2f(0f,0f), new Vector2f(1f,1f));
 	}
 	
 	public static boolean isEncodingNeeded() {
-		return (byteBuffers.size() > 200);
+		return (byteBuffers.size() > RecordManager.SCREENSHOT_NUMBER_BEFORE_ENCODING);
 	}
+
+
 }

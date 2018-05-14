@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 
 import main.graphics.entities.Camera;
 import main.graphics.entities.Drone;
@@ -31,11 +32,11 @@ public class Main {
 		MasterRenderer renderer = new MasterRenderer();
 		List<Entity> entities = new ArrayList<Entity>();
 		
-		Drone drone = new Drone(EntityManager.droneTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
-		Rotor rotor1 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
-		Rotor rotor2 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
-		Rotor rotor3 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
-		Rotor rotor4 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
+		Drone drone = new Drone(EntityManager.droneTexturedModel, TerrainManager.terrainCenter,0,0,0,4);
+		Rotor rotor1 = new Rotor(EntityManager.rotorTexturedModel, TerrainManager.terrainCenter,0,0,0,4);
+		Rotor rotor2 = new Rotor(EntityManager.rotorTexturedModel, TerrainManager.terrainCenter,0,0,0,4);
+		Rotor rotor3 = new Rotor(EntityManager.rotorTexturedModel, TerrainManager.terrainCenter,0,0,0,4);
+		Rotor rotor4 = new Rotor(EntityManager.rotorTexturedModel, TerrainManager.terrainCenter,0,0,0,4);
 		entities.add(drone);
 		entities.add(rotor1);
 		entities.add(rotor2);
@@ -59,17 +60,23 @@ public class Main {
 				break;
 			case SIMULATION:
 				if (SequenceEncoder.isEncodingNeeded()) {
-					renderer.processGui(new GuiTexture(GuiManager.loadingTexture, new Vector2f(0,0), new Vector2f(1,1)));
+					renderer.processGui(SequenceEncoder.encodingGui());
 					DisplayRenderer.state = State.ENCODING;
 				} else {
-					if (RecordManager.ACTIVATE_RECORD) SequenceEncoder.screen();
+					if (CSVConverter.mustCalculateCurrentFPS()) {
+						renderer.processGui(CSVConverter.analysingGui());
+						CSVConverter.calculateCurrentFPS();
+						if (CSVConverter.canAnalysePerformance()) {
+							CSVConverter.analysePerformance(true);
+						}
+					}
 				}
-				
+
 				renderer.renderScene(camera, entities);
 				CSVConverter.update(drone, entities, rotor1,rotor2,rotor3,rotor4);
 
+				if (RecordManager.ACTIVATE_RECORD && !SequenceEncoder.isEncodingNeeded()) SequenceEncoder.screenshot();
 				
-				//FPS//System.out.println(CSVConverter.trajectoryStep + "->" + (int) (1000 / (1/ DisplayRenderer.getFrameTimeSeconds())));
 				DisplayRenderer.updateDisplay();
 				break;
 			case ENCODING:

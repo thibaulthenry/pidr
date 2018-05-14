@@ -17,6 +17,7 @@ import main.graphics.guis.GuiTexture;
 import main.graphics.guis.buttons.Button;
 import main.graphics.models.TexturedModel;
 import main.graphics.path.CSVConverter;
+import main.graphics.recorder.SequenceEncoder;
 import main.graphics.shaders.GuiShader;
 import main.graphics.shaders.SkyShader;
 import main.graphics.shaders.StaticShader;
@@ -47,6 +48,7 @@ public class MasterRenderer {
 	private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
 	private List<Terrain> terrains = new ArrayList<Terrain>();
 	private List<GuiTexture> guis = new ArrayList<GuiTexture>();
+
 	private Light sun = new Light(new Vector3f(4000, 2000, 4000), TerrainManager.SUN_COLOR);
 	private Vector3f menuResetColor = new Vector3f(0, 0, 0);
 	
@@ -66,6 +68,8 @@ public class MasterRenderer {
 		this.skyRenderer = new SkyRenderer(skyShader, projectionMatrix, loader);
 	}
 	
+	
+	
 	public void renderMenu() {
 		prepare(menuResetColor);
 		
@@ -84,9 +88,6 @@ public class MasterRenderer {
 	}
 
 	public void render(Camera camera) {
-		if (DisplayRenderer.getTimeSinceStart() > 3 && CSVConverter.trajectoryStep == 0) {
-			CSVConverter.calculateStep();
-		}
 		prepare(TerrainManager.SKY_COLOR);
 		
 		shader.start();
@@ -144,6 +145,10 @@ public class MasterRenderer {
 	
 	public void processGui(GuiTexture gui) {
 		guis.add(gui);
+	}
+	
+	public void killGuis() {
+		guis.clear();
 	}
 	
 	public void cleanUp() {

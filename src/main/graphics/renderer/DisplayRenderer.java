@@ -19,7 +19,7 @@ import main.parameters.DisplayParameters;
 
 public class DisplayRenderer {
 	
-	private final static int FPS_CAP = 1000; 
+	public final static int FPS_CAP = 1000; 
 	
 	public static long startTime = getCurrentTime();
 	private static long lastFrameTime;
@@ -70,6 +70,10 @@ public class DisplayRenderer {
 
 	public static float getFrameTimeSeconds() {
 		return delta;
+	}
+	
+	public static int getCurrentFPS() {
+		return (int) (1 / delta);
 	}
 	
 	public static void closeDisplay() {

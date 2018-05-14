@@ -8,6 +8,11 @@ public class GuiManager {
 	
 	private static final Loader loader = new Loader();
 	
+	/* Record */ 
+	
+	public final static int encodingTexture = loader.loadTexture("record/encoding");
+	public final static int analysingTexture = loader.loadTexture("record/analysing");
+	
 	/* Buttons */
 	
 	public final static int recordTexture = loader.loadTexture("buttons/rightmenu/record");

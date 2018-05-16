@@ -16,8 +16,6 @@ import main.graphics.entities.Light;
 import main.graphics.guis.GuiTexture;
 import main.graphics.guis.buttons.Button;
 import main.graphics.models.TexturedModel;
-import main.graphics.path.CSVConverter;
-import main.graphics.recorder.SequenceEncoder;
 import main.graphics.shaders.GuiShader;
 import main.graphics.shaders.SkyShader;
 import main.graphics.shaders.StaticShader;

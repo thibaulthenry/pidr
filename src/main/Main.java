@@ -29,14 +29,14 @@ public class Main {
 		DisplayRenderer.createDisplay();
 		MasterRenderer renderer = new MasterRenderer();
 		List<Entity> entities = new ArrayList<Entity>();
-		Drone drone = new Drone(EntityManager.droneTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
-		Rotor rotor1 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
+		Drone drone = new Drone(EntityManager.droneTexturedModel, new Vector3f(4000,0,4000),0,0,0,TrajectoryManager.DroneSize);
+		Rotor rotor1 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,TrajectoryManager.DroneSize);
 		rotor1.setid(1);
-		Rotor rotor2 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
+		Rotor rotor2 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,TrajectoryManager.DroneSize);
 		rotor2.setid(2);
-		Rotor rotor3 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
+		Rotor rotor3 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,TrajectoryManager.DroneSize);
 		rotor3.setid(3);
-		Rotor rotor4 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,4);
+		Rotor rotor4 = new Rotor(EntityManager.rotorTexturedModel, new Vector3f(4000,0,4000),0,0,0,TrajectoryManager.DroneSize);
 		rotor4.setid(4);
 
 		entities.add(drone);

@@ -25,7 +25,7 @@ public class EntityManager {
 
 	/* Trajectory Sphere */
 	
-	private final static ModelData sphereModelData = OBJFileLoader.loadOBJ("sphereModel");
+	private final static ModelData sphereModelData = OBJFileLoader.loadOBJ("angry");
 	private final static RawModel sphereRawModel = loader.loadToVAO(sphereModelData.getVertices(),sphereModelData.getTextureCoords(),sphereModelData.getNormals(),  sphereModelData.getIndices());
 	public final static TexturedModel sphereTexturedModel = new TexturedModel(sphereRawModel, new ModelTexture(GuiManager.sphereTexture));
 

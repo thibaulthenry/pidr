@@ -28,13 +28,13 @@ public class CSVConverter {
 	public static int trajectorySize;
 	public static int trajectoryStep = 0;
 	
-	private static int currentIndex = 0;
+	public static int currentIndex = 0;
 	private static int sphereIndex = 0;
 	
 	private static List<Integer> fpsRange = new ArrayList<Integer>();
 	private static float startAnalyseTime = 0;
 
-	private static String[][] convert(String path){
+	public static String[][] convert(String path){
 		String tab[][] = new String[7][];
 		int i = 1;
 
@@ -74,7 +74,7 @@ public class CSVConverter {
 				Float.parseFloat(trajectory[2][index]) * TrajectoryManager.SIMULATION_SIZE_RATIO + Terrain.TERRAIN_CENTER);
 	}
 	
-	public static Vector3f getPositionRotor(int index,int numrotor) {
+	public static Vector3f getPositionRotor(int index) {
 		
 		return new Vector3f(
 				(Float.parseFloat(trajectory[1][index])) * TrajectoryManager.SIMULATION_SIZE_RATIO + Terrain.TERRAIN_CENTER,
@@ -99,13 +99,12 @@ public class CSVConverter {
 	
 	public static void update(Drone drone, List<Entity> entities,Rotor rotor1,Rotor rotor2,Rotor rotor3,Rotor rotor4) {
 		drone.followSimulation(currentIndex);
-		rotor1.followSimulation(currentIndex,1);
-		rotor2.followSimulation(currentIndex,2);
-		rotor3.followSimulation(currentIndex,3);
-		rotor4.followSimulation(currentIndex,4);
+		rotor1.followSimulation(currentIndex);
+		rotor2.followSimulation(currentIndex);
+		rotor3.followSimulation(currentIndex);
+		rotor4.followSimulation(currentIndex);
 
-		System.out.println(currentIndex - sphereIndex);
-		System.out.println(((1 / TrajectoryManager.SPHERE_SPAWN_FREQ) * trajectoryStep));
+	
 		if (sphereIndex == 0 || ((currentIndex - sphereIndex) == ((1 / TrajectoryManager.SPHERE_SPAWN_FREQ) * trajectoryStep))) {
 			
 			entities.add(new TrajectorySphere(currentIndex));

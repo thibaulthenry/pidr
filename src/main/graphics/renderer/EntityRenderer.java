@@ -14,15 +14,17 @@ import main.graphics.entities.Entity;
 import main.graphics.entities.Rotor;
 import main.graphics.models.RawModel;
 import main.graphics.models.TexturedModel;
+import main.graphics.path.CSVConverter;
 import main.graphics.shaders.StaticShader;
 import main.graphics.textures.ModelTexture;
 import main.graphics.toolbox.Maths;
+import main.parameters.TrajectoryManager;
 
 
 public class EntityRenderer {
 	
 	private StaticShader shader;
-	private int angle=0;
+	private static String[][] rotorRot = CSVConverter.convert("resources/simul/" + TrajectoryManager.CSV_ROTORS + ".csv");
 
 	public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix) {
 		this.shader = shader;
@@ -105,11 +107,10 @@ public class EntityRenderer {
 					X,
 					Z,
 					Y));
-			transformationMatrix.rotate(angle, new Vector3f(
+			transformationMatrix.rotate(Float.parseFloat(rotorRot[1][CSVConverter.currentIndex]), new Vector3f(
 					0,
 					1,
 					0));
-			this.angle++;
 		}
 		shader.loadTransformationMatrix(transformationMatrix);
 	}

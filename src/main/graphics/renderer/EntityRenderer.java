@@ -25,6 +25,14 @@ public class EntityRenderer {
 	
 	private StaticShader shader;
 	private static String[][] rotorRot = CSVConverter.convert("resources/simul/" + TrajectoryManager.CSV_ROTORS + ".csv");
+	private int previousi1=0;
+	private int previousi2=0;
+	private int previousi3=0;
+	private int previousi4=0;
+	private float angle1=0;
+	private float angle2=0;
+	private float angle3=0;
+	private float angle4=0;
 
 	public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix) {
 		this.shader = shader;
@@ -107,7 +115,46 @@ public class EntityRenderer {
 					X,
 					Z,
 					Y));
-			transformationMatrix.rotate(Float.parseFloat(rotorRot[1][CSVConverter.currentIndex]), new Vector3f(
+			
+			float nbrtourmoyen=0;
+			float angle;
+			switch(entity.getid()){
+			case 1:
+				for (int j=previousi1;j<CSVConverter.currentIndex;j++) {
+					nbrtourmoyen += Float.parseFloat(rotorRot[1][j]);
+				}
+				angle1=angle1+ (6 * nbrtourmoyen)/1000;
+				this.previousi1=CSVConverter.currentIndex;
+				angle=angle1;
+				break;
+			case 2:
+				for (int j=previousi2;j<CSVConverter.currentIndex;j++) {
+					nbrtourmoyen += Float.parseFloat(rotorRot[2][j]);
+				}
+				angle2=angle2+ (6 * nbrtourmoyen)/1000;
+				this.previousi2=CSVConverter.currentIndex;
+				angle=angle2;
+				break;
+			case 3:
+				for (int j=previousi3;j<CSVConverter.currentIndex;j++) {
+					nbrtourmoyen += Float.parseFloat(rotorRot[3][j]);
+				}
+				angle3=angle3+ (6 * nbrtourmoyen)/1000;
+				this.previousi3=CSVConverter.currentIndex;
+				angle=angle3;
+				break;
+			default:
+				for (int j=previousi4;j<CSVConverter.currentIndex;j++) {
+					nbrtourmoyen += Float.parseFloat(rotorRot[4][j]);
+				}
+				angle4=angle4+ (6 * nbrtourmoyen)/1000;
+				this.previousi4=CSVConverter.currentIndex;
+				angle=angle4;
+				break;
+			}
+			
+			
+			transformationMatrix.rotate(angle, new Vector3f(
 					0,
 					1,
 					0));

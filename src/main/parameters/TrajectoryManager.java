@@ -7,7 +7,7 @@ public class TrajectoryManager {
 	public final static int dataEntryPerSimulationSecond = 1000;
 	
 	
-	public static int SIMULATION_SPEEDFACTOR = 8;
+	public static int SIMULATION_SPEEDFACTOR = 1;
 	public static float SIMULATION_SIZE_RATIO = 100;
 	
 	public final static boolean ACTIVATE_SPHERE = false;

@@ -1,9 +1,16 @@
 package main.graphics.guis.buttons;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 
+import main.graphics.renderer.DisplayRenderer;
+
 abstract public class PressButton extends Button {
+	
+	protected List<PressButton> isLinkedTo = new ArrayList<PressButton>();
 	
 	public PressButton(Integer texture, Vector2f position, Vector2f scale) {
 		super(texture, position, scale);

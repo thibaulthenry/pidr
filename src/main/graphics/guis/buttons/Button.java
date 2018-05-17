@@ -8,6 +8,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 
 import main.graphics.guis.GuiTexture;
+import main.parameters.DisplayParameters;
 
 abstract public class Button implements IButton {
 
@@ -28,6 +29,8 @@ abstract public class Button implements IButton {
 	protected boolean isHovered = false;
 	protected boolean isPressed = false;
 	protected boolean isHidden = false;
+	
+	protected String buttonType = "quad";
 
 	public Button(Integer texture, Vector2f position, Vector2f scale) {
 		this.position = position;
@@ -45,7 +48,8 @@ abstract public class Button implements IButton {
 		float y;
 		
 		boolean isOn = false;
-		w = ((float) (scale.x) * Display.getWidth()) / 2;
+
+	    w = ((float) (scale.x) * Display.getWidth()) / 2;
 		h = ((float) (scale.y) * Display.getHeight()) / 2;
 		x = ((float) xCenter * Display.getWidth()) / 2;
 		y = ((float) yCenter * Display.getHeight()) / 2;
@@ -53,9 +57,18 @@ abstract public class Button implements IButton {
 				Mouse.getY() - Display.getHeight() / 2);
 		float ratioHW = (float) Display.getHeight() / Display.getWidth();
 
-		if (x - (ratioHW * w) < mouseCoords.x && x + (ratioHW * w) > mouseCoords.x && y - h < mouseCoords.y
-				&& y + h > mouseCoords.y) {
-			isOn = true;
+		if (buttonType.equals("quad")) {
+			if (x - (ratioHW * w) < mouseCoords.x && x + (ratioHW * w) > mouseCoords.x && y - h < mouseCoords.y
+					&& y + h > mouseCoords.y) {
+				isOn = true;
+			}
+
+		} else if (buttonType.equals("cycle")) {
+			if (x - (ratioHW * w) < mouseCoords.x && x + (ratioHW * w) > mouseCoords.x && y - h < mouseCoords.y
+					&& y + h > mouseCoords.y
+					&& Math.sqrt(Math.pow(x - mouseCoords.x, 2) + Math.pow(y - mouseCoords.y, 2)) < h) {
+				isOn = true;
+			}
 		}
 		return isOn;
 	}
@@ -72,14 +85,11 @@ abstract public class Button implements IButton {
 	}
 
 	public boolean checkLeftClick() {
-		if (Mouse.getEventButtonState()) {
-			if (Mouse.getEventButton() == 0) {
-				return true;
-			} else {
-				return false;
-			}
+		if (Mouse.isButtonDown(0) && Mouse.next()) {
+			return true;
+		} else {
+			return false;
 		}
-		return false;
 	}
 
 	public static void update() {

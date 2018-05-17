@@ -66,9 +66,7 @@ public class MasterRenderer {
 		this.skyRenderer = new SkyRenderer(skyShader, projectionMatrix, loader);
 	}
 	
-	
-	
-	public void renderMenu() {
+	public void renderOnlyGuis() {
 		prepare(menuResetColor);
 		
 		guiRenderer.render(guis);

@@ -3,6 +3,7 @@ package main;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 import org.lwjgl.util.vector.Vector3f;
@@ -11,6 +12,7 @@ import main.graphics.entities.Camera;
 import main.graphics.entities.Drone;
 import main.graphics.entities.Entity;
 import main.graphics.entities.Rotor;
+import main.graphics.guis.GuiScreens;
 import main.graphics.path.CSVConverter;
 import main.graphics.recorder.SequenceEncoder;
 import main.graphics.renderer.DisplayRenderer;
@@ -20,6 +22,7 @@ import main.parameters.ButtonManager;
 import main.parameters.DisplayParameters;
 import main.parameters.EntityManager;
 import main.parameters.RecordManager;
+import main.parameters.TrajectoryManager;
 
 
 public class Main {
@@ -52,9 +55,23 @@ public class Main {
 				if (DisplayParameters.ACTIVATE_MENU) {
 					ButtonManager.showStartMenuButtons();
 					
-					renderer.renderMenu();
+					GuiScreens.processMainMenu(renderer);
+					renderer.renderOnlyGuis();
 					
 					ButtonManager.hideStartMenuButtons();
+					DisplayRenderer.updateDisplay();
+				} else {
+					DisplayRenderer.state = State.SIMULATION;
+				}
+				break;
+			case SETTINGS:
+				if (DisplayParameters.ACTIVATE_MENU) {
+					ButtonManager.showSettingsMenuButtons();
+					
+					GuiScreens.processSettingsMenu(renderer);
+					renderer.renderOnlyGuis();
+					
+					ButtonManager.hideSettingsMenuButtons();
 					DisplayRenderer.updateDisplay();
 				} else {
 					DisplayRenderer.state = State.SIMULATION;
@@ -81,12 +98,12 @@ public class Main {
 				
 				DisplayRenderer.updateDisplay();
 				break;
+			case PAUSE:
+				break;
 			case ENCODING:
 				SequenceEncoder.partitionEncoding();
 				DisplayRenderer.state = State.SIMULATION;
 				break;
-				
-			
 			}
 		}
 

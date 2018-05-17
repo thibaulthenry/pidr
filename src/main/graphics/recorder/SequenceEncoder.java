@@ -16,7 +16,7 @@ import org.lwjgl.util.vector.Vector2f;
 import main.graphics.guis.GuiTexture;
 import main.graphics.path.CSVConverter;
 import main.parameters.DisplayParameters;
-import main.parameters.GuiManager;
+import main.parameters.TextureManager;
 import main.parameters.RecordManager;
 
 public class SequenceEncoder {
@@ -114,7 +114,7 @@ public class SequenceEncoder {
 	}
 	
 	public static GuiTexture encodingGui() {
-		return new GuiTexture(GuiManager.encodingTexture, new Vector2f(0f,0f), new Vector2f(1f,1f));
+		return new GuiTexture(TextureManager.encodingTexture, new Vector2f(0f,0f), new Vector2f(1f,1f));
 	}
 	
 	public static boolean isEncodingNeeded() {

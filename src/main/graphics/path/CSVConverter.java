@@ -19,7 +19,7 @@ import main.graphics.recorder.SequenceEncoder;
 import main.graphics.renderer.DisplayRenderer;
 import main.graphics.terrains.Terrain;
 import main.parameters.DisplayParameters;
-import main.parameters.GuiManager;
+import main.parameters.TextureManager;
 import main.parameters.TrajectoryManager;
 
 public class CSVConverter {
@@ -145,7 +145,7 @@ public class CSVConverter {
 	}
 	
 	public static GuiTexture analysingGui() {
-		return new GuiTexture(GuiManager.analysingTexture, new Vector2f(0f,0f), new Vector2f(1f,1f));
+		return new GuiTexture(TextureManager.analysingTexture, new Vector2f(0f,0f), new Vector2f(1f,1f));
 	}
 
 }

@@ -5,32 +5,21 @@ import java.util.List;
 
 import org.lwjgl.opengl.Display;
 
-import org.lwjgl.util.vector.Matrix4f;
-
-import org.lwjgl.util.vector.Vector2f;
-
 import org.lwjgl.util.vector.Vector3f;
 
 import main.graphics.entities.Camera;
 import main.graphics.entities.Drone;
 import main.graphics.entities.Entity;
 import main.graphics.entities.Rotor;
-import main.graphics.guis.GuiTexture;
 import main.graphics.path.CSVConverter;
 import main.graphics.recorder.SequenceEncoder;
 import main.graphics.renderer.DisplayRenderer;
 import main.graphics.renderer.MasterRenderer;
 import main.graphics.renderer.State;
-import main.graphics.terrains.Terrain;
-import main.graphics.toolbox.Maths;
 import main.parameters.ButtonManager;
 import main.parameters.DisplayParameters;
 import main.parameters.EntityManager;
-import main.parameters.GuiManager;
 import main.parameters.RecordManager;
-import main.parameters.TrajectoryManager;
-
-import main.parameters.TerrainManager;
 
 
 public class Main {

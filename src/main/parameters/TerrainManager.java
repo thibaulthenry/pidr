@@ -6,10 +6,10 @@ import main.graphics.terrains.Terrain;
 
 public class TerrainManager {
 	
-	public final static String HEIGHTMAP_FILENAME= "heightmap";
+	public final static String HEIGHTMAP_FILENAME= "flatmap";
 
 	public static final float TERRAIN_SIZE = 6000f;
-	public static final float TERRAIN_MAX_HEIGHT = 50f;
+	public static final float TERRAIN_MAX_HEIGHT = 150f;
 	
 	public static final float SKY_SIZE = 4000f;
 	

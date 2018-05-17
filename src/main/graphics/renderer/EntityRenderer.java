@@ -121,7 +121,7 @@ public class EntityRenderer {
 			switch(entity.getid()){
 			case 1:
 				for (int j=previousi1;j<CSVConverter.currentIndex;j++) {
-					nbrtourmoyen += Float.parseFloat(rotorRot[1][j]);
+					nbrtourmoyen += Float.parseFloat(rotorRot[2][j]);
 				}
 				angle1=angle1+ (6 * nbrtourmoyen)/1000;
 				this.previousi1=CSVConverter.currentIndex;
@@ -129,7 +129,7 @@ public class EntityRenderer {
 				break;
 			case 2:
 				for (int j=previousi2;j<CSVConverter.currentIndex;j++) {
-					nbrtourmoyen += Float.parseFloat(rotorRot[2][j]);
+					nbrtourmoyen += Float.parseFloat(rotorRot[3][j]);
 				}
 				angle2=angle2+ (6 * nbrtourmoyen)/1000;
 				this.previousi2=CSVConverter.currentIndex;
@@ -137,7 +137,7 @@ public class EntityRenderer {
 				break;
 			case 3:
 				for (int j=previousi3;j<CSVConverter.currentIndex;j++) {
-					nbrtourmoyen += Float.parseFloat(rotorRot[3][j]);
+					nbrtourmoyen += Float.parseFloat(rotorRot[1][j]);
 				}
 				angle3=angle3+ (6 * nbrtourmoyen)/1000;
 				this.previousi3=CSVConverter.currentIndex;

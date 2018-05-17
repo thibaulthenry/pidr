@@ -78,6 +78,7 @@ public class Main {
 				}
 				break;
 			case SIMULATION:
+				
 				if (SequenceEncoder.isEncodingNeeded()) {
 					renderer.processGui(SequenceEncoder.encodingGui());
 					DisplayRenderer.state = State.ENCODING;
@@ -90,6 +91,7 @@ public class Main {
 						}
 					}
 				}
+				
 
 				renderer.renderScene(camera, entities);
 				CSVConverter.update(drone, entities, rotor1,rotor2,rotor3,rotor4);

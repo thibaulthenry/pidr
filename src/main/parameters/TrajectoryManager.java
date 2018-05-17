@@ -14,7 +14,7 @@ public class TrajectoryManager {
 	public static float DroneSize = 4f;
 	
 	public static float SPHERE_SCALE = DroneSize/2;
-	public static double SPHERE_SPAWN_FREQ = 1;
+	public static double SPHERE_SPAWN_FREQ = 0.2;
 
 	
 }

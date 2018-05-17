@@ -20,6 +20,7 @@ import main.parameters.ButtonManager;
 import main.parameters.DisplayParameters;
 import main.parameters.EntityManager;
 import main.parameters.RecordManager;
+import main.parameters.TrajectoryManager;
 
 
 public class Main {

@@ -131,7 +131,7 @@ public class EntityRenderer {
 				for (int j=previousi2;j<CSVConverter.currentIndex;j++) {
 					nbrtourmoyen += Float.parseFloat(rotorRot[3][j]);
 				}
-				angle2=angle2+ (6 * nbrtourmoyen)/1000;
+				angle2=angle2- (6 * nbrtourmoyen)/1000;
 				this.previousi2=CSVConverter.currentIndex;
 				angle=angle2;
 				break;
@@ -139,7 +139,7 @@ public class EntityRenderer {
 				for (int j=previousi3;j<CSVConverter.currentIndex;j++) {
 					nbrtourmoyen += Float.parseFloat(rotorRot[1][j]);
 				}
-				angle3=angle3+ (6 * nbrtourmoyen)/1000;
+				angle3=angle3- (6 * nbrtourmoyen)/1000;
 				this.previousi3=CSVConverter.currentIndex;
 				angle=angle3;
 				break;
@@ -152,7 +152,7 @@ public class EntityRenderer {
 				angle=angle4;
 				break;
 			}
-			
+			angle=(float) ((float) angle*Math.PI/180);
 			
 			transformationMatrix.rotate(angle, new Vector3f(
 					0,

@@ -105,7 +105,7 @@ public class CSVConverter {
 		rotor4.followSimulation(currentIndex);
 
 	
-		if (sphereIndex == 0 || ((currentIndex - sphereIndex) == ((1 / TrajectoryManager.SPHERE_SPAWN_FREQ) * trajectoryStep))) {
+		if (sphereIndex == 0 || ((currentIndex - sphereIndex) >= ((1 / TrajectoryManager.SPHERE_SPAWN_FREQ) * trajectoryStep))) {
 			if (TrajectoryManager.ACTIVATE_SPHERE) entities.add(new TrajectorySphere(currentIndex));
 			sphereIndex = currentIndex;
 		}

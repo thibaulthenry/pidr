@@ -7,11 +7,9 @@ import org.lwjgl.util.vector.Vector2f;
 
 import main.graphics.renderer.DisplayRenderer;
 import main.graphics.renderer.State;
-import main.graphics.terrains.Terrain;
-import main.parameters.DisplayParameters;
+import main.parameters.CameraManager;
 import main.parameters.RecordManager;
 import main.parameters.TerrainManager;
-import main.parameters.TextureManager;
 import main.parameters.TrajectoryManager;
 
 public class ButtonCreation {
@@ -462,8 +460,7 @@ public class ButtonCreation {
 			@Override
 			public void onClick() {
 				playOnClickAnimation();
-				TerrainManager.HEIGHTMAP_FILENAME = "flatmap";
-				//TerrainManager.terrain = new Terrain(0,0, TextureManager.terrainTexturePack, TextureManager.blendmap, "terrain/" + TerrainManager.HEIGHTMAP_FILENAME);
+				TerrainManager.IS_HEIGHT = false;
 			}
 			
 			@Override
@@ -507,8 +504,7 @@ public class ButtonCreation {
 			@Override
 			public void onClick() {
 				playOnClickAnimation();
-				TerrainManager.HEIGHTMAP_FILENAME = "heightmap";
-				//TerrainManager.terrain = new Terrain(0,0, TextureManager.terrainTexturePack, TextureManager.blendmap, "terrain/" + TerrainManager.HEIGHTMAP_FILENAME);
+				TerrainManager.IS_HEIGHT = true;
 			}
 			
 			@Override
@@ -562,6 +558,7 @@ public class ButtonCreation {
 			@Override
 			public void onClick() {
 				playOnClickAnimation();
+				CameraManager.IS_FREE_CAMERA = true;
 			}
 			
 			@Override
@@ -605,6 +602,7 @@ public class ButtonCreation {
 			@Override
 			public void onClick() {
 				playOnClickAnimation();
+				CameraManager.IS_FREE_CAMERA = false;
 			}
 			
 			@Override
@@ -623,8 +621,8 @@ public class ButtonCreation {
 			}
 		};
 		
-		click1.isPressed = true;
-		click1.playOnClickAnimation();
+		click2.isPressed = true;
+		click2.playOnClickAnimation();
 		click1.isLinkedTo.add(click2);
 		click2.isLinkedTo.add(click1);
 

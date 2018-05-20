@@ -84,7 +84,7 @@ public class EntityRenderer {
 			double x;
 			double y;
 			double z;
-			switch(entity.getid()){
+			switch(entity.getId()){
 			case 1:
 				x=7.76;
 				y=-5.2;
@@ -118,7 +118,7 @@ public class EntityRenderer {
 			
 			float nbrtourmoyen=0;
 			float angle;
-			switch(entity.getid()){
+			switch(entity.getId()){
 			case 1:
 				for (int j=previousi1;j<CSVConverter.currentIndex;j++) {
 					nbrtourmoyen += Float.parseFloat(rotorRot[2][j]);

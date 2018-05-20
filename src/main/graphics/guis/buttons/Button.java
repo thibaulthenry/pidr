@@ -8,7 +8,6 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 
 import main.graphics.guis.GuiTexture;
-import main.parameters.DisplayParameters;
 
 abstract public class Button implements IButton {
 

@@ -6,8 +6,6 @@ import java.util.List;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 
-import main.graphics.renderer.DisplayRenderer;
-
 abstract public class PressButton extends Button {
 	
 	protected List<PressButton> isLinkedTo = new ArrayList<PressButton>();

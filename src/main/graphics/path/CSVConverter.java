@@ -10,15 +10,14 @@ import java.util.List;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import main.graphics.entities.Drone;
 import main.graphics.entities.Entity;
-import main.graphics.entities.Rotor;
 import main.graphics.entities.TrajectorySphere;
 import main.graphics.guis.GuiTexture;
 import main.graphics.recorder.SequenceEncoder;
 import main.graphics.renderer.DisplayRenderer;
 import main.graphics.terrains.Terrain;
-import main.parameters.DisplayParameters;
+import main.parameters.DisplayManager;
+import main.parameters.EntityManager;
 import main.parameters.TextureManager;
 import main.parameters.TrajectoryManager;
 
@@ -97,12 +96,12 @@ public class CSVConverter {
 				Float.parseFloat(trajectory[5][index]) * 90);
 	}
 	
-	public static void update(Drone drone, List<Entity> entities,Rotor rotor1,Rotor rotor2,Rotor rotor3,Rotor rotor4) {
-		drone.followSimulation(currentIndex);
-		rotor1.followSimulation(currentIndex);
-		rotor2.followSimulation(currentIndex);
-		rotor3.followSimulation(currentIndex);
-		rotor4.followSimulation(currentIndex);
+	public static void update(List<Entity> entities) {
+		Entity.getEntityById(entities, EntityManager.droneID).followSimulation(currentIndex);
+		Entity.getEntityById(entities, EntityManager.rotor1ID).followSimulation(currentIndex);
+		Entity.getEntityById(entities, EntityManager.rotor2ID).followSimulation(currentIndex);
+		Entity.getEntityById(entities, EntityManager.rotor3ID).followSimulation(currentIndex);
+		Entity.getEntityById(entities, EntityManager.rotor4ID).followSimulation(currentIndex);
 
 	
 		if (sphereIndex == 0 || ((currentIndex - sphereIndex) >= ((1 / TrajectoryManager.SPHERE_SPAWN_FREQ) * trajectoryStep))) {
@@ -112,9 +111,14 @@ public class CSVConverter {
 		if (currentIndex >= trajectorySize - trajectoryStep * TrajectoryManager.SIMULATION_SPEEDFACTOR - 1) {
 			currentIndex = 0;
 			sphereIndex = 0;
-			drone.clearAllWithoutDrone(entities);
+			Entity.clearAllWithoutDrone(entities);
 		} else {
 			currentIndex += trajectoryStep * TrajectoryManager.SIMULATION_SPEEDFACTOR;
+		}
+		
+		//Easter egg
+		if (TrajectorySphere.EASTER_EGG) {
+			for (Entity entity : entities) if (entity instanceof TrajectorySphere) entity.rotate(((TrajectorySphere) entity).getEasterEggRotation());
 		}
 	}
 	
@@ -136,7 +140,7 @@ public class CSVConverter {
 	}
 	
 	public static boolean canAnalysePerformance() {
-		return (DisplayRenderer.getTimeSinceStart() - startAnalyseTime) > DisplayParameters.PERF_ANALYSE_DURATION;  
+		return (DisplayRenderer.getTimeSinceStart() - startAnalyseTime) > DisplayManager.PERF_ANALYSE_DURATION;  
 	}
 	
 	public static void calculateCurrentFPS() {

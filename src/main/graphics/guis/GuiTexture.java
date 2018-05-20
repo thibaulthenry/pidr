@@ -2,7 +2,7 @@ package main.graphics.guis;
 
 import org.lwjgl.util.vector.Vector2f;
 
-import main.parameters.DisplayParameters;
+import main.parameters.DisplayManager;
 
 public class GuiTexture {
 	
@@ -26,7 +26,7 @@ public class GuiTexture {
 		this.texture = texture;
 		this.position = position;
 		this.isDisplayed = true;
-		this.scale = new Vector2f((float) powerOfTwo / DisplayParameters.WINDOW_WIDTH, (float) powerOfTwo / DisplayParameters.WINDOW_HEIGHT);
+		this.scale = new Vector2f((float) powerOfTwo / DisplayManager.WINDOW_WIDTH, (float) powerOfTwo / DisplayManager.WINDOW_HEIGHT);
 		this.isFullScreen = true;
 	}
 	
@@ -35,7 +35,7 @@ public class GuiTexture {
 		this.texture = texture;
 		this.position = new Vector2f(0,0);
 		this.isDisplayed = true;
-		this.scale = new Vector2f((float) powerOfTwo / DisplayParameters.WINDOW_WIDTH, (float) powerOfTwo / DisplayParameters.WINDOW_HEIGHT);
+		this.scale = new Vector2f((float) powerOfTwo / DisplayManager.WINDOW_WIDTH, (float) powerOfTwo / DisplayManager.WINDOW_HEIGHT);
 		this.isFullScreen = true;
 	}
 

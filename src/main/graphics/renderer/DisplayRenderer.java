@@ -15,7 +15,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
 import org.newdawn.slick.opengl.ImageIOImageData;
 
-import main.parameters.DisplayParameters;
+import main.parameters.DisplayManager;
 
 public class DisplayRenderer {
 	
@@ -26,7 +26,7 @@ public class DisplayRenderer {
 	private static float delta;
 	
 	
-	private static DisplayMode mode = new DisplayMode(DisplayParameters.WINDOW_WIDTH, DisplayParameters.WINDOW_HEIGHT);
+	private static DisplayMode mode = new DisplayMode(DisplayManager.WINDOW_WIDTH, DisplayManager.WINDOW_HEIGHT);
 	public static State state = State.MENU;
 
 	public static void createDisplay() {
@@ -38,8 +38,8 @@ public class DisplayRenderer {
 		ByteBuffer[] buffer = null;
 		try {
 			buffer = new ByteBuffer[] {
-			        new ImageIOImageData().imageToByteBuffer(ImageIO.read(new File("resources/textures/icon/" + DisplayParameters.WINDOW_ICON16_FILENAME)), false, true, null),
-			        new ImageIOImageData().imageToByteBuffer(ImageIO.read(new File("resources/textures/icon/" + DisplayParameters.WINDOW_ICON16_FILENAME)), false, true, null)
+			        new ImageIOImageData().imageToByteBuffer(ImageIO.read(new File("resources/textures/icon/" + DisplayManager.WINDOW_ICON16_FILENAME)), false, true, null),
+			        new ImageIOImageData().imageToByteBuffer(ImageIO.read(new File("resources/textures/icon/" + DisplayManager.WINDOW_ICON16_FILENAME)), false, true, null)
 			        };
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -47,16 +47,16 @@ public class DisplayRenderer {
 		
 		try {
 			Display.setDisplayMode(mode);
-			Display.setResizable(false);
+			Display.setResizable(true);
 			Display.setFullscreen(false);
 			Display.setVSyncEnabled(true);
-			Display.setTitle(DisplayParameters.WINDOW_TITLE);
+			Display.setTitle(DisplayManager.WINDOW_TITLE);
 			Display.setIcon(buffer);
 			Display.create(new PixelFormat(), attribs);
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
-		GL11.glViewport(0, 0, DisplayParameters.WINDOW_WIDTH, DisplayParameters.WINDOW_HEIGHT);
+		GL11.glViewport(0, 0, DisplayManager.WINDOW_WIDTH, DisplayManager.WINDOW_HEIGHT);
 		lastFrameTime = getCurrentTime();
 	}
 	

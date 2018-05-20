@@ -43,6 +43,7 @@ public class TextureManager {
 	public final static int droneTexture = loader.loadTexture("entities/white");
 	public final static int rotorTexture = loader.loadTexture("entities/white");
 	public final static int sphereTexture = loader.loadTexture("entities/red");
+	public final static int voidTexture = loader.loadTexture("entities/void");
 	
 	/* Terrain */
 	

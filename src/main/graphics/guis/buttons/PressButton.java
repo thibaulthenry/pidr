@@ -6,8 +6,6 @@ import java.util.List;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 
-import main.graphics.renderer.DisplayRenderer;
-
 abstract public class PressButton extends Button {
 	
 	protected List<PressButton> isLinkedTo = new ArrayList<PressButton>();
@@ -19,6 +17,17 @@ abstract public class PressButton extends Button {
 	public abstract void whilePressed();
 	public abstract void afterPressed();
 
+	public boolean isOnAnyOther() {
+		for (Button b : isLinkedTo) {
+			if (b != this) {
+				if (b.isOn()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	public void updateState() {
 		if (!isHidden) {
 			if (!isPressed) {

@@ -15,7 +15,7 @@ import org.lwjgl.util.vector.Vector2f;
 
 import main.graphics.guis.GuiTexture;
 import main.graphics.path.CSVConverter;
-import main.parameters.DisplayParameters;
+import main.parameters.DisplayManager;
 import main.parameters.TextureManager;
 import main.parameters.RecordManager;
 
@@ -52,8 +52,8 @@ public class SequenceEncoder {
 	}
 	
 	public static void screenshot() {
-		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(DisplayParameters.WINDOW_WIDTH * DisplayParameters.WINDOW_HEIGHT * 3);
-		GL11.glReadPixels(0, 0, DisplayParameters.WINDOW_WIDTH, DisplayParameters.WINDOW_HEIGHT, GL11.GL_RGB, GL11.GL_UNSIGNED_BYTE, byteBuffer);
+		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(DisplayManager.WINDOW_WIDTH * DisplayManager.WINDOW_HEIGHT * 3);
+		GL11.glReadPixels(0, 0, DisplayManager.WINDOW_WIDTH, DisplayManager.WINDOW_HEIGHT, GL11.GL_RGB, GL11.GL_UNSIGNED_BYTE, byteBuffer);
 		if (!CSVConverter.mustCalculateCurrentFPS()) byteBuffers.add(byteBuffer);
 	}
 	
@@ -72,8 +72,8 @@ public class SequenceEncoder {
 			}
 		}
 
-		int[] pixels = new int[DisplayParameters.WINDOW_WIDTH * DisplayParameters.WINDOW_HEIGHT];
-		BufferedImage screenShot = new BufferedImage(DisplayParameters.WINDOW_WIDTH, DisplayParameters.WINDOW_HEIGHT,BufferedImage.TYPE_INT_RGB);
+		int[] pixels = new int[DisplayManager.WINDOW_WIDTH * DisplayManager.WINDOW_HEIGHT];
+		BufferedImage screenShot = new BufferedImage(DisplayManager.WINDOW_WIDTH, DisplayManager.WINDOW_HEIGHT,BufferedImage.TYPE_INT_RGB);
 		int bindex;
 		
 		for (ByteBuffer byteBuffer : byteBuffers) {
@@ -85,7 +85,7 @@ public class SequenceEncoder {
 						((byteBuffer.get(bindex+2) << 0));
 			}
 
-			screenShot.setRGB(0, 0, DisplayParameters.WINDOW_WIDTH, DisplayParameters.WINDOW_HEIGHT, pixels, 0 , DisplayParameters.WINDOW_WIDTH);
+			screenShot.setRGB(0, 0, DisplayManager.WINDOW_WIDTH, DisplayManager.WINDOW_HEIGHT, pixels, 0 , DisplayManager.WINDOW_WIDTH);
 			
 			AffineTransform affineTransform =  AffineTransform.getScaleInstance(1, -1);
 			affineTransform.translate(0, -screenShot.getHeight(null));

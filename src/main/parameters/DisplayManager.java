@@ -1,6 +1,6 @@
 package main.parameters;
 
-public class DisplayParameters {
+public class DisplayManager {
 	
 	public final static String WINDOW_TITLE = "3Drone Simulator";
 	public final static String WINDOW_ICON16_FILENAME = "icon16.png";

@@ -6,6 +6,7 @@ import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
 
 import main.graphics.models.TexturedModel;
+import main.graphics.path.CSVConverter;
 
 public class Entity {
 	
@@ -13,8 +14,8 @@ public class Entity {
 	private Vector3f position;
 	private float rotX, rotY, rotZ;
 	private float scale;
-	private int id;
-	
+	private int id = -1;
+
 	public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
 		super();
 		this.model = model;
@@ -23,11 +24,6 @@ public class Entity {
 		this.rotY = rotY;
 		this.rotZ = rotZ;
 		this.scale = scale;
-	}
-	
-	public void clearAllWithoutDrone(List<Entity> entities) {
-		List<Entity> copy = new ArrayList<Entity>(entities);
-		for (Entity entity : copy) if (!(entity instanceof Drone) && !( entity instanceof Rotor)) entities.remove(entity);
 	}
 	
 	public void move(float dx, float dy, float dz) {
@@ -40,6 +36,12 @@ public class Entity {
 		this.rotX+=dx;
 		this.rotY+=dy;
 		this.rotZ+=dz;
+	}
+	
+	public void rotate(Vector3f rotation) {
+		this.rotX+=rotation.x;
+		this.rotY+=rotation.y;
+		this.rotZ+=rotation.z;
 	}
 	
 	public TexturedModel getModel() {
@@ -95,11 +97,29 @@ public class Entity {
 	public void setScale(float scale) {
 		this.scale = scale;
 	}
-	public void setid(int id) {
-		this.id=id;
+	
+	public int getId() {
+		return id;
 	}
-	public int getid() {
-		return this.id;
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public void followSimulation(int index) {
+		this.setPosition(CSVConverter.getPosition(index));
+		this.setRotation(CSVConverter.getRotation(index));
+	} 
+	
+	public static void clearAllWithoutDrone(List<Entity> entities) {
+		List<Entity> copy = new ArrayList<Entity>(entities);
+		for (Entity entity : copy) if (!(entity instanceof Drone) && !( entity instanceof Rotor)) entities.remove(entity);
+	}
+	
+	public static Entity getEntityById(List<Entity> entities, int id) {
+		for (Entity entity : entities) if (entity.getId() != -1 && entity.getId() == id) return entity;
+		System.err.println("Doesn't found entity id in entity list");
+		return null;
 	}
 
 }

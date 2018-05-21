@@ -76,7 +76,7 @@ public class MasterRenderer {
 	}
 	
 	public void renderScene(Camera camera, List<Entity> entities) {
-		processTerrain(TerrainManager.terrain);
+		processTerrain(TerrainManager.getTerrain());
 		for (Entity entity : entities) processEntity(entity);
 		camera.move();
 		Button.update();

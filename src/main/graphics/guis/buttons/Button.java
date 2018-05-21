@@ -8,7 +8,6 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 
 import main.graphics.guis.GuiTexture;
-import main.parameters.DisplayParameters;
 
 abstract public class Button implements IButton {
 
@@ -71,17 +70,6 @@ abstract public class Button implements IButton {
 			}
 		}
 		return isOn;
-	}
-	
-	public boolean isOnAnyOther() {
-		for (Button b : buttons) {
-			if (b != this) {
-				if (b.isOn()) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	public boolean checkLeftClick() {

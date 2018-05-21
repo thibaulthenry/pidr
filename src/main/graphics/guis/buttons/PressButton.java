@@ -17,6 +17,17 @@ abstract public class PressButton extends Button {
 	public abstract void whilePressed();
 	public abstract void afterPressed();
 
+	public boolean isOnAnyOther() {
+		for (Button b : isLinkedTo) {
+			if (b != this) {
+				if (b.isOn()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	public void updateState() {
 		if (!isHidden) {
 			if (!isPressed) {

@@ -116,6 +116,7 @@ public class ButtonCreation {
 			public void onClick() {
 				DisplayRenderer.state = State.SETTINGS;
 				playOnClickAnimation();
+				for (Button pressButton : isLinkedTo) if (pressButton.isPressed) pressButton.isPressed = false;
 			}
 			
 			@Override
@@ -163,6 +164,10 @@ public class ButtonCreation {
 			@Override
 			public void onClick() {
 				playOnClickAnimation();
+				for (Button pressButton : isLinkedTo) if (pressButton.isPressed) {
+					pressButton.playOnStopHoverAnimation();
+					pressButton.isPressed = false;
+				}
 				RecordManager.ACTIVATE_RECORD = true;
 			}
 			
@@ -174,7 +179,6 @@ public class ButtonCreation {
 			@Override
 			public void whilePressed() {
 				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
-				for (PressButton pressButton : isLinkedTo) if (pressButton.isPressed) isPressed = false;
 			}
 
 			@Override
@@ -207,6 +211,10 @@ public class ButtonCreation {
 			@Override
 			public void onClick() {
 				playOnClickAnimation();
+				for (Button pressButton : isLinkedTo) if (pressButton.isPressed) {
+					pressButton.playOnStopHoverAnimation();
+					pressButton.isPressed = false;
+				}
 				RecordManager.ACTIVATE_RECORD = false;
 			}
 			
@@ -218,7 +226,6 @@ public class ButtonCreation {
 			@Override
 			public void whilePressed() {
 				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
-				for (PressButton pressButton : isLinkedTo) if (pressButton.isPressed) isPressed = false;
 			}
 
 			@Override
@@ -261,6 +268,10 @@ public class ButtonCreation {
 			@Override
 			public void onClick() {
 				playOnClickAnimation();
+				for (Button pressButton : isLinkedTo) if (pressButton.isPressed) {
+					pressButton.playOnStopHoverAnimation();
+					pressButton.isPressed = false;
+				}
 				TrajectoryManager.SIMULATION_SPEEDFACTOR = 2;
 			}
 			
@@ -271,18 +282,14 @@ public class ButtonCreation {
 
 			@Override
 			public void whilePressed() {
-				Boolean nonePressed = true;
-				
 				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
-				for (PressButton pressButton : isLinkedTo) if (pressButton.isPressed) {
-					isPressed = false;
-					nonePressed = false;
-				}
-				if (nonePressed) TrajectoryManager.SIMULATION_SPEEDFACTOR = 1;
 			}
 
 			@Override
 			public void afterPressed() {
+				Boolean nonePressed = true;
+				for (Button pressButton : isLinkedTo) if (pressButton.isPressed) nonePressed = false; 
+				if (nonePressed) TrajectoryManager.SIMULATION_SPEEDFACTOR = 1;
 			}
 		};
 		
@@ -311,6 +318,10 @@ public class ButtonCreation {
 			@Override
 			public void onClick() {
 				playOnClickAnimation();
+				for (Button pressButton : isLinkedTo) if (pressButton.isPressed) {
+					pressButton.playOnStopHoverAnimation();
+					pressButton.isPressed = false;
+				}
 				TrajectoryManager.SIMULATION_SPEEDFACTOR = 5;
 			}
 			
@@ -322,11 +333,13 @@ public class ButtonCreation {
 			@Override
 			public void whilePressed() {
 				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
-				for (PressButton pressButton : isLinkedTo) if (pressButton.isPressed) isPressed = false;
 			}
 
 			@Override
 			public void afterPressed() {
+				Boolean nonePressed = true;
+				for (Button pressButton : isLinkedTo) if (pressButton.isPressed) nonePressed = false; 
+				if (nonePressed) TrajectoryManager.SIMULATION_SPEEDFACTOR = 1;
 			}
 		};
 		
@@ -362,6 +375,10 @@ public class ButtonCreation {
 			@Override
 			public void onClick() {
 				playOnClickAnimation();
+				for (Button pressButton : isLinkedTo) if (pressButton.isPressed) {
+					pressButton.playOnStopHoverAnimation();
+					pressButton.isPressed = false;
+				}
 				TrajectoryManager.ACTIVATE_SPHERE = true;
 			}
 			
@@ -373,7 +390,6 @@ public class ButtonCreation {
 			@Override
 			public void whilePressed() {
 				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
-				for (PressButton pressButton : isLinkedTo) if (pressButton.isPressed) isPressed = false;
 			}
 
 			@Override
@@ -406,6 +422,10 @@ public class ButtonCreation {
 			@Override
 			public void onClick() {
 				playOnClickAnimation();
+				for (Button pressButton : isLinkedTo) if (pressButton.isPressed) {
+					pressButton.playOnStopHoverAnimation();
+					pressButton.isPressed = false;
+				}
 				TrajectoryManager.ACTIVATE_SPHERE = false;
 			}
 			
@@ -417,7 +437,6 @@ public class ButtonCreation {
 			@Override
 			public void whilePressed() {
 				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
-				for (PressButton pressButton : isLinkedTo) if (pressButton.isPressed) isPressed = false;
 			}
 
 			@Override
@@ -460,6 +479,10 @@ public class ButtonCreation {
 			@Override
 			public void onClick() {
 				playOnClickAnimation();
+				for (Button pressButton : isLinkedTo) if (pressButton.isPressed) {
+					pressButton.playOnStopHoverAnimation();
+					pressButton.isPressed = false;
+				}
 				TerrainManager.IS_HEIGHT = false;
 			}
 			
@@ -471,7 +494,6 @@ public class ButtonCreation {
 			@Override
 			public void whilePressed() {
 				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
-				for (PressButton pressButton : isLinkedTo) if (pressButton.isPressed) isPressed = false;
 			}
 
 			@Override
@@ -504,6 +526,10 @@ public class ButtonCreation {
 			@Override
 			public void onClick() {
 				playOnClickAnimation();
+				for (Button pressButton : isLinkedTo) if (pressButton.isPressed) {
+					pressButton.playOnStopHoverAnimation();
+					pressButton.isPressed = false;
+				}
 				TerrainManager.IS_HEIGHT = true;
 			}
 			
@@ -515,7 +541,6 @@ public class ButtonCreation {
 			@Override
 			public void whilePressed() {
 				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
-				for (PressButton pressButton : isLinkedTo) if (pressButton.isPressed) isPressed = false;
 			}
 
 			@Override
@@ -558,6 +583,10 @@ public class ButtonCreation {
 			@Override
 			public void onClick() {
 				playOnClickAnimation();
+				for (Button pressButton : isLinkedTo) if (pressButton.isPressed) {
+					pressButton.playOnStopHoverAnimation();
+					pressButton.isPressed = false;
+				}
 				CameraManager.IS_FREE_CAMERA = true;
 			}
 			
@@ -569,7 +598,6 @@ public class ButtonCreation {
 			@Override
 			public void whilePressed() {
 				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
-				for (PressButton pressButton : isLinkedTo) if (pressButton.isPressed) isPressed = false;
 			}
 
 			@Override
@@ -602,6 +630,10 @@ public class ButtonCreation {
 			@Override
 			public void onClick() {
 				playOnClickAnimation();
+				for (Button pressButton : isLinkedTo) if (pressButton.isPressed) {
+					pressButton.playOnStopHoverAnimation();
+					pressButton.isPressed = false;
+				}
 				CameraManager.IS_FREE_CAMERA = false;
 			}
 			
@@ -613,7 +645,6 @@ public class ButtonCreation {
 			@Override
 			public void whilePressed() {
 				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
-				for (PressButton pressButton : isLinkedTo) if (pressButton.isPressed) isPressed = false;
 			}
 
 			@Override

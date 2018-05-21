@@ -17,6 +17,7 @@ import main.parameters.CameraManager;
 import main.parameters.DisplayManager;
 import main.parameters.EntityManager;
 import main.parameters.RecordManager;
+import main.parameters.TrajectoryManager;
 
 
 public class Main {

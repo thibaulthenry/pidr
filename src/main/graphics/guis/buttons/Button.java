@@ -71,17 +71,6 @@ abstract public class Button implements IButton {
 		}
 		return isOn;
 	}
-	
-	public boolean isOnAnyOther() {
-		for (Button b : buttons) {
-			if (b != this) {
-				if (b.isOn()) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
 
 	public boolean checkLeftClick() {
 		if (Mouse.isButtonDown(0) && Mouse.next()) {

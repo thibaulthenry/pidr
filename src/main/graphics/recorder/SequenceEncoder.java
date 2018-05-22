@@ -13,11 +13,16 @@ import org.jcodec.api.awt.AWTSequenceEncoder;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 
+import main.graphics.entities.Entity;
 import main.graphics.guis.GuiTexture;
 import main.graphics.path.CSVConverter;
+import main.graphics.renderer.DisplayRenderer;
+import main.graphics.renderer.MasterRenderer;
+import main.parameters.ButtonManager;
+import main.parameters.CameraManager;
 import main.parameters.DisplayManager;
-import main.parameters.TextureManager;
 import main.parameters.RecordManager;
+import main.parameters.TextureManager;
 
 public class SequenceEncoder {
 	
@@ -103,7 +108,15 @@ public class SequenceEncoder {
 		System.gc();
 	}
 	
-	public static void makeVideo() {
+	public static void makeVideo(MasterRenderer renderer, List<Entity> entities) {
+		if (byteBuffers.size() > 0) {
+			renderer.processGui(SequenceEncoder.encodingGui());
+			ButtonManager.hideLateralMenuButtons();
+			renderer.renderScene(CameraManager.getCamera(entities), entities);
+			DisplayRenderer.updateDisplay();
+			partitionEncoding();
+		}
+		
 		if (encoder != null) {
 			try {
 				encoder.finish();

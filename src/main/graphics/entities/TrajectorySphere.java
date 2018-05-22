@@ -11,7 +11,7 @@ import main.parameters.TrajectoryManager;
 
 public class TrajectorySphere extends Entity {
 	
-	public static boolean EASTER_EGG = true;
+	public static boolean EASTER_EGG = false;
 	private Vector3f easterEggRotation = new Vector3f(randomEgg(), randomEgg(), randomEgg());
 
 	public static TrajectorySphere createSphere(int index) {

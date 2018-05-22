@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.lwjgl.util.vector.Vector2f;
 
+import main.graphics.entities.TrajectorySphere;
 import main.graphics.renderer.DisplayRenderer;
 import main.graphics.renderer.State;
+import main.parameters.ButtonManager;
 import main.parameters.CameraManager;
 import main.parameters.RecordManager;
 import main.parameters.TerrainManager;
@@ -14,42 +16,7 @@ import main.parameters.TrajectoryManager;
 
 public class ButtonCreation {
 	
-	public static PressButton createRecordButton(int texture, int hoverTexture,  Vector2f position, Vector2f baseScale, Vector2f hoverScale) {
-		PressButton press = new PressButton(texture, position, baseScale) {
-			
-			@Override
-			public void playOnStopHoverAnimation() {
-				guiTexture.setScale(baseScale);
-				guiTexture.setTexture(texture);
-			}
-			
-			@Override
-			public void playOnStartHoverAnimation() {
-				guiTexture.setScale(hoverScale);
-				guiTexture.setTexture(hoverTexture);
-			}
-			
-			@Override
-			public void playOnClickAnimation() {}
-			
-			@Override
-			public void playAfterClickAnimation() {}
-			
-			@Override
-			public void onClick() {}
-			
-			@Override
-			public void afterClick() {}
-
-			@Override
-			public void whilePressed() {}
-
-			@Override
-			public void afterPressed() {}
-		};
-		
-		return press;
-	}
+	/* Menu */
 	
 	public static ClickButton createStartButton(int texture, int hoverTexture, int clickTexture, Vector2f position, Vector2f scale) {
 		ClickButton click = new ClickButton(texture, position, scale) {
@@ -137,6 +104,8 @@ public class ButtonCreation {
 		
 		return click;
 	}
+	
+	/* Settings */
 	
 	public static List<PressButton> createRecordSettingButton(int texture, int hoverTexture, int clickTexture, Vector2f position1, Vector2f scale1, Vector2f position2, Vector2f scale2) {
 		PressButton click1 = new PressButton(texture, position1, scale1) {
@@ -661,4 +630,455 @@ public class ButtonCreation {
 		return Arrays.asList(buttons);
 	}
 
+	/* Lateral */
+	
+	public static PressButton createRecordButton(int texture, int hoverTexture, int clickTexture, Vector2f position, Vector2f scale) {
+		PressButton press = new PressButton(texture, position, scale) {
+			
+			@Override
+			public void playOnStopHoverAnimation() {
+				guiTexture.setTexture(texture);
+			}
+			
+			@Override
+			public void playOnStartHoverAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void playOnClickAnimation() {
+				guiTexture.setTexture(clickTexture);
+			}
+			
+			@Override
+			public void playAfterClickAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void onClick() {
+				playOnClickAnimation();
+				RecordManager.ACTIVATE_RECORD = true;
+			}
+			
+			@Override
+			public void afterClick() {
+				playAfterClickAnimation();
+			}
+
+			@Override
+			public void whilePressed() {
+				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
+			}
+
+			@Override
+			public void afterPressed() {
+				RecordManager.ACTIVATE_RECORD = false;
+			}
+			
+		};
+		
+		press.buttonType = "cycle";
+
+		return press;
+	}
+
+	public static ClickButton createUpSpeedButton(int texture, int hoverTexture, int clickTexture, Vector2f position, Vector2f scale) {
+		ClickButton click = new ClickButton(texture, position, scale) {
+			
+			@Override
+			public void playOnStopHoverAnimation() {
+				guiTexture.setTexture(texture);
+			}
+			
+			@Override
+			public void playOnStartHoverAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void playOnClickAnimation() {
+				guiTexture.setTexture(clickTexture);
+			}
+			
+			@Override
+			public void playAfterClickAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void onClick() {
+				playOnClickAnimation();
+				if (TrajectoryManager.SIMULATION_SPEEDFACTOR == 1) {
+					TrajectoryManager.SIMULATION_SPEEDFACTOR = 2;
+				} else if (TrajectoryManager.SIMULATION_SPEEDFACTOR == 2) {
+					TrajectoryManager.SIMULATION_SPEEDFACTOR = 5;
+				} else {
+					ButtonManager.to1SpeedButton.show();
+					hide();	
+				}
+			}
+			
+			@Override
+			public void afterClick() {
+				playAfterClickAnimation();
+			}
+		};
+		
+		return click;
+	}
+	
+	public static ClickButton createto1SpeedButton(int texture, int hoverTexture, int clickTexture, Vector2f position, Vector2f scale) {
+		ClickButton click = new ClickButton(texture, position, scale) {
+			
+			@Override
+			public void playOnStopHoverAnimation() {
+				guiTexture.setTexture(texture);
+			}
+			
+			@Override
+			public void playOnStartHoverAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void playOnClickAnimation() {
+				guiTexture.setTexture(clickTexture);
+			}
+			
+			@Override
+			public void playAfterClickAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void onClick() {
+				TrajectoryManager.SIMULATION_SPEEDFACTOR = 1;
+				playOnClickAnimation();
+				ButtonManager.upSpeedButton.show();
+				hide();
+			}
+			
+			@Override
+			public void afterClick() {
+				playAfterClickAnimation();
+			}
+		};
+		
+		return click;
+	}
+	
+	public static ClickButton createMountainButton(int texture, int hoverTexture, int clickTexture, Vector2f position, Vector2f scale) {
+		ClickButton click = new ClickButton(texture, position, scale) {
+			
+			@Override
+			public void playOnStopHoverAnimation() {
+				guiTexture.setTexture(texture);
+			}
+			
+			@Override
+			public void playOnStartHoverAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void playOnClickAnimation() {
+				guiTexture.setTexture(clickTexture);
+			}
+			
+			@Override
+			public void playAfterClickAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void onClick() {
+				playOnClickAnimation();
+				TerrainManager.IS_HEIGHT = true;
+				ButtonManager.flatButton.show();
+				hide();	
+			}
+			
+			@Override
+			public void afterClick() {
+				playAfterClickAnimation();
+			}
+		};
+		
+		return click;
+	}
+	
+	public static ClickButton createFlatButton(int texture, int hoverTexture, int clickTexture, Vector2f position, Vector2f scale) {
+		ClickButton click = new ClickButton(texture, position, scale) {
+			
+			@Override
+			public void playOnStopHoverAnimation() {
+				guiTexture.setTexture(texture);
+			}
+			
+			@Override
+			public void playOnStartHoverAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void playOnClickAnimation() {
+				guiTexture.setTexture(clickTexture);
+			}
+			
+			@Override
+			public void playAfterClickAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void onClick() {
+				playOnClickAnimation();
+				TerrainManager.IS_HEIGHT = false;
+				ButtonManager.mountainButton.show();
+				hide();	
+			}
+			
+			@Override
+			public void afterClick() {
+				playAfterClickAnimation();
+			}
+		};
+		
+		return click;
+	}
+	
+	public static PressButton createPauseButton(int texture, int hoverTexture, int clickTexture, Vector2f position, Vector2f scale) {
+		PressButton press = new PressButton(texture, position, scale) {
+			
+			@Override
+			public void playOnStopHoverAnimation() {
+				guiTexture.setTexture(texture);
+			}
+			
+			@Override
+			public void playOnStartHoverAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void playOnClickAnimation() {
+				guiTexture.setTexture(clickTexture);
+			}
+			
+			@Override
+			public void playAfterClickAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void onClick() {
+				playOnClickAnimation();
+				DisplayRenderer.state = State.PAUSE;
+			}
+			
+			@Override
+			public void afterClick() {
+				playAfterClickAnimation();
+			}
+
+			@Override
+			public void whilePressed() {
+				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
+			}
+
+			@Override
+			public void afterPressed() {
+				DisplayRenderer.state = State.SIMULATION;
+			}
+			
+		};
+		
+		press.buttonType = "cycle";
+
+		return press;
+	}
+	
+	public static ClickButton createCameraLockedButton(int texture, int hoverTexture, int clickTexture, Vector2f position, Vector2f scale) {
+		ClickButton click = new ClickButton(texture, position, scale) {
+			
+			@Override
+			public void playOnStopHoverAnimation() {
+				guiTexture.setTexture(texture);
+			}
+			
+			@Override
+			public void playOnStartHoverAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void playOnClickAnimation() {
+				guiTexture.setTexture(clickTexture);
+			}
+			
+			@Override
+			public void playAfterClickAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void onClick() {
+				playOnClickAnimation();
+				CameraManager.IS_FREE_CAMERA = false;
+				ButtonManager.cameraButton.show();
+				hide();	
+			}
+			
+			@Override
+			public void afterClick() {
+				playAfterClickAnimation();
+			}
+		};
+		
+		return click;
+	}
+	
+	public static ClickButton createCameraButton(int texture, int hoverTexture, int clickTexture, Vector2f position, Vector2f scale) {
+		ClickButton click = new ClickButton(texture, position, scale) {
+			
+			@Override
+			public void playOnStopHoverAnimation() {
+				guiTexture.setTexture(texture);
+			}
+			
+			@Override
+			public void playOnStartHoverAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void playOnClickAnimation() {
+				guiTexture.setTexture(clickTexture);
+			}
+			
+			@Override
+			public void playAfterClickAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void onClick() {
+				playOnClickAnimation();
+				CameraManager.IS_FREE_CAMERA = true;
+				ButtonManager.cameraLockedButton.show();
+				hide();	
+			}
+			
+			@Override
+			public void afterClick() {
+				playAfterClickAnimation();
+			}
+		};
+		
+		return click;
+	}
+
+	public static PressButton createBeaconButton(int texture, int hoverTexture, int clickTexture, Vector2f position, Vector2f scale) {
+		PressButton press = new PressButton(texture, position, scale) {
+			
+			@Override
+			public void playOnStopHoverAnimation() {
+				guiTexture.setTexture(texture);
+			}
+			
+			@Override
+			public void playOnStartHoverAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void playOnClickAnimation() {
+				guiTexture.setTexture(clickTexture);
+			}
+			
+			@Override
+			public void playAfterClickAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void onClick() {
+				playOnClickAnimation();
+				TrajectoryManager.ACTIVATE_SPHERE = true;
+			}
+			
+			@Override
+			public void afterClick() {
+				playAfterClickAnimation();
+			}
+
+			@Override
+			public void whilePressed() {
+				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
+			}
+
+			@Override
+			public void afterPressed() {
+				TrajectoryManager.ACTIVATE_SPHERE = false;
+			}
+			
+		};
+		
+		press.buttonType = "cycle";
+
+		return press;
+	}
+	
+	public static PressButton createEasterEggButton(int texture, int hoverTexture, int clickTexture, Vector2f position, Vector2f scale) {
+		PressButton press = new PressButton(texture, position, scale) {
+			
+			@Override
+			public void playOnStopHoverAnimation() {
+				guiTexture.setTexture(texture);
+			}
+			
+			@Override
+			public void playOnStartHoverAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void playOnClickAnimation() {
+				guiTexture.setTexture(clickTexture);
+			}
+			
+			@Override
+			public void playAfterClickAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void onClick() {
+				playOnClickAnimation();
+				TrajectorySphere.EASTER_EGG = true;
+			}
+			
+			@Override
+			public void afterClick() {
+				playAfterClickAnimation();
+			}
+
+			@Override
+			public void whilePressed() {
+				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
+			}
+
+			@Override
+			public void afterPressed() {
+				TrajectorySphere.EASTER_EGG = false;
+			}
+			
+		};
+		
+		press.buttonType = "cycle";
+
+		return press;
+	}
+	
 }

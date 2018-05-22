@@ -12,6 +12,8 @@ import main.graphics.guis.GuiTexture;
 abstract public class Button implements IButton {
 
 	protected static List<Button> buttons = new ArrayList<Button>();
+	protected static List<Button> toRemove = new ArrayList<Button>();
+	protected static List<Button> toAdd = new ArrayList<Button>();
 
 	protected int resetTexID;
 	protected Vector2f position;
@@ -27,7 +29,6 @@ abstract public class Button implements IButton {
 	protected boolean isClicked = false;
 	protected boolean isHovered = false;
 	protected boolean isPressed = false;
-	protected boolean isHidden = false;
 	
 	protected String buttonType = "quad";
 
@@ -84,6 +85,10 @@ abstract public class Button implements IButton {
 		for (Button b : buttons) {
 			b.updateState();
 		}
+		buttons.addAll(toAdd);
+		toAdd.clear();
+		buttons.removeAll(toRemove);
+		toRemove.clear();
 	}
 
 	public void reset() {
@@ -99,8 +104,7 @@ abstract public class Button implements IButton {
 	}
 	
 	public void hide() {
-		isHidden = true;
-		guiTexture.setDisplayed(false);
+		toRemove.add(this);
 	}
 
 	public void hide(List<Button> buttons) {
@@ -108,8 +112,7 @@ abstract public class Button implements IButton {
 	}
 
 	public void show() {
-		isHidden = false;
-		guiTexture.setDisplayed(true);
+		toAdd.add(this);
 	}
 
 	public void show(List<Button> buttons) {
@@ -188,14 +191,6 @@ abstract public class Button implements IButton {
 
 	public void setGuiTexture(GuiTexture guiTexture) {
 		this.guiTexture = guiTexture;
-	}
-
-	public boolean isHidden() {
-		return isHidden;
-	}
-
-	public void setHidden(boolean isHidden) {
-		this.isHidden = isHidden;
 	}
 	
 	public float getOnHoveringAddScale() {

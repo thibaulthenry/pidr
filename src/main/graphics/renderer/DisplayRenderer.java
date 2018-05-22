@@ -47,7 +47,7 @@ public class DisplayRenderer {
 		
 		try {
 			Display.setDisplayMode(mode);
-			Display.setResizable(true);
+			Display.setResizable(false);
 			Display.setFullscreen(false);
 			Display.setVSyncEnabled(true);
 			Display.setTitle(DisplayManager.WINDOW_TITLE);

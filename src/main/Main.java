@@ -17,8 +17,6 @@ import main.parameters.CameraManager;
 import main.parameters.DisplayManager;
 import main.parameters.EntityManager;
 import main.parameters.RecordManager;
-import main.parameters.TrajectoryManager;
-
 
 public class Main {
 
@@ -58,8 +56,7 @@ public class Main {
 					DisplayRenderer.state = State.SIMULATION;
 				}
 				break;
-			case SIMULATION:
-				
+			case SIMULATION:	
 				if (SequenceEncoder.isEncodingNeeded()) {
 					renderer.processGui(SequenceEncoder.encodingGui());
 					DisplayRenderer.state = State.ENCODING;
@@ -73,6 +70,8 @@ public class Main {
 					}
 				}
 				
+				if (GuiScreens.canOpenLateralMenu()) GuiScreens.processLateralMenu(renderer);
+				
 				renderer.renderScene(CameraManager.getCamera(entities), entities);
 				if (!CSVConverter.mustCalculateCurrentFPS()) {
 					if (CameraManager.IS_FREE_CAMERA) CameraManager.getCamera().movePointer();
@@ -84,6 +83,9 @@ public class Main {
 				DisplayRenderer.updateDisplay();
 				break;
 			case PAUSE:
+				if (GuiScreens.canOpenLateralMenu()) GuiScreens.processLateralMenu(renderer);
+				renderer.renderScene(CameraManager.getCamera(entities), entities);
+				DisplayRenderer.updateDisplay();
 				break;
 			case ENCODING:
 				SequenceEncoder.partitionEncoding();
@@ -91,9 +93,8 @@ public class Main {
 				break;
 			}
 		}
-
 		
-		if (RecordManager.ACTIVATE_RECORD) SequenceEncoder.makeVideo();
+		SequenceEncoder.makeVideo(renderer, entities);
 		renderer.cleanUp();
 		DisplayRenderer.closeDisplay();
 	}

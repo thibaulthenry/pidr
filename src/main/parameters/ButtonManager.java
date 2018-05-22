@@ -36,7 +36,7 @@ public class ButtonManager {
 
 	/* Lateral */
 	
-	private static PressButton recordButton = ButtonCreation.createRecordButton(TextureManager.recordTexture, TextureManager.recordHoverTexture,
+	public static PressButton recordButton = ButtonCreation.createRecordButton(TextureManager.recordTexture, TextureManager.recordHoverTexture,
 			TextureManager.recordClickTexture, new Vector2f(0.935f, 0.8f), new Vector2f(0.06f,0.06f));
 	
 	public static ClickButton upSpeedButton = ButtonCreation.createUpSpeedButton(TextureManager.upSpeedTexture, TextureManager.upSpeedHoverTexture,
@@ -60,10 +60,10 @@ public class ButtonManager {
 	public static ClickButton cameraLockedButton = ButtonCreation.createCameraLockedButton(TextureManager.cameraLockedTexture, TextureManager.cameraLockedHoverTexture,
 			TextureManager.cameraLockedClickTexture, new Vector2f(0.935f, 0f), new Vector2f(0.06f,0.06f));
 	
-	private static PressButton beaconButton = ButtonCreation.createBeaconButton(TextureManager.beaconTexture, TextureManager.beaconHoverTexture,
+	public static PressButton beaconButton = ButtonCreation.createBeaconButton(TextureManager.beaconTexture, TextureManager.beaconHoverTexture,
 			TextureManager.beaconClickTexture, new Vector2f(0.935f, -0.2f), new Vector2f(0.06f,0.06f));
 	
-	private static PressButton easterEggButton = ButtonCreation.createEasterEggButton(TextureManager.voidTexture, TextureManager.voidTexture,
+	public static PressButton easterEggButton = ButtonCreation.createEasterEggButton(TextureManager.voidTexture, TextureManager.voidTexture,
 			TextureManager.voidTexture, new Vector2f(0.935f, -0.8f), new Vector2f(0.06f,0.06f));
 	
 	private static void showList(List<PressButton> addedButtons) {
@@ -76,14 +76,20 @@ public class ButtonManager {
 	
 	public static void showLateralMenuButtons() {
 		if (!Button.getButtons().contains(recordButton)) Button.getButtons().add(recordButton);
+		
 		if (TrajectoryManager.SIMULATION_SPEEDFACTOR == 2 || TrajectoryManager.SIMULATION_SPEEDFACTOR == 1) if (!Button.getButtons().contains(upSpeedButton)) Button.getButtons().add(upSpeedButton);
 		if (TrajectoryManager.SIMULATION_SPEEDFACTOR == 5) if (!Button.getButtons().contains(to1SpeedButton)) Button.getButtons().add(to1SpeedButton);
+		
 		if (TerrainManager.IS_HEIGHT) if (!Button.getButtons().contains(flatButton)) Button.getButtons().add(flatButton);
 		if (!TerrainManager.IS_HEIGHT) if (!Button.getButtons().contains(mountainButton)) Button.getButtons().add(mountainButton);
+		
 		if (!Button.getButtons().contains(pauseButton)) Button.getButtons().add(pauseButton);
+		
 		if (CameraManager.IS_FREE_CAMERA) if (!Button.getButtons().contains(cameraLockedButton)) Button.getButtons().add(cameraLockedButton);
 		if (!CameraManager.IS_FREE_CAMERA) if (!Button.getButtons().contains(cameraButton)) Button.getButtons().add(cameraButton);
+		
 		if (!Button.getButtons().contains(beaconButton)) Button.getButtons().add(beaconButton);
+		
 		if (!Button.getButtons().contains(easterEggButton)) Button.getButtons().add(easterEggButton);
 	}
 	

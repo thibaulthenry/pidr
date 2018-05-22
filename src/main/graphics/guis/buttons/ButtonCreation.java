@@ -6,6 +6,7 @@ import java.util.List;
 import org.lwjgl.util.vector.Vector2f;
 
 import main.graphics.entities.TrajectorySphere;
+import main.graphics.guis.GuiScreens;
 import main.graphics.renderer.DisplayRenderer;
 import main.graphics.renderer.State;
 import main.parameters.ButtonManager;
@@ -43,14 +44,13 @@ public class ButtonCreation {
 			
 			@Override
 			public void onClick() {
+				GuiScreens.initLateralButtonTextures();
 				DisplayRenderer.state = State.SIMULATION;
 				playOnClickAnimation();
 			}
 			
 			@Override
-			public void afterClick() {
-				playAfterClickAnimation();
-			}
+			public void afterClick() {}
 		};
 		
 		return click;
@@ -87,9 +87,7 @@ public class ButtonCreation {
 			}
 			
 			@Override
-			public void afterClick() {
-				playAfterClickAnimation();
-			}
+			public void afterClick() {}
 
 			@Override
 			public void whilePressed() {
@@ -141,18 +139,13 @@ public class ButtonCreation {
 			}
 			
 			@Override
-			public void afterClick() {
-				playAfterClickAnimation();
-			}
+			public void afterClick() {}
 
 			@Override
-			public void whilePressed() {
-				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
-			}
+			public void whilePressed() {}
 
 			@Override
-			public void afterPressed() {
-			}
+			public void afterPressed() {}
 		};
 		
 		PressButton click2 = new PressButton(texture, position2, scale2) {
@@ -188,14 +181,10 @@ public class ButtonCreation {
 			}
 			
 			@Override
-			public void afterClick() {
-				playAfterClickAnimation();
-			}
+			public void afterClick() {}
 
 			@Override
-			public void whilePressed() {
-				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
-			}
+			public void whilePressed() {}
 
 			@Override
 			public void afterPressed() {
@@ -245,9 +234,7 @@ public class ButtonCreation {
 			}
 			
 			@Override
-			public void afterClick() {
-				playAfterClickAnimation();
-			}
+			public void afterClick() {}
 
 			@Override
 			public void whilePressed() {
@@ -295,9 +282,7 @@ public class ButtonCreation {
 			}
 			
 			@Override
-			public void afterClick() {
-				playAfterClickAnimation();
-			}
+			public void afterClick() {}
 
 			@Override
 			public void whilePressed() {
@@ -337,9 +322,7 @@ public class ButtonCreation {
 			}
 			
 			@Override
-			public void playAfterClickAnimation() {
-				guiTexture.setTexture(hoverTexture);
-			}
+			public void playAfterClickAnimation() {}
 			
 			@Override
 			public void onClick() {
@@ -352,14 +335,10 @@ public class ButtonCreation {
 			}
 			
 			@Override
-			public void afterClick() {
-				playAfterClickAnimation();
-			}
+			public void afterClick() {}
 
 			@Override
-			public void whilePressed() {
-				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
-			}
+			public void whilePressed() {}
 
 			@Override
 			public void afterPressed() {
@@ -399,14 +378,10 @@ public class ButtonCreation {
 			}
 			
 			@Override
-			public void afterClick() {
-				playAfterClickAnimation();
-			}
+			public void afterClick() {}
 
 			@Override
-			public void whilePressed() {
-				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
-			}
+			public void whilePressed() {}
 
 			@Override
 			public void afterPressed() {
@@ -456,14 +431,10 @@ public class ButtonCreation {
 			}
 			
 			@Override
-			public void afterClick() {
-				playAfterClickAnimation();
-			}
+			public void afterClick() {}
 
 			@Override
-			public void whilePressed() {
-				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
-			}
+			public void whilePressed() {}
 
 			@Override
 			public void afterPressed() {
@@ -503,14 +474,10 @@ public class ButtonCreation {
 			}
 			
 			@Override
-			public void afterClick() {
-				playAfterClickAnimation();
-			}
+			public void afterClick() {}
 
 			@Override
-			public void whilePressed() {
-				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
-			}
+			public void whilePressed() {}
 
 			@Override
 			public void afterPressed() {
@@ -545,9 +512,7 @@ public class ButtonCreation {
 			}
 			
 			@Override
-			public void playAfterClickAnimation() {
-				guiTexture.setTexture(hoverTexture);
-			}
+			public void playAfterClickAnimation() {}
 			
 			@Override
 			public void onClick() {
@@ -560,14 +525,10 @@ public class ButtonCreation {
 			}
 			
 			@Override
-			public void afterClick() {
-				playAfterClickAnimation();
-			}
+			public void afterClick() {}
 
 			@Override
-			public void whilePressed() {
-				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
-			}
+			public void whilePressed() {}
 
 			@Override
 			public void afterPressed() {
@@ -592,9 +553,7 @@ public class ButtonCreation {
 			}
 			
 			@Override
-			public void playAfterClickAnimation() {
-				guiTexture.setTexture(hoverTexture);
-			}
+			public void playAfterClickAnimation() {}
 			
 			@Override
 			public void onClick() {
@@ -607,14 +566,10 @@ public class ButtonCreation {
 			}
 			
 			@Override
-			public void afterClick() {
-				playAfterClickAnimation();
-			}
+			public void afterClick() {}
 
 			@Override
-			public void whilePressed() {
-				if (isPressed && isOn() && checkLeftClick()) isPressed = false;
-			}
+			public void whilePressed() {}
 
 			@Override
 			public void afterPressed() {

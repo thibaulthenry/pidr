@@ -90,18 +90,6 @@ abstract public class Button implements IButton {
 		buttons.removeAll(toRemove);
 		toRemove.clear();
 	}
-
-	public void reset() {
-		guiTexture.setTexture(this.resetTexID);
-		guiTexture.setScale(this.getScale());
-		isClicked = false;
-		isHovered = false;
-		isPressed = false;
-	}
-	
-	public void reset(List<Button> buttons) {
-		for (Button b : buttons) b.reset();
-	}
 	
 	public void hide() {
 		toRemove.add(this);

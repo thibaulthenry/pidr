@@ -8,8 +8,8 @@ import main.graphics.toolbox.Maths;
 
 public class SkyShader extends ShaderProgram {
 
-	private static final String VERTEX_FILE = "src/main/graphics/shaders/skyVertexShader.txt";
-	private static final String FRAGMENT_FILE = "src/main/graphics/shaders/skyFragmentShader.txt";
+	private static final String VERTEX_FILE = "/main/graphics/shaders/skyVertexShader.txt";
+	private static final String FRAGMENT_FILE = "/main/graphics/shaders/skyFragmentShader.txt";
 	
 	private int location_projectionMatrix;
 	private int location_viewMatrix;

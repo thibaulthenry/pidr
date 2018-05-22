@@ -4,8 +4,8 @@ import org.lwjgl.util.vector.Matrix4f;
  
 public class GuiShader extends ShaderProgram {
      
-    private static final String VERTEX_FILE = "src/main/graphics/shaders/guiVertexShader.txt";
-    private static final String FRAGMENT_FILE = "src/main/graphics/shaders/guiFragmentShader.txt";
+    private static final String VERTEX_FILE = "/main/graphics/shaders/guiVertexShader.txt";
+    private static final String FRAGMENT_FILE = "/main/graphics/shaders/guiFragmentShader.txt";
      
     private int location_transformationMatrix;
  

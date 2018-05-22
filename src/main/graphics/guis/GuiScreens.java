@@ -6,11 +6,27 @@ import main.graphics.path.CSVConverter;
 import main.graphics.recorder.SequenceEncoder;
 import main.graphics.renderer.MasterRenderer;
 import main.parameters.ButtonManager;
+import main.parameters.RecordManager;
 import main.parameters.TextureManager;
+import main.parameters.TrajectoryManager;
 
 public class GuiScreens {
 	
 	public static Boolean isLateralMenuOpened = false;
+	
+	public static void initLateralButtonTextures() {
+		if (TrajectoryManager.ACTIVATE_SPHERE) {
+			ButtonManager.beaconButton.setClicked(false);
+			ButtonManager.beaconButton.setPressed(true);
+			ButtonManager.beaconButton.playOnClickAnimation();
+		}
+		
+		if (RecordManager.ACTIVATE_RECORD) {
+			ButtonManager.recordButton.setClicked(false);
+			ButtonManager.recordButton.setPressed(true);
+			ButtonManager.recordButton.playOnClickAnimation();
+		}
+	}
 	
 	public static Boolean canOpenLateralMenu() {
 		if (!CSVConverter.mustCalculateCurrentFPS() && !SequenceEncoder.isEncodingNeeded()) {

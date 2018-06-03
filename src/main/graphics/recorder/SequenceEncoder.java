@@ -32,7 +32,6 @@ public class SequenceEncoder {
 	private static AWTSequenceEncoder encoder = null;
 
 	public static List<ByteBuffer> byteBuffers = new ArrayList<ByteBuffer>();
-	public static GuiTexture screenGui;
 
 	private static BufferedImage scale(BufferedImage bi, double scaleValue) {
 		AffineTransform tx = new AffineTransform();
@@ -134,5 +133,10 @@ public class SequenceEncoder {
 		return (byteBuffers.size() > RecordManager.SCREENSHOT_NUMBER_BEFORE_ENCODING);
 	}
 
-
+	public static void reset() {
+		averageFPS = 0;
+		screenshotIndex = 0;
+		encoder = null;
+		byteBuffers = new ArrayList<ByteBuffer>();
+	}
 }

@@ -5,6 +5,7 @@ public enum State {
 	MENU,
 	SETTINGS,
 	PAUSE,
+	RESET,
 	SIMULATION,
 	ENCODING;
 	

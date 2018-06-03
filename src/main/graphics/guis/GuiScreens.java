@@ -6,6 +6,7 @@ import main.graphics.path.CSVConverter;
 import main.graphics.recorder.SequenceEncoder;
 import main.graphics.renderer.MasterRenderer;
 import main.parameters.ButtonManager;
+import main.parameters.DisplayManager;
 import main.parameters.RecordManager;
 import main.parameters.TextureManager;
 import main.parameters.TrajectoryManager;
@@ -30,11 +31,11 @@ public class GuiScreens {
 	
 	public static Boolean canOpenLateralMenu() {
 		if (!CSVConverter.mustCalculateCurrentFPS() && !SequenceEncoder.isEncodingNeeded()) {
-			if (Mouse.getX() > 1230 && !isLateralMenuOpened) {
+			if (Mouse.getX() > DisplayManager.WINDOW_WIDTH - 0.0390625 * DisplayManager.WINDOW_WIDTH && !isLateralMenuOpened) {
 				isLateralMenuOpened = true;
 				return true;
 			}
-			if (Mouse.getX() > 1200 && isLateralMenuOpened) {
+			if (Mouse.getX() > (DisplayManager.WINDOW_WIDTH - 0.0625 * DisplayManager.WINDOW_WIDTH)   && isLateralMenuOpened) {
 				return true;
 			}
 		}
@@ -44,17 +45,49 @@ public class GuiScreens {
 	}
 	
 	public static void processMainMenu(MasterRenderer renderer) {
-		renderer.processGui(new GuiTexture(TextureManager.Main_menu_back, 2048));
-		renderer.processGui(new GuiTexture(TextureManager.Main_menu, 2048));
+		switch(DisplayManager.WINDOW_WIDTH) {
+		case 1920:
+			renderer.processGui(new GuiTexture(TextureManager.menuBack1920, 2048));
+			renderer.processGui(new GuiTexture(TextureManager.menuHeaderFooter1920, 2048));
+			break;
+		case 1280:
+			renderer.processGui(new GuiTexture(TextureManager.menuBack1280, 2048));
+			renderer.processGui(new GuiTexture(TextureManager.menuHeaderFooter1280, 2048));
+			break;
+		case 640:
+			renderer.processGui(new GuiTexture(TextureManager.menuBack640, 1024));
+			renderer.processGui(new GuiTexture(TextureManager.menuHeaderFooter640, 1024));
+			break;		
+		}
 	}
 	
 	public static void processSettingsMenu(MasterRenderer renderer) {
 		processMainMenu(renderer);
-		renderer.processGui(new GuiTexture(TextureManager.settings_no_buttons, 2048));
+		switch(DisplayManager.WINDOW_WIDTH) {
+		case 1920:
+			renderer.processGui(new GuiTexture(TextureManager.settingsBack1920, 2048));
+			break;
+		case 1280:
+			renderer.processGui(new GuiTexture(TextureManager.settingsBack1280, 2048));
+			break;
+		case 640:
+			renderer.processGui(new GuiTexture(TextureManager.settingsBack640, 1024));
+			break;		
+		}
 	}
 	
 	public static void processLateralMenu(MasterRenderer renderer) {
 		ButtonManager.showLateralMenuButtons();
-		renderer.processGui(new GuiTexture(TextureManager.lateral_Panel, 2048));
+		switch(DisplayManager.WINDOW_WIDTH) {
+		case 1920:
+			renderer.processGui(new GuiTexture(TextureManager.lateralBar1920, 2048));
+			break;
+		case 1280:
+			renderer.processGui(new GuiTexture(TextureManager.lateralBar1280, 2048));
+			break;
+		case 640:
+			renderer.processGui(new GuiTexture(TextureManager.lateralBar640, 1024));
+			break;		
+		}
 	}
 }

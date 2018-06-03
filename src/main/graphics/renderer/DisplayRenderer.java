@@ -12,6 +12,7 @@ import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.PixelFormat;
 import org.newdawn.slick.opengl.ImageIOImageData;
 
@@ -24,7 +25,6 @@ public class DisplayRenderer {
 	public static long startTime = getCurrentTime();
 	private static long lastFrameTime;
 	private static float delta;
-	
 	
 	private static DisplayMode mode = new DisplayMode(DisplayManager.WINDOW_WIDTH, DisplayManager.WINDOW_HEIGHT);
 	public static State state = State.MENU;
@@ -52,7 +52,8 @@ public class DisplayRenderer {
 			Display.setVSyncEnabled(true);
 			Display.setTitle(DisplayManager.WINDOW_TITLE);
 			Display.setIcon(buffer);
-			Display.create(new PixelFormat(), attribs);
+			Display.create(new PixelFormat().withSamples(8).withDepthBits(24), attribs);
+			GL11.glEnable(GL13.GL_MULTISAMPLE);
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}

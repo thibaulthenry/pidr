@@ -13,6 +13,7 @@ import org.lwjgl.util.vector.Vector3f;
 import main.graphics.entities.Camera;
 import main.graphics.entities.Entity;
 import main.graphics.entities.Light;
+import main.graphics.entities.TrajectorySphere;
 import main.graphics.guis.GuiTexture;
 import main.graphics.guis.buttons.Button;
 import main.graphics.models.TexturedModel;
@@ -22,6 +23,7 @@ import main.graphics.shaders.StaticShader;
 import main.graphics.shaders.TerrainShader;
 import main.graphics.terrains.Terrain;
 import main.parameters.TerrainManager;
+import main.parameters.TrajectoryManager;
 
 public class MasterRenderer {
 	
@@ -77,7 +79,13 @@ public class MasterRenderer {
 	
 	public void renderScene(Camera camera, List<Entity> entities) {
 		processTerrain(TerrainManager.getTerrain());
-		for (Entity entity : entities) processEntity(entity);
+		for (Entity entity : entities) {
+			if (entity instanceof TrajectorySphere) {
+				if (TrajectoryManager.ACTIVATE_SPHERE) processEntity(entity);
+			} else {
+				processEntity(entity);
+			}
+		}
 		camera.move();
 		Button.update();
 		render(camera);

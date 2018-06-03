@@ -105,7 +105,7 @@ public class CSVConverter {
 
 	
 		if (sphereIndex == 0 || ((currentIndex - sphereIndex) >= ((1 / TrajectoryManager.SPHERE_SPAWN_FREQ) * trajectoryStep))) {
-			if (TrajectoryManager.ACTIVATE_SPHERE) entities.add(TrajectorySphere.createSphere(currentIndex));
+			entities.add(TrajectorySphere.createSphere(currentIndex));
 			sphereIndex = currentIndex;
 		}
 		if (currentIndex >= trajectorySize - trajectoryStep * TrajectoryManager.SIMULATION_SPEEDFACTOR - 1) {
@@ -150,6 +150,13 @@ public class CSVConverter {
 	
 	public static GuiTexture analysingGui() {
 		return new GuiTexture(TextureManager.analysingTexture, new Vector2f(0f,0f), new Vector2f(1f,1f));
+	}
+	
+	public static void reset() {
+		currentIndex = 0;
+		sphereIndex = 0;
+		fpsRange = new ArrayList<Integer>();
+		startAnalyseTime = 0;
 	}
 
 }

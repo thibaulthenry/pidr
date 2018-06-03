@@ -38,4 +38,5 @@ public class TrajectorySphere extends Entity {
 		return easterEggRotation;
 	}
 
+
 }

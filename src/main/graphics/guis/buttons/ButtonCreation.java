@@ -985,6 +985,44 @@ public class ButtonCreation {
 		return press;
 	}
 	
+	public static ClickButton createResetButton(int texture, int hoverTexture, int clickTexture, Vector2f position, Vector2f scale) {
+		ClickButton click = new ClickButton(texture, position, scale) {
+			
+			@Override
+			public void playOnStopHoverAnimation() {
+				guiTexture.setTexture(texture);
+			}
+			
+			@Override
+			public void playOnStartHoverAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void playOnClickAnimation() {
+				guiTexture.setTexture(clickTexture);
+			}
+			
+			@Override
+			public void playAfterClickAnimation() {
+				guiTexture.setTexture(hoverTexture);
+			}
+			
+			@Override
+			public void onClick() {
+				playOnClickAnimation();
+				DisplayRenderer.state = State.RESET;
+			}
+			
+			@Override
+			public void afterClick() {
+				playAfterClickAnimation();
+			}
+		};
+		
+		return click;
+	}
+	
 	public static PressButton createEasterEggButton(int texture, int hoverTexture, int clickTexture, Vector2f position, Vector2f scale) {
 		PressButton press = new PressButton(texture, position, scale) {
 			

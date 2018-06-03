@@ -14,10 +14,10 @@ public class ButtonManager {
 	/* Menu */
 	
 	private static Button startButton = ButtonCreation.createStartButton(TextureManager.startTexture, TextureManager.startHoverTexture, 
-			TextureManager.startClickTexture, new Vector2f(-0.5f, -0.6f), new Vector2f(0.2f,0.2f));
+			TextureManager.startClickTexture, new Vector2f(-0.5f, -0.8f), new Vector2f(0.2f,0.2f));
 	
 	private static Button settingsButton = ButtonCreation.createSettingsButton(TextureManager.settingsTexture, TextureManager.settingsHoverTexture, 
-			TextureManager.settingsClickTexture, new Vector2f(0.5f, -0.6f), new Vector2f(0.2f,0.2f));
+			TextureManager.settingsClickTexture, new Vector2f(0.5f, -0.8f), new Vector2f(0.2f,0.2f));
 	
 	private static List<PressButton> onoffRecord = ButtonCreation.createRecordSettingButton(TextureManager.offTexture, TextureManager.offHoverTexture, 
 			TextureManager.onTexture, new Vector2f(0.11f, 0.155f), new Vector2f(0.04f,0.04f), new Vector2f(0.31f, 0.155f), new Vector2f(0.04f,0.04f));
@@ -63,6 +63,9 @@ public class ButtonManager {
 	public static PressButton beaconButton = ButtonCreation.createBeaconButton(TextureManager.beaconTexture, TextureManager.beaconHoverTexture,
 			TextureManager.beaconClickTexture, new Vector2f(0.935f, -0.2f), new Vector2f(0.06f,0.06f));
 	
+	private static ClickButton resetButton = ButtonCreation.createResetButton(TextureManager.resetTexture, TextureManager.resetHoverTexture,
+			TextureManager.resetClickTexture, new Vector2f(0.935f, -0.4f), new Vector2f(0.06f,0.06f));
+	
 	public static PressButton easterEggButton = ButtonCreation.createEasterEggButton(TextureManager.voidTexture, TextureManager.voidTexture,
 			TextureManager.voidTexture, new Vector2f(0.935f, -0.8f), new Vector2f(0.06f,0.06f));
 	
@@ -90,6 +93,8 @@ public class ButtonManager {
 		
 		if (!Button.getButtons().contains(beaconButton)) Button.getButtons().add(beaconButton);
 		
+		if (!Button.getButtons().contains(resetButton)) Button.getButtons().add(resetButton);
+		
 		if (!Button.getButtons().contains(easterEggButton)) Button.getButtons().add(easterEggButton);
 	}
 	
@@ -103,6 +108,7 @@ public class ButtonManager {
 		Button.getButtons().remove(cameraLockedButton);
 		Button.getButtons().remove(cameraButton);
 		Button.getButtons().remove(beaconButton);
+		Button.getButtons().remove(resetButton);
 		Button.getButtons().remove(easterEggButton);
 	}
 	

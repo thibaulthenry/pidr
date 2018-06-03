@@ -73,6 +73,7 @@ public class Main {
 				if (GuiScreens.canOpenLateralMenu()) GuiScreens.processLateralMenu(renderer);
 				
 				renderer.renderScene(CameraManager.getCamera(entities), entities);
+
 				if (!CSVConverter.mustCalculateCurrentFPS()) {
 					if (CameraManager.IS_FREE_CAMERA) CameraManager.getCamera().movePointer();
 					CSVConverter.update(entities);
@@ -84,8 +85,15 @@ public class Main {
 				break;
 			case PAUSE:
 				if (GuiScreens.canOpenLateralMenu()) GuiScreens.processLateralMenu(renderer);
+				if (CameraManager.IS_FREE_CAMERA) CameraManager.getCamera().movePointer();
 				renderer.renderScene(CameraManager.getCamera(entities), entities);
 				DisplayRenderer.updateDisplay();
+				break;
+			case RESET:
+				Entity.clearAllWithoutDrone(entities);
+				CSVConverter.reset();
+				SequenceEncoder.reset();
+				DisplayRenderer.state = State.SIMULATION;
 				break;
 			case ENCODING:
 				SequenceEncoder.partitionEncoding();
